@@ -192,34 +192,36 @@ class CreatText():
         self.zindex = data['zindex']  # 文字层级（文字叠加时）
 
 
-def testPosterData():
+def testPosterData(data_post):
     """
     海报测试数据
 
     :return: 海报数据
     """
 
+    data = data_post or {}
+
     # 文字内容数据
     texts = [{'type': TextType.Title,
-              'content': '吻吻鱼CC杯',
+              'content': data['title'],
               'style': {'font_size': 50, 'font_family': 'PingFang', 'text_color': '#FFFFFF'},
               'position': {'left': 112, 'top': 135},
               'zindex': 0
               },
              {'type': TextType.Content,
-              'content': '小米众筹破百万',
+              'content': data['subtitle'],
               'style': {'font_size': 36, 'font_family': 'PingFang', 'text_color': '#FFFFFF'},
               'position': {'left': 112, 'top': 210},
               'zindex': 1
               },
              {'type': TextType.Content,
-              'content': '1,000,000',
+              'content': data['content'],
               'style': {'font_size': 144, 'font_family': 'Arial Narrow Bold', 'text_color': '#FFFFFF'},
               'position': {'left': 112, 'top': 255},
               'zindex': 2
               },
              {'type': TextType.Content,
-              'content': '众筹价179元',
+              'content': data['add_content'],
               'style': {'font_size': 40, 'font_family': 'PingFang', 'text_color': '#FFFFFF'},
               'position': {'left': 264, 'top': 1042},
               'zindex': 3
@@ -349,12 +351,12 @@ def testInvitationData():
 
 
 @main.route('/poster')
-def showPoster():
+def showPoster(data_post):
     """
         展示生成的海报
     """
 
-    test_data = testPosterData()
+    test_data = testPosterData(data_post)
 
     # 创建一个画布
     canvas = Canvas(test_data)
