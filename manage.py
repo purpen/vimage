@@ -12,14 +12,16 @@ if os.path.exists('.env'):
 from flask_script import Server, Manager, Shell
 from flask_script.commands import ShowUrls, Clean
 from flask_migrate import Migrate, MigrateCommand
-
+from flask_sqlalchemy import SQLAlchemy
 from vimage import create_app, db
 from vimage.models import TextSet, ImageSet
 from commands.initial import InitialSetting
+from config import config
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+app.config["SQLALCHEMY_DATABASE_URI"] = config['development'].SQLALCHEMY_DATABASE_URI
 manager = Manager(app)
 migrate = Migrate(app, db)
 

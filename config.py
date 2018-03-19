@@ -158,7 +158,7 @@ class DevelopmentConfig(Config):
 
     # Examples:
     # mysql+pymysql://<username>:<password>@<host>/<dbname>[?<options>]
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:@localhost/vimage'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:yangfei@localhost:3306/vimage'
 
 
 class TestingConfig(Config):
