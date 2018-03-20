@@ -6,7 +6,7 @@
 """
 import json
 from flask import request, abort, g, url_for, jsonify
-from vimage.models.getposter import GetPoster
+from vimage.models import GetPoster, GoodsCard
 from .. import db, config
 from . import api
 from vimage.helpers.utils import *
@@ -35,7 +35,7 @@ def hello_world():
     return 'Hello World! Api V1.0'
 
 
-@api.route('/get-poster', methods=['POST'])
+@api.route('/poster', methods=['POST'])
 def get_poster():
     """
         获取海报生成数据
@@ -71,15 +71,28 @@ def get_poster():
 @api.route('/goodscard', methods=['POST'])
 def get_goodsCard():
     """
-        生成商品宣传图
+        生成商品小程序码
     """
 
-    title = request.form.get('title')
-    market_price = request.form.get('market_price')
-    wechat_name = request.form.get('goods_name')
-    goods_img = 'test_goods_img.png'
-    logo_img = 'test_logo_img.png'
-    qrcode_img = 'test_qrcode_img.png'
+    if request.method == 'POST':
+        texts = request.get_json().get('texts')
+        images = request.get_json().get('images')
 
-    return jsonify({'code': 0, 'message': '上传成功'})
+        data = {
+            'goods_title': texts['goods_title'],
+            'sale_price': texts['sale_price'],
+            'brand_name': texts['brand_name'],
+            'hint_text': texts['hint_text'],
+            'goods_img': images['goods_img'],
+            'logo_img': images['logo_img'],
+            'qrcode_img': images['qrcode_img']
+        }
 
+        newPoster = GoodsCard(**data)
+
+        showGoodsCard(data)
+
+        return jsonify(newPoster.to_json())
+
+    else:
+        return jsonify({"code": 0, "message": "只接受 POST 请求"})

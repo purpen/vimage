@@ -24,7 +24,7 @@ class GetPoster(db.Model):
     main_img = db.Column(db.String(), nullable=True)
     # Logo(url)
     logo_img = db.Column(db.String(), nullable=True)
-    # 二维码
+    # 二维码(url)
     qrcode_img = db.Column(db.String(), nullable=True)
     # 时间
     created_at = db.Column(db.Integer, default=timestamp())
