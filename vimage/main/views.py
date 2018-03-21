@@ -170,7 +170,7 @@ def drawText(back_image, creat_text):
     # 绘制文字
     draw_font = ImageFont.truetype(creat_text.font_family, creat_text.font_size)
     draw_image = ImageDraw.Draw(back_image)
-    draw_image.text([left, top], creat_text.content, font=draw_font, fill=creat_text.text_color)
+    draw_image.text([left, top], creat_text.content, font=draw_font, align=creat_text.align, fill=creat_text.text_color)
 
     return back_image
 
@@ -193,6 +193,7 @@ class TextObject:
         self.type = data['type']  # 类型（标题/内容/附加信息等）
         self.content = data['content']  # 默认内容
         self.position = data['position']  # 区域位置
+        self.align = data['align']
         self.font_size = text_style['font_size']  # 字体大小
         self.font_family = text_style['font_family']  # 字体样式
         self.text_color = text_style['text_color']  # 文字颜色

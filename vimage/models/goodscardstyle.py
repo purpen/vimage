@@ -52,7 +52,7 @@ class TextType(Enum):
     Info = 4        # 其他信息
 
 
-def getTextData(text_type, data, font_size, font_family, text_color, x, y, zindex):
+def getTextData(text_type, data, font_size, font_family, align, text_color, x, y, zindex):
     """
     格式化文字数据
 
@@ -85,6 +85,9 @@ def getTextData(text_type, data, font_size, font_family, text_color, x, y, zinde
     # 字体名称
     font_name = font_family or 'PingFang'
 
+    # 字体方向（默认巨左）
+    text_align = align or 'left'
+
     # 字体样式
     style = {
         "font_size": font_size,
@@ -101,6 +104,7 @@ def getTextData(text_type, data, font_size, font_family, text_color, x, y, zinde
     text_data = {
         "type": text_type,
         "content": content,
+        "align": text_align,
         "style": style,
         "position": position,
         "zindex": zindex
@@ -199,10 +203,10 @@ class GoodsCardStyle:
         """
 
         # 文字
-        goods_title_data = getTextData(TextType.Title, self.data, 38, '', '#333333', 50, 780, 0)
-        goods_price_data = getTextData(TextType.SalePrice, self.data, 38, '', '#DD3C3C', 50, 906, 1)
-        hint_text_data = getTextData(TextType.Hint, self.data, 28, '', '#666666', 50, 1094, 2)
-        brand_name_data = getTextData(TextType.BrandName, self.data, 28, '', '#999999', 160, 1184, 3)
+        goods_title_data = getTextData(TextType.Title, self.data, 38, None, None, '#333333', 50, 780, 0)
+        goods_price_data = getTextData(TextType.SalePrice, self.data, 38, None, None, '#DD3C3C', 50, 906, 1)
+        hint_text_data = getTextData(TextType.Hint, self.data, 28, None, None, '#666666', 50, 1094, 2)
+        brand_name_data = getTextData(TextType.BrandName, self.data, 28, None, None, '#999999', 160, 1184, 3)
 
         texts = [goods_title_data, goods_price_data, hint_text_data, brand_name_data]
 
@@ -222,10 +226,10 @@ class GoodsCardStyle:
         """
 
         # 文字
-        goods_title_data = getTextData(TextType.Title, self.data, 37, '', '#333333', 50, 520, 0)
-        goods_price_data = getTextData(TextType.SalePrice, self.data, 37, '', '#DD3C3C', 50, 646, 1)
-        hint_text_data = getTextData(TextType.Hint, self.data, 28, '', '#999999', 50, 905, 2)
-        brand_name_data = getTextData(TextType.BrandName, self.data, 28, '', '#666666', 160, 985, 3)
+        goods_title_data = getTextData(TextType.Title, self.data, 37, None, None, '#333333', 50, 520, 0)
+        goods_price_data = getTextData(TextType.SalePrice, self.data, 37, None, None, '#DD3C3C', 50, 646, 1)
+        hint_text_data = getTextData(TextType.Hint, self.data, 28, None, None, '#999999', 50, 905, 2)
+        brand_name_data = getTextData(TextType.BrandName, self.data, 28, None, None, '#666666', 160, 985, 3)
 
         texts = [goods_title_data, goods_price_data, hint_text_data, brand_name_data]
 
