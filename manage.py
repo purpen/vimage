@@ -48,6 +48,8 @@ manager.add_command('clean', Clean())
 manager.add_command('initial', InitialSetting())
 
 # 启动测试服务器
+# Address: 120.132.59.206
+# Name: dev.taihuoniao.com
 server = Server(host='0.0.0.0', port=8080, use_debugger=True)
 manager.add_command('server', server)
 

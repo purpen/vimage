@@ -12,7 +12,7 @@ class GoodsCard(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     # 标题
-    goods_title = db.Column(db.String(50), nullable=False)
+    title = db.Column(db.String(50), nullable=False)
     # 价格
     sale_price = db.Column(db.String(), nullable=False)
     # 品牌名称
@@ -37,7 +37,7 @@ class GoodsCard(db.Model):
         json_post = {
             "data": {
                 "texts": {
-                    "goods_title": self.goods_title,
+                    "title": self.title,
                     "sale_price": self.sale_price,
                     "brand_name": self.brand_name,
                     "hint_text": self.hint_text
@@ -48,8 +48,8 @@ class GoodsCard(db.Model):
                     "logo_img": self.logo_img
                 }
             },
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
+            # "created_at": self.created_at,
+            # "updated_at": self.updated_at,
             "status": custom_status(message='上传成功')
         }
 
