@@ -35,41 +35,8 @@ def hello_world():
     return 'Hello World! Api V1.0'
 
 
-@api.route('/poster', methods=['POST'])
-def get_poster():
-    """
-        获取海报生成数据
-    """
-
-    if request.method == 'POST':
-        texts = request.get_json().get('texts')
-        images = request.get_json().get('images')
-
-        data = {
-            'title': texts['title'],
-            'subtitle': texts['subtitle'],
-            'content': texts['content'],
-            'add_content': texts['add_content'],
-            'main_img': images['main_img'],
-            'logo_img': images['logo_img'],
-            'qrcode_img': images['qrcode_img']
-        }
-
-        newPoster = GetPoster(**data)
-
-        showPoster(data)
-
-        # db.session.add(newPoster)
-        # db.session.commit()
-
-        return jsonify(newPoster.to_json())
-
-    else:
-        return jsonify({"code": 0, "message": "只接受 POST 请求"})
-
-
 @api.route('/goodscard', methods=['POST'])
-def get_goodsCard():
+def getGoodsCard():
     """
         生成商品小程序码
     """
@@ -79,7 +46,7 @@ def get_goodsCard():
         images = request.get_json().get('images')
 
         data = {
-            'goods_title': texts['goods_title'],
+            'title': texts['title'],
             'sale_price': texts['sale_price'],
             'brand_name': texts['brand_name'],
             'hint_text': texts['hint_text'],
