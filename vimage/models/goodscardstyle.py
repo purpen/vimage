@@ -34,7 +34,6 @@ def getContent(text_type, data):
     for case in switch.Switch(text_type):
         if case(TextType.Title):
             content = data['title'] or ''
-            content = sensitive.Sensitive(text=content).filterWords()
             break
 
         if case(TextType.SalePrice):
@@ -52,6 +51,7 @@ def getContent(text_type, data):
         if case():
             content = ''
 
+    content = sensitive.Sensitive(text=content).filterWords()
     return content
 
 
