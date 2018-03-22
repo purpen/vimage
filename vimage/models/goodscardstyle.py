@@ -1,34 +1,6 @@
 # -*- coding: utf-8 -*-
 from enum import Enum, unique
-
-
-class Switch(object):
-    """
-        switch..case..
-    """
-
-    def __init__(self, value):
-        self.value = value
-        self.fail = False
-
-    def match(self, *args):
-        """
-            匹配方法
-        """
-
-        if self.fail or not args:
-            return True
-
-        elif self.value in args:
-            self.fail = True
-            return True
-
-        else:
-            return False
-
-    def __iter__(self):
-        yield self.match
-        raise StopIteration
+from ..helpers import switch, sensitive
 
 
 @unique
@@ -52,19 +24,17 @@ class TextType(Enum):
     Info = 4        # 其他信息
 
 
-def getTextData(text_type, data, font_size, font_family, align, text_color, x, y, zindex):
+def getContent(text_type, data):
     """
-    格式化文字数据
-
-    :return: 样式数据
+        根据类型获取对应的文字内容
     """
 
-    # 文本内容
     content = ''
 
-    for case in Switch(text_type):
+    for case in switch.Switch(text_type):
         if case(TextType.Title):
             content = data['title'] or ''
+            content = sensitive.Sensitive(text=content).filterWords()
             break
 
         if case(TextType.SalePrice):
@@ -82,48 +52,17 @@ def getTextData(text_type, data, font_size, font_family, align, text_color, x, y
         if case():
             content = ''
 
-    # 字体名称
-    font_name = font_family or 'PingFang'
-
-    # 字体方向（默认巨左）
-    text_align = align or 'left'
-
-    # 字体样式
-    style = {
-        "font_size": font_size,
-        "font_family": font_name,
-        "text_color": text_color
-    }
-
-    # 位置
-    position = {
-        "left": x,
-        "top": y
-    }
-
-    text_data = {
-        "type": text_type,
-        "content": content,
-        "align": text_align,
-        "style": style,
-        "position": position,
-        "zindex": zindex
-    }
-
-    return text_data
+    return content
 
 
-def getImageData(image_type, data, width, height, x, y, zindex):
+def getImageUrl(image_type, data):
     """
-    格式化图片数据
-
-    :return: 样式数据
+        根据图片类型获取 url
     """
 
-    # 图片 URL
     url = ''
 
-    for case in Switch(image_type):
+    for case in switch.Switch(image_type):
         if case(ImageType.Goods):
             url = data['goods_img'] or ''
             break
@@ -139,27 +78,7 @@ def getImageData(image_type, data, width, height, x, y, zindex):
         if case():
             url = ''
 
-    # 尺寸
-    size = {
-        "width": width,
-        "height": height
-    }
-
-    # 位置
-    position = {
-        "left": x,
-        "top": y
-    }
-
-    image_data = {
-        "type": image_type,
-        "size": size,
-        "position": position,
-        "url": url,
-        "zindex": zindex
-    }
-
-    return image_data
+    return url
 
 
 def getStyleData(identify, size, color, texts, images):
@@ -197,23 +116,99 @@ class GoodsCardStyle:
         self.color = (255, 255, 255)
         self.data = post_data or {}
 
+    def getTextData(self, text_type, font_size, font_family, align, text_color, x, y, zindex):
+        """
+        格式化文字数据
+
+        :return: 样式数据
+        """
+
+        data = self.data
+
+        # 文本内容
+        content = getContent(text_type, data)
+
+        # 字体名称
+        font_name = font_family or 'PingFang'
+
+        # 字体方向（默认巨左）
+        text_align = align or 'left'
+
+        # 字体样式
+        style = {
+            "font_size": font_size,
+            "font_family": font_name,
+            "text_color": text_color
+        }
+
+        # 位置
+        position = {
+            "left": x,
+            "top": y
+        }
+
+        text_data = {
+            "type": text_type,
+            "content": content,
+            "align": text_align,
+            "style": style,
+            "position": position,
+            "zindex": zindex
+        }
+
+        return text_data
+
+    def getImageData(self, image_type, width, height, x, y, zindex):
+        """
+        格式化图片数据
+
+        :return: 样式数据
+        """
+
+        data = self.data
+
+        # 图片 URL
+        url = getImageUrl(image_type, data)
+
+        # 尺寸
+        size = {
+            "width": width,
+            "height": height
+        }
+
+        # 位置
+        position = {
+            "left": x,
+            "top": y
+        }
+
+        image_data = {
+            "type": image_type,
+            "size": size,
+            "position": position,
+            "url": url,
+            "zindex": zindex
+        }
+
+        return image_data
+
     def getStyleOne(self):
         """
             样式一
         """
 
         # 文字
-        goods_title_data = getTextData(TextType.Title, self.data, 38, None, None, '#333333', 50, 780, 0)
-        goods_price_data = getTextData(TextType.SalePrice, self.data, 38, None, None, '#DD3C3C', 50, 906, 1)
-        hint_text_data = getTextData(TextType.Hint, self.data, 28, None, None, '#666666', 50, 1094, 2)
-        brand_name_data = getTextData(TextType.BrandName, self.data, 28, None, None, '#999999', 160, 1184, 3)
+        goods_title_data = self.getTextData(TextType.Title, 38, None, None, '#333333', 50, 780, 0)
+        goods_price_data = self.getTextData(TextType.SalePrice, 38, None, None, '#DD3C3C', 50, 906, 1)
+        hint_text_data = self.getTextData(TextType.Hint, 28, None, None, '#666666', 50, 1094, 2)
+        brand_name_data = self.getTextData(TextType.BrandName, 28, None, None, '#999999', 160, 1184, 3)
 
         texts = [goods_title_data, goods_price_data, hint_text_data, brand_name_data]
 
         # 图片
-        goods_image_data = getImageData(ImageType.Goods, self.data, 750, 750, 0, 0, 0)
-        qrcode_image_data = getImageData(ImageType.QRCode, self.data, 250, 250, 450, 1044, 1)
-        logo_image_data = getImageData(ImageType.Logo, self.data, 80, 80, 50, 1164, 2)
+        goods_image_data = self.getImageData(ImageType.Goods, 750, 750, 0, 0, 0)
+        qrcode_image_data = self.getImageData(ImageType.QRCode, 250, 250, 450, 1044, 1)
+        logo_image_data = self.getImageData(ImageType.Logo, 80, 80, 50, 1164, 2)
 
         images = [goods_image_data, qrcode_image_data, logo_image_data]
 
@@ -226,17 +221,17 @@ class GoodsCardStyle:
         """
 
         # 文字
-        goods_title_data = getTextData(TextType.Title, self.data, 37, None, None, '#333333', 50, 520, 0)
-        goods_price_data = getTextData(TextType.SalePrice, self.data, 37, None, None, '#DD3C3C', 50, 646, 1)
-        hint_text_data = getTextData(TextType.Hint, self.data, 28, None, None, '#999999', 50, 905, 2)
-        brand_name_data = getTextData(TextType.BrandName, self.data, 28, None, None, '#666666', 160, 985, 3)
+        goods_title_data = self.getTextData(TextType.Title, 37, None, None, '#333333', 50, 520, 0)
+        goods_price_data = self.getTextData(TextType.SalePrice, 37, None, None, '#DD3C3C', 50, 646, 1)
+        hint_text_data = self.getTextData(TextType.Hint, 28, None, None, '#999999', 50, 905, 2)
+        brand_name_data = self.getTextData(TextType.BrandName, 28, None, None, '#666666', 160, 985, 3)
 
         texts = [goods_title_data, goods_price_data, hint_text_data, brand_name_data]
 
         # 图片
-        goods_image_data = getImageData(ImageType.Goods, self.data, 650, 420, 50, 50, 0)
-        qrcode_image_data = getImageData(ImageType.QRCode, self.data, 160, 160, 540, 890, 1)
-        logo_image_data = getImageData(ImageType.Logo, self.data, 80, 80, 50, 965, 2)
+        goods_image_data = self.getImageData(ImageType.Goods, 650, 420, 50, 50, 0)
+        qrcode_image_data = self.getImageData(ImageType.QRCode, 160, 160, 540, 890, 1)
+        logo_image_data = self.getImageData(ImageType.Logo, 80, 80, 50, 965, 2)
 
         images = [goods_image_data, qrcode_image_data, logo_image_data]
 

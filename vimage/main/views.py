@@ -10,7 +10,8 @@ from enum import Enum, unique
 from . import main
 from .. import db
 from config import Config
-from ..models.goodscardstyle import GoodsCardStyle, Switch
+from ..models.goodscardstyle import GoodsCardStyle
+from ..helpers import switch
 
 from qiniu import Auth, put_file, etag, urlsafe_base64_encode
 import qiniu.config
@@ -49,7 +50,7 @@ def showGoodsCard(post_data):
     style_data = {}
     line_position = []
 
-    for case in Switch(style_type):
+    for case in switch.Switch(style_type):
         if case(ImageScale.Square):
             style_data = goods_card_style.getStyleOne()
             line_position = [(50, 990), (700, 990)]
