@@ -15,7 +15,6 @@ class ImageSet(db.Model):
     width = db.Column(db.Integer, default=0)
     height = db.Column(db.Integer, default=0)
     mime = db.Column(db.String(64), nullable=True)
-    type = db.Column(db.SmallInteger, default=1)
     description = db.Column(db.Text(), nullable=False)
     tags = db.Column(db.String(200))
     # 1、样例 2、成品图 3、背景 4、矢量图 5、产品图
@@ -27,6 +26,19 @@ class ImageSet(db.Model):
 
     created_at = db.Column(db.Integer, default=timestamp)
     updated_at = db.Column(db.Integer, default=timestamp, onupdate=timestamp)
+
+    def to_json(self):
+
+        json = {
+            "data": {
+
+            },
+            "status": self.status,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+
+        return json
 
     def __repr__(self):
         return '<ImageSet {}>'.format(self.id)
