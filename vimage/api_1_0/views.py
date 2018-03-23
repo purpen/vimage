@@ -8,7 +8,7 @@ import json
 from flask import request, abort, g, url_for, jsonify
 from . import api
 from ..helpers.utils import *
-from ..models import getposter, goodscard, salescard
+from ..models import getposter
 from vimage.main.views import *
 
 
@@ -34,7 +34,7 @@ def hello_world():
 
 
 @api.route('/goodscard', methods=['POST'])
-def getGoodsCard():
+def get_goods_card():
     """
         商品小程序码
     """
@@ -53,18 +53,16 @@ def getGoodsCard():
             'qrcode_img': images['qrcode_img']
         }
 
-        newPoster = goodscard.GoodsCard(**data)
+        show_goods_card(data)
 
-        showGoodsCard(data)
-
-        return jsonify(newPoster.to_json())
+        return jsonify({"code": 1, "message": "上传成功"})
 
     else:
         return jsonify({"code": 0, "message": "只接受 POST 请求"})
 
 
 @api.route('/salescard', methods=['POST'])
-def getSalesCard():
+def get_sales_card():
     """
         商品促销
     """
@@ -85,11 +83,9 @@ def getSalesCard():
             'qrcode_img': images['qrcode_img']
         }
 
-        newPoster = salescard.SalesCard(**data)
+        show_sales_card(data)
 
-        showSalesCard(data)
-
-        return jsonify(newPoster.to_json())
+        return jsonify({"code": 1, "message": "上传成功"})
 
     else:
         return jsonify({"code": 0, "message": "只接受 POST 请求"})
