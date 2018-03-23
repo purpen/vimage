@@ -9,15 +9,17 @@ class ImageSet(db.Model):
     __tablename__ = 'imagesets'
 
     id = db.Column(db.Integer, primary_key=True)
+    sn = db.Column(db.String(16), unique=True, nullable=False)
     user_id = db.Column(db.Integer, index=True, default=0)
+
     filepath = db.Column(db.String(128), unique=True, nullable=False)
     size = db.Column(db.Float, nullable=True)
     width = db.Column(db.Integer, default=0)
     height = db.Column(db.Integer, default=0)
     mime = db.Column(db.String(64), nullable=True)
-    type = db.Column(db.SmallInteger, default=1)
     description = db.Column(db.Text(), nullable=False)
     tags = db.Column(db.String(200))
+
     # 1、样例 2、成品图 3、背景 4、矢量图 5、产品图
     type = db.Column(db.SmallInteger, default=1)
     # 是否审核
