@@ -8,7 +8,6 @@ import json
 from flask import request, abort, g, url_for, jsonify
 from . import api
 from ..helpers.utils import *
-from ..models import getposter
 from vimage.main.views import *
 
 
@@ -22,15 +21,6 @@ def demo():
     # 跨域设置
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
-
-
-@api.route('/')
-def hello_world():
-    """
-        默认
-    """
-
-    return 'Hello World! Api V1.0'
 
 
 @api.route('/goodscard', methods=['POST'])
@@ -53,9 +43,9 @@ def get_goods_card():
             'qrcode_img': images['qrcode_img']
         }
 
-        show_goods_card(data)
+        result_data = show_goods_card(data)
 
-        return jsonify({"code": 1, "message": "上传成功"})
+        return jsonify(result_data)
 
     else:
         return jsonify({"code": 0, "message": "只接受 POST 请求"})
@@ -83,9 +73,9 @@ def get_sales_card():
             'qrcode_img': images['qrcode_img']
         }
 
-        show_sales_card(data)
+        result_data = show_sales_card(data)
 
-        return jsonify({"code": 1, "message": "上传成功"})
+        return jsonify(result_data)
 
     else:
         return jsonify({"code": 0, "message": "只接受 POST 请求"})
