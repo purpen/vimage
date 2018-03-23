@@ -30,5 +30,18 @@ class ImageSet(db.Model):
     created_at = db.Column(db.Integer, default=timestamp)
     updated_at = db.Column(db.Integer, default=timestamp, onupdate=timestamp)
 
+    def to_json(self):
+
+        json = {
+            "data": {
+
+            },
+            "status": self.status,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+
+        return json
+
     def __repr__(self):
         return '<ImageSet {}>'.format(self.id)

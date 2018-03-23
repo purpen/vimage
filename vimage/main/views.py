@@ -2,108 +2,19 @@
 from PIL import Image, ImageDraw, ImageFont
 import requests as re
 from io import BytesIO
-
+import os
 from datetime import datetime, time
-
+import random
 from . import main
 from .. import db
 from config import Config
-from vimage.helpers.posterstyle import *
 from ..helpers import switch
+from ..helpers.posterstyle import *
 from ..helpers.utils import *
+from ..models.imageset import ImageSet
 
 from qiniu import Auth, put_file, etag, urlsafe_base64_encode
 import qiniu.config
-
-
-@main.route('/')
-def index():
-    """
-        默认
-    """
-    return 'Index Page'
-
-
-@main.route('/helloworld')
-def helloworld():
-    """
-        测试示例
-    """
-    return 'Hello World!'
-
-
-def upload_Image(poster_image):
-    """
-        保存上传海报图片
-    """
-
-    save_path = 'vimage/resource/poster/'
-    save_name = 'poster_'
-    localfile = save_path + save_name + '.png'
-    poster_image.save(localfile)
-
-    upload_qiniu(localfile)
-    poster_image.show()
-
-
-@main.route('/goodscard')
-def show_goods_card(post_data):
-    """
-        商品小程序码海报
-    """
-
-    # 海报种类：商品小程序码
-    goods_card_style = GoodsCardStyle(post_data)
-
-    # 检测商品图片比例
-    goods_image_url = post_data['goods_img'] or ''
-    style_type = check_Image_size(goods_image_url)
-
-    # 选择样式数据
-    style_data = {}
-    draw_position = []
-
-    for case in switch.Switch(style_type):
-        if case(ImageScale.Square):
-            style_data = goods_card_style.get_style_one()
-            draw_position = [(50, 990), (700, 990)]
-            break
-
-        if case(ImageScale.RectangleH):
-            style_data = goods_card_style.get_style_two()
-            draw_position = [(50, 839), (700, 839)]
-            break
-
-        if case():
-            style_data = goods_card_style.get_style_one()
-
-    # 生成海报图片,保存到本地
-    canvas = Canvas(style_data)
-    poster_image = canvas.get_poster(True, draw_position, '#999999')
-
-    upload_Image(poster_image)
-
-
-@main.route('/salescard')
-def show_sales_card(post_data):
-    """
-        商品促销海报
-    """
-
-    # 海报种类：商品小程序码
-    sales_card_style = GoodsSalesStyle(post_data)
-
-    style_data = sales_card_style.get_style_two()
-
-    if len(post_data['qrcode_img']) > 0:
-        style_data = sales_card_style.get_style_two()
-
-    # 生成海报图片,保存到本地
-    canvas = Canvas(style_data)
-    draw_position = [(193, 545), (553, 625)]
-    poster_image = canvas.get_poster(True, draw_position, '#FFFFFF')
-
-    upload_Image(poster_image)
 
 
 @unique
@@ -317,20 +228,134 @@ class Canvas:
         return canvas
 
 
-def upload_qiniu(localfile):
+def get_image_filename():
+    """
+        设置图片文件名
+    """
+
+    image_name = str(int(timestamp() + random.random())) + '.png'
+
+    return image_name
+
+
+def delete_local_image(localfile):
+    """
+        删除本地生成的图片
+    """
+
+    os.remove(localfile)
+
+
+def upload_qiniu(localfile, file_name):
     """
         上传图片到七牛
     """
 
-    # q = Auth(Config.QINIU_ACCESS_KEY, Config.QINIU_ACCESS_SECRET)
-    # bucket_name = Config.QINIU_BUCKET_NAME
+    q = Auth(Config.QINIU_ACCESS_KEY, Config.QINIU_ACCESS_SECRET)
+    bucket_name = Config.QINIU_BUCKET_NAME
 
-    # key = 'my-poster-image.png'
-    # token = q.upload_token(bucket_name, key, 3600)
-    #
-    # ret, info = put_file(token, key, localfile)
-    #
-    # print(info)
-    #
-    # assert ret['key'] == key
-    # assert ret['hash'] == etag(localfile)
+    key = file_name + ('/' + get_image_filename())
+
+    token = q.upload_token(bucket_name, key, 3600)
+
+    ret, info = put_file(token, key, localfile)
+
+    assert ret['key'] == key
+    assert ret['hash'] == etag(localfile)
+
+    delete_local_image(localfile)
+
+    result_data = {
+        "filepath": key,
+        "type": 1
+    }
+
+    imageset = ImageSet(**result_data)
+
+    # db.session.add(imageset)
+    # db.session.commit()
+
+    result_image_url = Config.CDN_DOMAIN + '/' + ret['key']
+
+    result_json = imageset.to_json()
+    result_json['data']['image_url'] = result_image_url
+
+    return result_json
+
+
+def upload_Image(poster_image, file_name):
+    """
+        保存上传海报图片
+    """
+
+    save_path = 'vimage/resource/poster/'
+    localfile = save_path + get_image_filename()
+    poster_image.save(localfile)
+
+    image_url = upload_qiniu(localfile, file_name)
+
+    return image_url
+
+
+@main.route('/goodscard')
+def show_goods_card(post_data):
+    """
+        商品小程序码海报
+    """
+
+    # 海报种类：商品小程序码
+    goods_card_style = GoodsCardStyle(post_data)
+
+    # 检测商品图片比例
+    goods_image_url = post_data['goods_img'] or ''
+    style_type = check_Image_size(goods_image_url)
+
+    # 选择样式数据
+    style_data = {}
+    draw_position = []
+
+    for case in switch.Switch(style_type):
+        if case(ImageScale.Square):
+            style_data = goods_card_style.get_style_one()
+            draw_position = [(50, 990), (700, 990)]
+            break
+
+        if case(ImageScale.RectangleH):
+            style_data = goods_card_style.get_style_two()
+            draw_position = [(50, 839), (700, 839)]
+            break
+
+        if case():
+            style_data = goods_card_style.get_style_one()
+
+    # 生成海报图片,保存到本地
+    canvas = Canvas(style_data)
+    poster_image = canvas.get_poster(True, draw_position, '#999999')
+
+    image_url = upload_Image(poster_image, 'wechat')
+
+    return image_url
+
+
+@main.route('/salescard')
+def show_sales_card(post_data):
+    """
+        商品促销海报
+    """
+
+    # 海报种类：商品小程序码
+    sales_card_style = GoodsSalesStyle(post_data)
+
+    style_data = sales_card_style.get_style_two()
+
+    if len(post_data['qrcode_img']) > 0:
+        style_data = sales_card_style.get_style_two()
+
+    # 生成海报图片,保存到本地
+    canvas = Canvas(style_data)
+    draw_position = [(193, 545), (553, 625)]
+    poster_image = canvas.get_poster(True, draw_position, '#FFFFFF')
+
+    image_url = upload_Image(poster_image, 'sales')
+
+    return image_url
