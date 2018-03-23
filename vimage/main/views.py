@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
-import io
-from datetime import timedelta
-from flask import Response, jsonify, current_app, request, redirect, url_for
-from flask_sqlalchemy import get_debug_queries
 from PIL import Image, ImageDraw, ImageFont
 import requests as re
 from io import BytesIO
-from enum import Enum, unique
+
+from datetime import datetime, time
+
 from . import main
 from .. import db
 from config import Config
-from ..models.posterstyle import *
+from vimage.helpers.posterstyle import *
 from ..helpers import switch
+from ..helpers.utils import *
 
 from qiniu import Auth, put_file, etag, urlsafe_base64_encode
 import qiniu.config
@@ -33,7 +32,7 @@ def helloworld():
     return 'Hello World!'
 
 
-def uploadImage(poster_image):
+def upload_Image(poster_image):
     """
         保存上传海报图片
     """
@@ -43,12 +42,12 @@ def uploadImage(poster_image):
     localfile = save_path + save_name + '.png'
     poster_image.save(localfile)
 
-    # uploadQiniu(localfile)
+    upload_qiniu(localfile)
     poster_image.show()
 
 
 @main.route('/goodscard')
-def showGoodsCard(post_data):
+def show_goods_card(post_data):
     """
         商品小程序码海报
     """
@@ -58,7 +57,7 @@ def showGoodsCard(post_data):
 
     # 检测商品图片比例
     goods_image_url = post_data['goods_img'] or ''
-    style_type = checkImageSize(goods_image_url)
+    style_type = check_Image_size(goods_image_url)
 
     # 选择样式数据
     style_data = {}
@@ -66,27 +65,27 @@ def showGoodsCard(post_data):
 
     for case in switch.Switch(style_type):
         if case(ImageScale.Square):
-            style_data = goods_card_style.getStyleOne()
+            style_data = goods_card_style.get_style_one()
             draw_position = [(50, 990), (700, 990)]
             break
 
         if case(ImageScale.RectangleH):
-            style_data = goods_card_style.getStyleTwo()
+            style_data = goods_card_style.get_style_two()
             draw_position = [(50, 839), (700, 839)]
             break
 
         if case():
-            style_data = goods_card_style.getStyleOne()
+            style_data = goods_card_style.get_style_one()
 
     # 生成海报图片,保存到本地
     canvas = Canvas(style_data)
-    poster_image = canvas.getPoster(True, draw_position, '#999999')
+    poster_image = canvas.get_poster(True, draw_position, '#999999')
 
-    uploadImage(poster_image)
+    upload_Image(poster_image)
 
 
 @main.route('/salescard')
-def showSalesCard(post_data):
+def show_sales_card(post_data):
     """
         商品促销海报
     """
@@ -94,17 +93,17 @@ def showSalesCard(post_data):
     # 海报种类：商品小程序码
     sales_card_style = GoodsSalesStyle(post_data)
 
-    style_data = sales_card_style.getStyleOne()
+    style_data = sales_card_style.get_style_two()
 
     if len(post_data['qrcode_img']) > 0:
-        style_data = sales_card_style.getStyleTwo()
+        style_data = sales_card_style.get_style_two()
 
     # 生成海报图片,保存到本地
     canvas = Canvas(style_data)
     draw_position = [(193, 545), (553, 625)]
-    poster_image = canvas.getPoster(True, draw_position, '#FFFFFF')
+    poster_image = canvas.get_poster(True, draw_position, '#FFFFFF')
 
-    uploadImage(poster_image)
+    upload_Image(poster_image)
 
 
 @unique
@@ -114,7 +113,7 @@ class ImageScale(Enum):
     RectangleV = 2  # 长方形，垂直
 
 
-def checkImageSize(image_url):
+def check_Image_size(image_url):
     """
         检查图片尺寸比例，选择海报样式
     """
@@ -137,7 +136,7 @@ def checkImageSize(image_url):
         return ImageScale.Square
 
 
-def drawRectangle(image, position, color):
+def draw_rectangle(image, position, color):
     """
         绘制矩形
     """
@@ -151,7 +150,7 @@ def drawRectangle(image, position, color):
     return image
 
 
-def pasteImage(back_image, paste_image):
+def paste_image(back_image, paste_image):
     """
     合成图片
 
@@ -181,7 +180,7 @@ def pasteImage(back_image, paste_image):
     return back_image
 
 
-def drawText(back_image, creat_text):
+def draw_text(back_image, creat_text):
     """
     绘制文字
 
@@ -272,7 +271,7 @@ class Canvas:
         self.width = canvas_size['width'] or 0  # 宽度
         self.height = canvas_size['height'] or 0  # 高度
 
-    def getCanvas(self):
+    def get_canvas(self):
         """
         创建画布
 
@@ -283,7 +282,7 @@ class Canvas:
 
         return canvas_image
 
-    def getPoster(self, isDrawRectangle, draw_position, draw_color):
+    def get_poster(self, isDrawRectangle, draw_position, draw_color):
         """
         创建海报图片
 
@@ -291,7 +290,7 @@ class Canvas:
         """
 
         # 生成画布
-        canvas = self.getCanvas()
+        canvas = self.get_canvas()
 
         # 根据图像位置层级，对数据进行排序
         sort_images = sorted(self.images, key=lambda e: e.get('zindex'))
@@ -300,11 +299,11 @@ class Canvas:
             creat_image = ImageObject(imageItem)
 
             # 把图像合成到画布
-            canvas = pasteImage(canvas, creat_image)
+            canvas = paste_image(canvas, creat_image)
 
         # 是否绘制
         if isDrawRectangle is True:
-            drawRectangle(canvas, draw_position, draw_color)
+            draw_rectangle(canvas, draw_position, draw_color)
 
         # 根据文字位置层级，对数据进行排序
         sort_texts = sorted(self.texts, key=lambda e: e.get('zindex'))
@@ -313,24 +312,25 @@ class Canvas:
             creat_text = TextObject(textItem)
 
             # 在画布上绘制文字
-            canvas = drawText(canvas, creat_text)
+            canvas = draw_text(canvas, creat_text)
 
         return canvas
 
 
-def uploadQiniu(localfile):
+def upload_qiniu(localfile):
     """
         上传图片到七牛
     """
 
-    q = Auth(Config.QINIU_ACCESS_KEY, Config.QINIU_ACCESS_SECRET)
-    bucket_name = Config.QINIU_BUCKET_NAME
-    key = 'my-poster-image.png'
-    token = q.upload_token(bucket_name, key, 3600)
+    # q = Auth(Config.QINIU_ACCESS_KEY, Config.QINIU_ACCESS_SECRET)
+    # bucket_name = Config.QINIU_BUCKET_NAME
 
-    ret, info = put_file(token, key, localfile)
-
-    print(info)
-
-    assert ret['key'] == key
-    assert ret['hash'] == etag(localfile)
+    # key = 'my-poster-image.png'
+    # token = q.upload_token(bucket_name, key, 3600)
+    #
+    # ret, info = put_file(token, key, localfile)
+    #
+    # print(info)
+    #
+    # assert ret['key'] == key
+    # assert ret['hash'] == etag(localfile)

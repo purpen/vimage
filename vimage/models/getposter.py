@@ -11,22 +11,8 @@ class GetPoster(db.Model):
     __tablename__ = 'getposter'
 
     id = db.Column(db.Integer, primary_key=True)
+    poster_url = db.Column(db.String(), nullable=True)
 
-    # 标题
-    title = db.Column(db.String(30), nullable=False)
-    # 副标题
-    subtitle = db.Column(db.String(30), nullable=True)
-    # 内容
-    content = db.Column(db.Text(), nullable=True)
-    # 附加内容
-    add_content = db.Column(db.Text(), nullable=True)
-    # 主图(url)
-    main_img = db.Column(db.String(), nullable=True)
-    # Logo(url)
-    logo_img = db.Column(db.String(), nullable=True)
-    # 二维码(url)
-    qrcode_img = db.Column(db.String(), nullable=True)
-    # 时间
     created_at = db.Column(db.Integer, default=timestamp())
     updated_at = db.Column(db.Integer, default=timestamp(), onupdate=timestamp)
 
@@ -37,17 +23,7 @@ class GetPoster(db.Model):
 
         json_post = {
             "data": {
-                "texts": {
-                    "title": self.title,
-                    "subtitle": self.subtitle,
-                    "content": self.content,
-                    "add_content": self.add_content
-                },
-                "images": {
-                    "main_img": self.main_img,
-                    "logo_img": self.logo_img,
-                    "qrcode_img": self.qrcode_img
-                }
+                "poster_url": self.poster_url
             },
             "created_at": self.created_at,
             "updated_at": self.updated_at,

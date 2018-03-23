@@ -12,9 +12,9 @@ class Sensitive:
         self.image = image  # 需要检测的图片
         self.sensitive_words = list()  # 敏感词列表
 
-        self.loadSensitiveWords(path='sensitive_word.txt')
+        self.load_sensitive_words(path='sensitive_word.txt')
 
-    def loadSensitiveWords(self, path):
+    def load_sensitive_words(self, path):
         """
             加载敏感词库
         """
@@ -23,7 +23,7 @@ class Sensitive:
             for line in file.readlines():
                 self.sensitive_words.append(line.strip())
 
-    def filterWords(self):
+    def filter_words(self):
         """
             过滤敏感词
         """

@@ -4,10 +4,14 @@
     <list default="true" id="3b5e868d-3cb4-4896-ba99-a3f0345f9f46" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/vimage/api_1_0/views.py" afterPath="$PROJECT_DIR$/vimage/api_1_0/views.py" />
+      <change beforePath="$PROJECT_DIR$/vimage/helpers/sensitive.py" afterPath="$PROJECT_DIR$/vimage/helpers/sensitive.py" />
       <change beforePath="$PROJECT_DIR$/vimage/main/views.py" afterPath="$PROJECT_DIR$/vimage/main/views.py" />
-      <change beforePath="$PROJECT_DIR$/vimage/models/posterstyle.py" afterPath="$PROJECT_DIR$/vimage/models/posterstyle.py" />
-      <change beforePath="$PROJECT_DIR$/vimage/models/salescard.py" afterPath="$PROJECT_DIR$/vimage/models/salescard.py" />
-      <change beforePath="$PROJECT_DIR$/vimage/resource/poster/sales_100.png" afterPath="$PROJECT_DIR$/vimage/resource/poster/sales_100.png" />
+      <change beforePath="$PROJECT_DIR$/vimage/models/__init__.py" afterPath="$PROJECT_DIR$/vimage/models/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/vimage/models/getposter.py" afterPath="$PROJECT_DIR$/vimage/models/getposter.py" />
+      <change beforePath="$PROJECT_DIR$/vimage/models/goodscard.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/vimage/models/posterstyle.py" afterPath="$PROJECT_DIR$/vimage/helpers/posterstyle.py" />
+      <change beforePath="$PROJECT_DIR$/vimage/models/salescard.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/vimage/resource/poster/poster_.png" afterPath="$PROJECT_DIR$/vimage/resource/poster/poster_.png" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,21 +22,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config.py">
+      <file leaf-file-name="getposter.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vimage/models/getposter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="143" column="28" lean-forward="false" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
+            <state relative-caret-position="323">
+              <caret line="19" column="11" lean-forward="true" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+              <folding>
+                <element signature="e#24#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="imageset.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vimage/models/imageset.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="goodscard.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vimage/models/goodscard.py">
+      <file leaf-file-name="textset.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vimage/models/textset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="5" column="6" lean-forward="false" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+            <state relative-caret-position="425">
+              <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="129">
+              <caret line="53" column="14" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -41,8 +67,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vimage/api_1_0/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="84" column="46" lean-forward="true" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
+            <state relative-caret-position="300">
+              <caret line="65" column="7" lean-forward="true" selection-start-line="65" selection-start-column="7" selection-end-line="65" selection-end-column="7" />
               <folding>
                 <element signature="e#82#93#0" expanded="true" />
               </folding>
@@ -50,11 +76,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="salescard.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vimage/models/salescard.py">
+      <file leaf-file-name="sensitive.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vimage/helpers/sensitive.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="323">
+              <caret line="19" column="11" lean-forward="true" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="switch.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vimage/helpers/switch.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -63,28 +99,18 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vimage/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="93" column="17" lean-forward="true" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sensitive.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vimage/helpers/sensitive.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="350">
+              <caret line="320" column="7" lean-forward="true" selection-start-line="320" selection-start-column="7" selection-end-line="320" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="posterstyle.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vimage/models/posterstyle.py">
+        <entry file="file://$PROJECT_DIR$/vimage/helpers/posterstyle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="277" column="14" lean-forward="true" selection-start-line="277" selection-start-column="14" selection-end-line="277" selection-end-column="14" />
+            <state relative-caret-position="332">
+              <caret line="110" column="0" lean-forward="true" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
               <folding>
                 <element signature="e#24#53#0" expanded="true" />
               </folding>
@@ -104,6 +130,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>SQLALCHEMY_DATABASE_URI</find>
+      <find>string_to_timestamp</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/vimage/resource/logo</dir>
@@ -117,9 +144,7 @@
       <list>
         <option value="$PROJECT_DIR$/vimage/__init__.py" />
         <option value="$PROJECT_DIR$/vimage/helpers/utils.py" />
-        <option value="$PROJECT_DIR$/vimage/models/__init__.py" />
         <option value="$PROJECT_DIR$/vimage/extensions.py" />
-        <option value="$PROJECT_DIR$/vimage/models/getposter.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/manage.py" />
@@ -127,12 +152,16 @@
         <option value="$PROJECT_DIR$/vimage/main/goodscardstyle.py" />
         <option value="$PROJECT_DIR$/vimage/helpers/switch.py" />
         <option value="$PROJECT_DIR$/sensitive_word" />
-        <option value="$PROJECT_DIR$/vimage/helpers/sensitive.py" />
         <option value="$PROJECT_DIR$/sensitive_word.txt" />
         <option value="$PROJECT_DIR$/vimage/models/goodscardstyle.py" />
-        <option value="$PROJECT_DIR$/vimage/api_1_0/views.py" />
         <option value="$PROJECT_DIR$/vimage/models/salescard.py" />
         <option value="$PROJECT_DIR$/vimage/models/posterstyle.py" />
+        <option value="$PROJECT_DIR$/vimage/models/getposter.py" />
+        <option value="$PROJECT_DIR$/vimage/models/__init__.py" />
+        <option value="$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/datetime.pyi" />
+        <option value="$PROJECT_DIR$/vimage/helpers/sensitive.py" />
+        <option value="$PROJECT_DIR$/vimage/api_1_0/views.py" />
+        <option value="$PROJECT_DIR$/vimage/helpers/posterstyle.py" />
         <option value="$PROJECT_DIR$/vimage/main/views.py" />
       </list>
     </option>
@@ -234,6 +263,11 @@
       </console-settings>
     </option>
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/vimage/helpers" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -314,29 +348,13 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vimage/api_1_0/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="e#82#93#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="40" column="9" lean-forward="false" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vimage/helpers/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="21" column="7" lean-forward="false" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
-          <folding />
+          <folding>
+            <element signature="e#24#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -510,26 +528,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/models/imageset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="8" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vimage/resource/poster/poster_0.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/models/textset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-          <folding>
-            <element signature="e#24#45#0" expanded="false" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vimage/api_1_0/__init__.py">
@@ -539,28 +540,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/models/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/requests/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/models/getposter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#24#45#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -608,43 +592,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="143" column="28" lean-forward="false" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vimage/main/goodscardstyle.py" />
-    <entry file="file://$PROJECT_DIR$/vimage/helpers/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" column="25" lean-forward="false" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sensitive_word">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/helpers/switch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="33" lean-forward="false" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sensitive_word.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="3" lean-forward="true" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
           <folding />
         </state>
       </provider>
@@ -657,18 +609,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/models/goodscard.py">
+    <entry file="file://$PROJECT_DIR$/sensitive_word.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="5" column="6" lean-forward="false" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/helpers/sensitive.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="136">
+          <caret line="8" column="3" lean-forward="true" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
           <folding />
         </state>
       </provider>
@@ -681,20 +625,114 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/models/goodscard.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="5" column="6" lean-forward="false" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="53" column="14" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/models/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#25#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/datetime.pyi">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="97" column="86" lean-forward="false" selection-start-line="97" selection-start-column="86" selection-end-line="97" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/helpers/sensitive.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="11" lean-forward="true" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/helpers/switch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/helpers/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="64" column="23" lean-forward="false" selection-start-line="64" selection-start-column="4" selection-end-line="64" selection-end-column="23" />
+          <folding>
+            <element signature="e#24#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/main/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/models/getposter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="11" lean-forward="true" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+          <folding>
+            <element signature="e#24#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/models/imageset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/models/textset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vimage/api_1_0/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="84" column="46" lean-forward="true" selection-start-line="84" selection-start-column="46" selection-end-line="84" selection-end-column="46" />
+        <state relative-caret-position="300">
+          <caret line="65" column="7" lean-forward="true" selection-start-line="65" selection-start-column="7" selection-end-line="65" selection-end-column="7" />
           <folding>
             <element signature="e#82#93#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/models/posterstyle.py">
+    <entry file="file://$PROJECT_DIR$/vimage/helpers/posterstyle.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="277" column="14" lean-forward="true" selection-start-line="277" selection-start-column="14" selection-end-line="277" selection-end-column="14" />
+        <state relative-caret-position="332">
+          <caret line="110" column="0" lean-forward="true" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
           <folding>
             <element signature="e#24#53#0" expanded="true" />
           </folding>
@@ -703,8 +741,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vimage/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="93" column="17" lean-forward="true" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
+        <state relative-caret-position="350">
+          <caret line="320" column="7" lean-forward="true" selection-start-line="320" selection-start-column="7" selection-end-line="320" selection-end-column="7" />
           <folding />
         </state>
       </provider>
