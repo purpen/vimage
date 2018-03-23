@@ -10,7 +10,7 @@ from enum import Enum, unique
 from . import main
 from .. import db
 from config import Config
-from ..models.goodscardstyle import GoodsCardStyle
+from ..models.posterstyle import *
 from ..helpers import switch
 
 from qiniu import Auth, put_file, etag, urlsafe_base64_encode
@@ -48,17 +48,17 @@ def showGoodsCard(post_data):
 
     # 选择样式数据
     style_data = {}
-    line_position = []
+    draw_position = []
 
     for case in switch.Switch(style_type):
         if case(ImageScale.Square):
             style_data = goods_card_style.getStyleOne()
-            line_position = [(50, 990), (700, 990)]
+            draw_position = [(50, 990), (700, 990)]
             break
 
         if case(ImageScale.RectangleH):
             style_data = goods_card_style.getStyleTwo()
-            line_position = [(50, 839), (700, 839)]
+            draw_position = [(50, 839), (700, 839)]
             break
 
         if case():
@@ -73,7 +73,36 @@ def showGoodsCard(post_data):
     localfile = save_path + save_name + '.png'
 
     # 生成海报图片,保存到本地
-    poster_image = canvas.getPoster(True, line_position)
+    poster_image = canvas.getPoster(True, draw_position, '#999999')
+    poster_image.save(localfile)
+
+    # uploadQiniu(localfile)
+    poster_image.show()
+
+
+@main.route('/salescard')
+def showSalesCard(post_data):
+    """
+        商品促销海报
+    """
+
+    # 海报种类：商品小程序码
+    sales_card_style = GoodsSalesStyle(post_data)
+
+    style_data = sales_card_style.getStyleOne()
+
+    # 创建一个画布
+    canvas = Canvas(style_data)
+
+    # 保存地址
+    save_path = 'vimage/resource/poster/'
+    save_name = 'sales_' + str(style_data['id'])
+    localfile = save_path + save_name + '.png'
+
+    # 生成海报图片,保存到本地
+    draw_position = [(193, 545), (553, 625)]
+
+    poster_image = canvas.getPoster(True, draw_position, '#FFFFFF')
     poster_image.save(localfile)
 
     # uploadQiniu(localfile)
@@ -110,20 +139,18 @@ def checkImageSize(image_url):
         return ImageScale.Square
 
 
-def drawLine(back_image, position):
+def drawRectangle(image, position, color):
     """
-    绘制直线
-
-    :return: 在背景上画线
+        绘制矩形
     """
 
     #  直线的位置、长短
     line_position = position or [(0, 1), (100, 1)]
 
-    draw_image = ImageDraw.Draw(back_image)
-    draw_image.line(line_position, fill='#999999')
+    draw_image = ImageDraw.Draw(image)
+    draw_image.rectangle(line_position, fill=color)
 
-    return back_image
+    return image
 
 
 def pasteImage(back_image, paste_image):
@@ -147,10 +174,11 @@ def pasteImage(back_image, paste_image):
 
     # 要合成到背景的图像
     result_image = paste_image.image
-    result_image = result_image.resize((width, height))
 
-    # 对图片合成
-    back_image.paste(result_image, (left, top), result_image)
+    if result_image is not None:
+        result_image = result_image.resize((width, height), 0, (width/4, 0, width, height))
+        # 对图片合成
+        back_image.paste(result_image, (left, top), result_image)
 
     return back_image
 
@@ -170,6 +198,7 @@ def drawText(back_image, creat_text):
 
     # 绘制文字
     draw_font = ImageFont.truetype(creat_text.font_family, creat_text.font_size)
+
     draw_image = ImageDraw.Draw(back_image)
     draw_image.text([left, top], creat_text.content, font=draw_font, align=creat_text.align, fill=creat_text.text_color)
 
@@ -220,8 +249,13 @@ class ImageObject:
         self.position = image_data['position']  # 位置
         self.url = image_data['url']  # url 路径
         self.zindex = image_data['zindex']  # 层级（叠加顺序）
-        response = re.get(self.url)
-        self.image = Image.open(BytesIO(response.content)).convert('RGBA')  # 图片
+
+        if len(self.url) > 0:
+            response = re.get(self.url)
+            self.image = Image.open(BytesIO(response.content)).convert('RGBA')  # 图片
+
+        else:
+            self.image = None
 
 
 class Canvas:
@@ -240,7 +274,7 @@ class Canvas:
         self.width = canvas_size['width'] or 0  # 宽度
         self.height = canvas_size['height'] or 0  # 高度
 
-    def getCanvas(self, is_draw_line, line_position):
+    def getCanvas(self):
         """
         创建画布
 
@@ -249,14 +283,9 @@ class Canvas:
 
         canvas_image = Image.new('RGBA', (self.width, self.height), self.color)
 
-        if is_draw_line is True:
-            back_image = drawLine(canvas_image, line_position)
-            return back_image
+        return canvas_image
 
-        else:
-            return canvas_image
-
-    def getPoster(self, is_draw_line, line_position):
+    def getPoster(self, isDrawRectangle, draw_position, draw_color):
         """
         创建海报图片
 
@@ -264,11 +293,10 @@ class Canvas:
         """
 
         # 生成画布
-        canvas = self.getCanvas(is_draw_line, line_position)
+        canvas = self.getCanvas()
 
         # 根据图像位置层级，对数据进行排序
         sort_images = sorted(self.images, key=lambda e: e.get('zindex'))
-
         # 获取图像数据
         for imageItem in sort_images:
             creat_image = ImageObject(imageItem)
@@ -276,9 +304,12 @@ class Canvas:
             # 把图像合成到画布
             canvas = pasteImage(canvas, creat_image)
 
+        # 是否绘制
+        if isDrawRectangle is True:
+            drawRectangle(canvas, draw_position, draw_color)
+
         # 根据文字位置层级，对数据进行排序
         sort_texts = sorted(self.texts, key=lambda e: e.get('zindex'))
-
         # 获取文字数据
         for textItem in sort_texts:
             creat_text = TextObject(textItem)

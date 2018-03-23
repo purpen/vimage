@@ -6,11 +6,9 @@
 """
 import json
 from flask import request, abort, g, url_for, jsonify
-from vimage.models import GetPoster, GoodsCard
-from .. import db, config
 from . import api
-from vimage.helpers.utils import *
-from ..models import getposter
+from ..helpers.utils import *
+from ..models import getposter, goodscard, salescard
 from vimage.main.views import *
 
 
@@ -38,7 +36,7 @@ def hello_world():
 @api.route('/goodscard', methods=['POST'])
 def getGoodsCard():
     """
-        生成商品小程序码
+        商品小程序码
     """
 
     if request.method == 'POST':
@@ -55,9 +53,40 @@ def getGoodsCard():
             'qrcode_img': images['qrcode_img']
         }
 
-        newPoster = GoodsCard(**data)
+        newPoster = goodscard.GoodsCard(**data)
 
         showGoodsCard(data)
+
+        return jsonify(newPoster.to_json())
+
+    else:
+        return jsonify({"code": 0, "message": "只接受 POST 请求"})
+
+
+@api.route('/salescard', methods=['POST'])
+def getSalesCard():
+    """
+        商品促销
+    """
+
+    if request.method == 'POST':
+        texts = request.get_json().get('texts')
+        images = request.get_json().get('images')
+
+        data = {
+            'sales_title': texts['sales_title'],
+            'sales_pct': texts['sales_pct'],
+            'sales_info': texts['sales_info'],
+            'sales_brand': texts['sales_brand'],
+            'time_text': texts['time_text'],
+            'background_img': images['background_img'],
+            'logo_img': images['logo_img'],
+            'qrcode_img': images['qrcode_img']
+        }
+
+        newPoster = salescard.SalesCard(**data)
+
+        showSalesCard(data)
 
         return jsonify(newPoster.to_json())
 
