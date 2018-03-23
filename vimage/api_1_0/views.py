@@ -79,6 +79,7 @@ def getSalesCard():
             'sales_info': texts['sales_info'],
             'sales_brand': texts['sales_brand'],
             'time_text': texts['time_text'],
+            'hint_text': texts['hint_text'],
             'background_img': images['background_img'],
             'logo_img': images['logo_img'],
             'qrcode_img': images['qrcode_img']

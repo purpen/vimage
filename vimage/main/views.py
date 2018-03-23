@@ -33,6 +33,20 @@ def helloworld():
     return 'Hello World!'
 
 
+def uploadImage(poster_image):
+    """
+        保存上传海报图片
+    """
+
+    save_path = 'vimage/resource/poster/'
+    save_name = 'poster_'
+    localfile = save_path + save_name + '.png'
+    poster_image.save(localfile)
+
+    # uploadQiniu(localfile)
+    poster_image.show()
+
+
 @main.route('/goodscard')
 def showGoodsCard(post_data):
     """
@@ -64,20 +78,11 @@ def showGoodsCard(post_data):
         if case():
             style_data = goods_card_style.getStyleOne()
 
-    # 创建一个画布
-    canvas = Canvas(style_data)
-
-    # 保存地址
-    save_path = 'vimage/resource/poster/'
-    save_name = 'goods_' + str(style_data['id'])
-    localfile = save_path + save_name + '.png'
-
     # 生成海报图片,保存到本地
+    canvas = Canvas(style_data)
     poster_image = canvas.getPoster(True, draw_position, '#999999')
-    poster_image.save(localfile)
 
-    # uploadQiniu(localfile)
-    poster_image.show()
+    uploadImage(poster_image)
 
 
 @main.route('/salescard')
@@ -91,22 +96,15 @@ def showSalesCard(post_data):
 
     style_data = sales_card_style.getStyleOne()
 
-    # 创建一个画布
-    canvas = Canvas(style_data)
-
-    # 保存地址
-    save_path = 'vimage/resource/poster/'
-    save_name = 'sales_' + str(style_data['id'])
-    localfile = save_path + save_name + '.png'
+    if len(post_data['qrcode_img']) > 0:
+        style_data = sales_card_style.getStyleTwo()
 
     # 生成海报图片,保存到本地
+    canvas = Canvas(style_data)
     draw_position = [(193, 545), (553, 625)]
-
     poster_image = canvas.getPoster(True, draw_position, '#FFFFFF')
-    poster_image.save(localfile)
 
-    # uploadQiniu(localfile)
-    poster_image.show()
+    uploadImage(poster_image)
 
 
 @unique
@@ -176,7 +174,7 @@ def pasteImage(back_image, paste_image):
     result_image = paste_image.image
 
     if result_image is not None:
-        result_image = result_image.resize((width, height), 0, (width/4, 0, width, height))
+        result_image = result_image.resize((width, height))
         # 对图片合成
         back_image.paste(result_image, (left, top), result_image)
 
