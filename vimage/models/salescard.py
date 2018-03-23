@@ -21,6 +21,8 @@ class SalesCard(db.Model):
     sales_brand = db.Column(db.String(20), nullable=True)
     # 时间
     time_text = db.Column(db.String(50), nullable=True)
+    # 提示文字
+    hint_text = db.Column(db.String(50), nullable=True)
     # 背景图片(url)
     background_img = db.Column(db.Text(), nullable=False)
     # 二维码(url)
@@ -43,7 +45,8 @@ class SalesCard(db.Model):
                     "sales_pct": self.sales_pct,
                     "sales_info": self.sales_info,
                     "sales_brand": self.sales_brand,
-                    "time_text": self.time_text
+                    "time_text": self.time_text,
+                    "hint_text": self.hint_text
                 },
                 "images": {
                     "background_img": self.background_img,

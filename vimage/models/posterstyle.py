@@ -313,3 +313,31 @@ class GoodsSalesStyle:
         # 格式化数据
         return getStyleData(self.identify, self.size, self.color, texts, images)
 
+    def getStyleTwo(self):
+        """
+            样式二
+        """
+
+        # 文字
+        salse_title_data = getTextData(self, TextType.SalesTitle, 42, None, 'center', '#FFFFFF', 194, 123, 0)
+        sales_pct_data = getTextData(self, TextType.SalesPCT, 190, None, 'center', '#FFFFFF', 225, 146, 1)
+        sales_info_data = getTextData(self, TextType.SalesInfo, 90, None, 'center', '#FFFFFF', 196, 357, 2)
+        sales_brand_data = getTextData(self, TextType.SalesBrand, 30, None, 'center', '#333333', 215, 564, 3)
+        time_data = getTextData(self, TextType.Time, 30, None, 'center', '#FFFFFF', 283, 473, 4)
+        hint_text = getTextData(self, TextType.Hint, 24, None, 'center', '#333333', 260, 1080, 5)
+
+        texts = [salse_title_data, sales_pct_data, sales_info_data, sales_brand_data, time_data, hint_text]
+
+        # 图片
+        background_image_data = getImageData(self, ImageType.Background, 750, 750, 0, 0, 0)
+        qrcode_image_data = getImageData(self, ImageType.QRCode, 250, 250, 250, 810, 1)
+        logo_image_data = getImageData(self, ImageType.Logo, 0, 0, 0, 0, 2)
+
+        images = [background_image_data, qrcode_image_data, logo_image_data]
+
+        # 格式化数据
+        width, height = 750, 1150
+        size = {"width": width, "height": height}
+
+        return getStyleData(self.identify, size, self.color, texts, images)
+
