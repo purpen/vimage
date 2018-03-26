@@ -4,13 +4,12 @@
 
     :copyright: (c) 2018 by purpen.
 """
-import json
 from flask import request, abort, g, url_for, jsonify
 
 from . import api
-from ..helpers.utils import *
-from ..helpers.image import *
-from ..models import imageset
+from vimage.helpers.utils import *
+from vimage.helpers.image import *
+from vimage.models import ImageSet
 
 
 @api.route('/goods/wxa', methods=['POST'])
@@ -53,14 +52,8 @@ def get_wxa_poster():
 @api.route('/goods/sales', methods=['POST'])
 def get_sales_poster():
     """
-        获取生成的商品促销海报
-    """
+    获取生成的商品促销海报
 
-    post_data = request.get_json()
-
-    """
-    接收的数据，各参数含义：
-    
     :param sales_title: 促销标题
     :param sales_pct: 促销折扣百分比
     :param sales_info: 促销信息
@@ -70,6 +63,8 @@ def get_sales_poster():
     :param background_img: 背景图片 url
     :param qr_code_img: 二维码图片 url
     """
+
+    post_data = request.get_json()
 
     data = {
         'sales_title': post_data.get('sales_title'),
@@ -84,4 +79,6 @@ def get_sales_poster():
 
     result_image_url = create_poster(data, PosterClass.GoodsSales, 1)
 
-    return jsonify({'image_url': result_image_url})
+    return full_response(R200_OK, {
+        'image_url': result_image_url
+    })
