@@ -20,12 +20,8 @@ def get_wxa_poster():
 
     post_data = request.get_json()
 
-<<<<<<< HEAD
-
 @api.route('/card/goods', methods=['POST'])
 def get_goods_card():
-=======
->>>>>>> origin/master
     """
     接收的数据，各参数含义：
     
