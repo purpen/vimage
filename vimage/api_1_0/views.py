@@ -6,6 +6,7 @@
 """
 import json
 from flask import request, abort, g, url_for, jsonify
+
 from . import api
 from ..helpers.utils import *
 from ..helpers.image import *
@@ -15,16 +16,8 @@ from ..models import imageset
 @api.route('/goods/wxa', methods=['POST'])
 def get_wxa_poster():
     """
-        获取生成的商品小程序码海报
-    """
+    获取生成的商品小程序码海报
 
-    post_data = request.get_json()
-
-@api.route('/card/goods', methods=['POST'])
-def get_goods_card():
-    """
-    接收的数据，各参数含义：
-    
     :param title: 商品标题
     :param sale_price: 商品售价
     :param brand_name: 品牌名称
@@ -33,6 +26,12 @@ def get_goods_card():
     :param logo_img: logo图片 url
     :param qr_code_img: 二维码图片 url
     """
+
+    post_data = request.get_json()
+
+    # 验证参数是否符合规则
+    if not post_data or 'title' not in post_data or 'sale_price' not in post_data:
+        return status_response(R400_BADREQUEST, False)
 
     data = {
         'title': post_data.get('title'),
@@ -46,7 +45,9 @@ def get_goods_card():
 
     result_image_url = create_poster(data, PosterClass.GoodsInfoWxa, 0)
 
-    return jsonify({'image_url': result_image_url})
+    return full_response(R200_OK, {
+        'image_url': result_image_url
+    })
 
 
 @api.route('/goods/sales', methods=['POST'])

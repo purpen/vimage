@@ -2,6 +2,10 @@
 from vimage import db
 from vimage.helpers.utils import timestamp
 
+__all__ = [
+    'ImageSet'
+]
+
 
 class ImageSet(db.Model):
     """图片及图形库"""
@@ -9,14 +13,11 @@ class ImageSet(db.Model):
     __tablename__ = 'imagesets'
 
     id = db.Column(db.Integer, primary_key=True)
-    sn = db.Column(db.String(16), unique=True, nullable=False)
     user_id = db.Column(db.Integer, index=True, default=0)
+    sn = db.Column(db.String(16), unique=True, nullable=False)
 
-    filepath = db.Column(db.String(128), unique=True, nullable=False)
-    size = db.Column(db.Float, nullable=True)
-    width = db.Column(db.Integer, default=0)
-    height = db.Column(db.Integer, default=0)
-    mime = db.Column(db.String(64), nullable=True)
+    name = db.Column(db.String(64), nullable=True)
+    cover_id = db.Column(db.Integer, default=0)
     description = db.Column(db.Text(), nullable=False)
     tags = db.Column(db.String(200))
 
@@ -31,11 +32,8 @@ class ImageSet(db.Model):
     updated_at = db.Column(db.Integer, default=timestamp, onupdate=timestamp)
 
     def to_json(self):
-
+        """对象转换"""
         json = {
-            "data": {
-
-            },
             "status": self.status,
             "created_at": self.created_at,
             "updated_at": self.updated_at
@@ -44,4 +42,4 @@ class ImageSet(db.Model):
         return json
 
     def __repr__(self):
-        return '<ImageSet {}>'.format(self.id)
+        return '<ImageSet {}>'.format(self.sn)

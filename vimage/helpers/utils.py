@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import enum
+import string
 import time
 import random
 import hashlib
@@ -116,3 +117,34 @@ class Dictate(object):
         return str(self.__dict)
 
 
+class MixGenId(object):
+    """
+    生成各种sn/sku
+    """
+
+    @staticmethod
+    def gen_digits(length=7):
+        """生成数字串"""
+        return ''.join(random.sample(string.digits, length))
+
+    @staticmethod
+    def gen_letters(length=20):
+        """生成字符串"""
+        return ''.join(random.sample(string.ascii_letters, length))
+
+    @staticmethod
+    def gen_banner_sn(length=8):
+        """生成banner sn"""
+        prefix = 'Ad'
+        return ''.join([prefix, MixGenId.gen_digits(length)])
+
+    @staticmethod
+    def gen_templet_sn(length=6):
+        """生成模板编号"""
+        prefix = 'T'
+        return ''.join([prefix, MixGenId.gen_digits(length)])
+
+    @staticmethod
+    def gen_user_xid(length=10):
+        prefix = '1'
+        return ''.join([prefix, MixGenId.gen_digits(length)])

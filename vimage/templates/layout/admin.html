@@ -50,12 +50,15 @@
 		{% block header %}
 		<header class="main-header navbar-fixed-top">
 			<a class="logo" href="{{ url_for('adminlte.dashboard') }}">
-				moebeast
+				vimage
 			</a>
 			<nav class="navbar navbar-static-top">
 				<ul class="nav navbar-nav navbar-menu">
 					<li {% if top_menu == 'system' %}class="active"{% endif %}>
 						<a href="{{ url_for('adminlte.dashboard') }}">图像</a>
+					</li>
+					<li {% if top_menu == 'templets' %}class="active"{% endif %}>
+						<a href="{{ url_for('adminlte.get_templets') }}">模板</a>
 					</li>
 				</ul>
 				<div class="navbar-custom-menu">
@@ -140,13 +143,11 @@
 			// 加载js执行前的配置信息
 			mixpus.csrf_token = "{{ csrf_token() }}";
 			mixpus.locale = {
-				selected_label: "items selected",
-				copy_ok_message: "Copy successfully"
+				selected_label: "个项被选中"
 			};
-			mixpus.language = '{{ g.locale|default("en") }}';
-
+			
 			mixpus.urls = {
-				show_assets: '{{ url_for("adminlte.dashboard") }}'
+				show_assets: '{{ url_for("adminlte.show_asset") }}'
 			};
 
 			// 打开页面时加载进度条。
