@@ -152,9 +152,9 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
 
-    ASSETS_DEBUG = False
-    CDN_DEBUG = False
-    CDN_HTTPS = True
+    ASSETS_DEBUG = True
+    CDN_DEBUG = True
+    CDN_HTTPS = False
 
     # Examples:
     # mysql+pymysql://<username>:<password>@<host>/<dbname>[?<options>]

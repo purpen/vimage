@@ -1,0 +1,304 @@
+{% import "block/_macros.html" as macros %}
+<div class="modal-dialog modal-lg" id="file_manager">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4 class="modal-title" id="myLargeModalLabel">
+				图片库管理
+			</h4>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-sm-5">
+					<a href="{{ url_for('adminlte.show_asset') }}?directory={{ parent_directory }}&up_target={{ up_target }}" data-toggle="tooltip" id="button-parent" class="btn btn-default" data-original-title="上一级">
+						<i class="fa fa-level-up"></i>
+					</a>
+					<a href="{{ url_for('adminlte.show_asset') }}?directory={{ current_directory }}&up_target={{ up_target }}" data-toggle="tooltip" id="button-refresh" class="btn btn-default" data-original-title="刷新">
+						<i class="fa fa-refresh"></i>
+					</a>
+					<button type="button" data-toggle="tooltip" id="uploader_browse" class="btn btn-mixpus" data-original-title="上传">
+						<i class="fa fa-upload"></i>
+					</button>
+					<button type="button" data-toggle="tooltip" id="button-folder" class="btn btn-warning" data-original-title="文件夹">
+						<i class="fa fa-folder-open"></i>
+					</button>
+					<button type="button" data-toggle="tooltip" id="button-delete" class="btn btn-danger" data-original-title="删除">
+						<i class="fa fa-trash"></i>
+					</button>
+					<button type="button" data-toggle="tooltip" id="button-checked" class="btn btn-info" data-original-title="批量确认">
+						<i class="fa fa-check"></i>
+					</button>
+				</div>
+				<div class="col-sm-7">
+					<div id="uploader"></div>
+				</div>
+			</div>
+			<hr>
+			<div class="row" id="upload-container"></div>
+			<div class="row" id="uploader_result">
+				{% for d in all_directory %}
+				<div class="col-sm-3 col-xs-6 text-center">
+					<div class="text-center">
+						<a href="{{ url_for('adminlte.show_asset') }}?up_target={{ up_target }}&directory={% if current_directory %}{{ current_directory }}/{% endif %}{{ d.name|safe }}" class="directory" style="vertical-align: middle;">
+							<i class="fa fa-folder fa-5x"></i>
+						</a>
+					</div>
+					<label>
+						<input name="path[]" value="{{ d.name }}" type="checkbox">
+						{{ d.name|safe }}
+					</label>
+				</div>
+				{% endfor %}
+
+				{% for a in paginated_assets.items %}
+				<div class="col-sm-2 col-xs-4 m-b-10 text-center">
+					<a href="javascript:;" class="thumbnail" data-target="{{ a.id }}">
+						<img src="{{ a.view_url }}" alt="{{ a.filename }}" title="{{ a.filename }}">
+					</a>
+					<label>
+						<input name="path[]" value="{{ a.filepath }}" type="checkbox">
+						{{ a.filename }}
+					</label>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="modal-footer">
+			{% if paginated_assets %}
+			<div class="pull-right">
+				{{ macros.pagination_widget(paginated_assets, '.show_asset', directory=current_directory, up_target=up_target) }}
+			</div>
+			{% endif %}
+		</div>
+	</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+<script type="text/javascript"><!--
+	mixpus.hook_all_check();
+	mixpus.hook_select2();
+	mixpus.hook_tooltip_toggle();
+
+	var hock_thumbnail = function () {
+		$('a.thumbnail').on('click', function(e) {
+			e.preventDefault();
+			var asset_id = $(this).data('target');
+			var asset_url = $(this).find('img').attr('src');
+			
+			var upload_target = '{{ up_target }}';
+			if (upload_target == 'multi-mode') {
+				$('#multi_thumb_image').append(
+					'<a href="javascript:;" class="img-thumbnail pull-left m-r-10 m-b-10">' +
+					'<i class="fa fa-close"></i>' +
+					'<img src="'+ asset_url +'" width="100px">' +
+					'<input name="asset_ids[]" value="'+ asset_id +'" type="hidden">' +
+					'</a>'
+				);
+				$('.img-thumbnail > i.fa-close').on('click', function() {
+					$(this).parent().remove();
+				});
+			} else {
+				$('#{{ up_target }}_thumb_image').find('img').attr('src', $(this).find('img').attr('src'));
+
+				$('#{{ up_target }}_id').val(asset_id);
+			}
+			
+			$('#modal-image').modal('hide');
+		});
+	};
+	
+	
+
+	// hock img thumbnail
+	hock_thumbnail();
+
+	$('a.directory').on('click', function(e) {
+		e.preventDefault();
+
+		var args = mixpus.get_url_params($(this).attr('href'));
+		if (args || args != null) {
+			$.cookie('img_last_open_folder', args['directory']);
+		}
+
+		$('#modal-image').load($(this).attr('href'));
+	});
+
+	$('.pagination a').on('click', function(e) {
+		e.preventDefault();
+
+		$('#modal-image').load($(this).attr('href'));
+	});
+
+	$('#button-parent').on('click', function(e) {
+		e.preventDefault();
+
+		$('[data-toggle="tooltip"]').tooltip('hide');
+
+		$('#modal-image').load($(this).attr('href'));
+	});
+
+	$('#button-refresh').on('click', function(e) {
+		e.preventDefault();
+		$('[data-toggle="tooltip"]').tooltip('hide');
+		$('#modal-image').load($(this).attr('href'));
+	});
+
+	$('#button-folder').popover({
+		html: true,
+		placement: 'bottom',
+		trigger: 'click',
+		title: 'directory name',
+		content: function() {
+			var html  = '<div class="input-group">';
+			html += '  <input type="text" name="folder" class="form-control">';
+			html += '  <span class="input-group-btn"><button type="button" title="New directory" id="button-create" class="btn btn-mixpus"><i class="fa fa-plus"></i></button></span>';
+			html += '</div>';
+
+			return html;
+		}
+	});
+
+	$('#button-folder').on('shown.bs.popover', function() {
+		$('#button-create').on('click', function() {
+			var $btn = $(this);
+			$.ajax({
+				url: '{{ url_for("adminlte.folder") }}',
+				type: 'post',
+				dataType: 'json',
+				data: {
+					folder: encodeURIComponent($('input[name=\'folder\']').val()),
+					parent_directory: '{{ current_directory }}',
+					csrf_token: mixpus.csrf_token
+				},
+				beforeSend: function() {
+					$('#button-create').prop('disabled', true);
+				},
+				complete: function() {
+					$('#button-create').prop('disabled', false);
+				},
+				success: function(result) {
+					if (result['success']) {
+						$('#button-refresh').trigger('click');
+					} else {
+						$btn
+							.parent().parent()
+							.before(mixpus.display_alert(result['status']['message']));
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		});
+	});
+
+	var total_image_count = 0;
+	var files_to_remove = [];
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+
+	$("#uploader").pluploadQueue({
+        // General settings
+        url: '{{ up_endpoint }}',
+
+        chunk_size : '1mb',
+        rename : false,
+        dragdrop: true,
+		multiple_queues: true,
+		multipart_params: {
+            // 开发环境使用
+            'csrf_token': mixpus.csrf_token,
+            'directory': '{{ current_directory }}',
+            // 生产环境使用
+            'token': '{{ up_token }}',
+        	'x:directory': '{{ current_directory }}',
+            'x:user_id': ''
+		},
+        filters : {
+            // Maximum file size
+            max_file_size : '20mb',
+            // Specify what files to browse for
+            mime_types: [
+                {title : 'Image files', extensions : 'jpg,jpeg,gif,png'}
+            ],
+			prevent_duplicates : true //不允许选取重复文件
+        },
+
+        flash_swf_url : "{{ url_for('static', filename='js/Moxie.swf', _external=True) }}",
+
+		silverlight_xap_url : "{{ url_for('static', filename='js/Moxie.xap', _external=True) }}"
+    });
+
+	$('#modal-image #button-delete').on('click', function() {
+		swal({
+			title: "确定要删除?",
+			text: "删除后将不能恢复，请慎重！",
+			type: "warning",
+			showCancelButton: true,
+            cancelButtonText: '取消',
+            confirmButtonColor: '#c6322a',
+			confirmButtonText: "确认删除"
+		}).then(function () {
+            var path = [];
+            $('input[name^=\'path\']:checked').each(function () {
+                path.push($(this).val());
+            });
+            var data = {
+                'path[]': path,
+                'csrf_token': mixpus.csrf_token
+            };
+
+            $.ajax({
+                url: '{{ url_for("adminlte.pldelete") }}',
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                beforeSend: function() {
+                    $('#button-delete').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#button-delete').prop('disabled', false);
+                },
+                success: function(result) {
+                    if (result.success) {
+                        $('#button-refresh').trigger('click');
+                    } else {
+                        swal(
+                            '出错了',
+                            result.status.message,
+                            'error'
+                        );
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+		});
+	});
+	
+	$('#button-checked').on('click', function() {
+        var path = [];
+        $('input[name^=\'path\']:checked').each(function () {
+			var $target = $(this).parent().parent().find('.thumbnail');
+			var asset_id = $target.data('target');
+			var asset_url = $target.find('img').attr('src');
+			
+			$('#multi_thumb_image').append(
+				'<a href="javascript:;" class="img-thumbnail pull-left m-r-10 m-b-10">' +
+				'<i class="fa fa-close"></i>' +
+				'<img src="'+ asset_url +'" width="100px">' +
+				'<input name="asset_ids[]" value="'+ asset_id +'" type="hidden">' +
+				'</a>'
+			);
+        });
+		
+		$('.img-thumbnail > i.fa-close').on('click', function() {
+			$(this).parent().remove();
+		});
+		
+		$('#modal-image').modal('hide');
+	});
+
+//--></script>

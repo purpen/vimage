@@ -1,0 +1,90 @@
+{% extends "layout/admin.html" %}
+
+{% block sidebar %}
+	{% include 'adminlte/templet/_sub_menu.html' %}
+{% endblock %}
+
+{% block after_jquery %}
+<script type="text/javascript">
+	$(function () {
+		mixpus.init_page_layout();
+
+		mixpus.hook_per_page_select();
+	});
+</script>
+{% endblock %}
+
+
+{% block mainbar %}
+<div class="list-page">
+	<h2 class="page-header">
+		模板列表
+		<span class="pull-right">
+			{% include 'block/_select_items.html' %}
+            <a href="{{ url_for('adminlte.create_templet') }}" class="btn btn-icon btn-mixpus" data-toggle="tooltip" data-original-title="新增">
+				<i class="fa fa-plus"></i>
+			</a>
+			<button type="button" data-form-id="form-templets" class="btn btn-icon btn-danger delete-all hidden" data-toggle="tooltip" data-original-title="删除">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</span>
+	</h2>
+	
+	<div class="table-responsive m-t-20">
+		<form id="form-templets" action="{{ url_for('adminlte.delete_templet') }}" method="post">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" >
+
+			<table class="table table-bordered table-hover" role="grid">
+				<thead>
+					<tr role="row">
+						<th class="text-center">
+							<input name="check_all" type="checkbox" class="check-all">
+						</th>
+						<th>展示图</th>
+						<th>模板编号</th>
+						<th>模板名称</th>
+						<th>模板类型</th>
+						<th>模板要求</th>
+						<th class="text-right">状态</th>
+						<th class="text-right">操作</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					{% for templet in paginated_templets.items %}
+					<tr role="row">
+						<td class="text-center">
+							<input name="selected[]" class="check-one" value="{{ templet.sn }}" type="checkbox">
+						</td>
+						<td>
+							<img src="{{ templet.cover.view_url }}" width="100px" />
+						</td>
+						<td>{{ templet.sn }}</td>
+						<td>{{ templet.name }}</td>
+						<td>{{ templet.type_label }}</td>
+						<td>
+							{{ templet.requirements }}
+						</td>
+						<td class="text-right">
+							{% if templet.status == 1%}
+							<span class="indicator success">可用</span>
+							{% else %}
+							<span class="indicator danger">禁用</span>
+							{% endif %}
+						</td>
+						<td class="actions text-right">
+							<a href="{{ url_for('adminlte.edit_templet', rid=templet.sn) }}" class="btn-link">
+								编辑
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</form>
+
+		{% import "block/_macros.html" as macros %}
+		{{ macros.pagination_widget(paginated_templets, '.get_templets') }}
+	</div>
+</div>
+{% endblock %}

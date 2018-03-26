@@ -3,6 +3,11 @@ from vimage import db
 from vimage.helpers.utils import timestamp
 
 
+__all__ = [
+    'TextSet'
+]
+
+
 class TextSet(db.Model):
     """文本语料库"""
 
