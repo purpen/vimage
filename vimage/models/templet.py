@@ -79,7 +79,7 @@ class Templet(db.Model):
             'requirements': self.requirements,
             'status': self.status
         }
-        
+
         return json_obj
 
     def __repr__(self):

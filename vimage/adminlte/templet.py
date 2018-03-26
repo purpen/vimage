@@ -13,6 +13,7 @@ def load_common_data():
     """
     return {
         'top_menu': 'templets',
+        'sub_menu': 'templets'
     }
 
 
@@ -110,7 +111,7 @@ def delete_templet():
             templet = Templet.query.filter_by(sn=rid).first()
             if templet:
                 db.session.delete(templet)
-        
+
         db.session.commit()
 
         flash('Delete templet is ok!', 'success')
