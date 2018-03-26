@@ -23,7 +23,7 @@ def demo():
     return resp
 
 
-@api.route('/goodscard', methods=['POST'])
+@api.route('/card/goods', methods=['POST'])
 def get_goods_card():
     """
         商品小程序码
