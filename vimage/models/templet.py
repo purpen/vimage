@@ -69,6 +69,19 @@ class Templet(db.Model):
         else:
             target.sn = Templet.make_unique_sn()
 
+    def to_json(self):
+        """对象转换"""
+        json_obj = {
+            'sn': self.sn,
+            'name': self.name,
+            'cover': self.cover.view_url,
+            'type': self.type,
+            'requirements': self.requirements,
+            'status': self.status
+        }
+        
+        return json_obj
+
     def __repr__(self):
         return '<Templet {}>'.format(self.sn)
 
