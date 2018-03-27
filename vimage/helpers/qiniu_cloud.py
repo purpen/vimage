@@ -54,6 +54,10 @@ class QiniuCloud(object):
 
         ret, info = put_data(token, path_key, content)
 
+        print(ret)
+
+        print(info)
+
         if ret['key'] != path_key:
             raise QiniuError('上传文件有误！')
 
@@ -160,3 +164,8 @@ class QiniuCloud(object):
         filename = '%s/%s%s' % (timestamp2string(timestamp(), '%Y%m%d'), MixGenId.gen_letters(20), '.png')
 
         return filename
+
+    @staticmethod
+    def gen_filename():
+        """生成文件名"""
+        return '%s.png' % MixGenId.gen_letters(20)
