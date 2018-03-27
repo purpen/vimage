@@ -6,6 +6,7 @@ import requests as req
 from PIL import Image, ImageDraw, ImageFont
 from qiniu import Auth, put_file, put_data
 from .utils import timestamp, timestamp2string, MixGenId
+from ..exceptions import *
 
 __all__ = [
     'QiniuCloud',
@@ -86,10 +87,6 @@ class QiniuCloud(object):
 
         ret, info = put_file(token, path_key, src)
 
-        if ret['key'] == path_key:
-            # 上传成功后删除静态图片
-            QiniuCloud.remove_file(src)
-
         return path_key
 
     @staticmethod
@@ -123,41 +120,18 @@ class QiniuCloud(object):
         """
 
         # 请求图片链接，生成图片
-        r = req.get(image_url)
-        image = Image.open(BytesIO(r.content)).convert('RGBA')
+        try:
+            r = req.get(image_url)
+            image = Image.open(BytesIO(r.content)).convert('RGBA')
+        except (req.exceptions.HTTPError, req.exceptions.URLRequired):
+            image = Image.new('RGBA', (750, 750), Colors.DEFAULT_BACKGROUND_COLOR['white'])
 
         return image
 
     @staticmethod
-    def save_file(image, file_path):
-        """
-        保存图片
-
-        :param image: 图片
-        :param file_path: 文件夹路径
-        """
-        # 判断文件夹是否存在
-        if os.path.exists(file_path):
-            src_file = '%s/%s' % (file_path, QiniuCloud.gen_path_key())
-            image.save(fp=src_file, format='PNG')
-
-        return src_file
-
-    @staticmethod
-    def remove_file(src):
-        """
-        删除图片
-
-        :param src: 图片路径
-        """
-
-        if os.path.exists(src):
-            os.remove(src)
-
-    @staticmethod
     def gen_path_key():
         """
-        设置图片的path
+            设置图片的path
         """
 
         # 根据时间戳生成文件名
