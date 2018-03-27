@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 import re
-import time
-import hashlib
 from urllib import parse
 from os.path import splitext
 from PIL import Image
-from flask import current_app, render_template, url_for, request, jsonify
+from flask import current_app, render_template, url_for, request
 from wtforms import ValidationError
 from pymysql.err import IntegrityError
 
 from vimage import db, uploader
 from . import adminlte
 from vimage.models import Asset, Directory
-from vimage.helpers import QiniuStorage
+from vimage.helpers import QiniuCloud
 from vimage.helpers.utils import *
 
 
@@ -103,7 +101,7 @@ def show_asset(page=1):
 
     # 生成上传token
     cfg = current_app.config
-    up_token = QiniuStorage.up_token(cfg['QINIU_ACCESS_KEY'], cfg['QINIU_ACCESS_SECRET'], cfg['QINIU_BUCKET_NAME'],
+    up_token = QiniuCloud.up_token(cfg['QINIU_ACCESS_KEY'], cfg['QINIU_ACCESS_SECRET'], cfg['QINIU_BUCKET_NAME'],
                                      cfg['DOMAIN_URL'])
     if current_app.config['MODE'] == 'prod':
         up_endpoint = cfg['QINIU_UPLOAD']
