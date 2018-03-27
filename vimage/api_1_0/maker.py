@@ -16,6 +16,8 @@ def make_wxa_poster():
     """
     post_data = request.get_json()
 
+    current_app.logger.warn('Poster data: %s' % post_data)
+
     # 验证参数是否符合规则
     if not post_data or 'title' not in post_data or 'sale_price' not in post_data:
         return status_response(R400_BADREQUEST, False)
