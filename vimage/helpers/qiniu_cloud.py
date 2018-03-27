@@ -124,7 +124,7 @@ class QiniuCloud(object):
             r = req.get(image_url)
             image = Image.open(BytesIO(r.content)).convert('RGBA')
         except (req.exceptions.HTTPError, req.exceptions.URLRequired):
-            image = Image.new('RGBA', (750, 750), Colors.DEFAULT_BACKGROUND_COLOR['white'])
+            image = Image.new('RGBA', Size.DEFAULT_IMAGE_SIZE['square'], Colors.DEFAULT_BACKGROUND_COLOR['white'])
 
         return image
 
