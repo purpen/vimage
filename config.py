@@ -82,10 +82,10 @@ class Config:
 
     # Celery Options
     CELERY_IMPORTS = (
-        'app.tasks'
+        'vimage.tasks'
     )
-    CELERY_BROKER_URL = 'redis://localhost:6379/5'
-    CELERY_RESULT_BACKEND = 'redis://localhost:6379/6'
+    CELERY_BROKER_URL = 'redis://localhost:6379/3'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/4'
 
     # schedules
     CELERYBEAT_SCHEDULE = {

@@ -2,9 +2,9 @@
 from flask import request, abort, g, current_app
 
 from . import api
-from vimage.helpers import QiniuCloud, Poster
-from vimage.helpers.style import GoodsWxaStyle, GoodsSalesStyle
+from vimage.helpers import QiniuCloud
 from vimage.helpers.utils import *
+from vimage.tasks import make_wxacode_image, make_promotion_image
 
 
 @api.route('/maker/wxa_poster', methods=['POST'])
@@ -32,22 +32,13 @@ def make_wxa_poster():
 
     style_id = 0
 
-    # 1、获取样式数据
-    poster_style = GoodsWxaStyle(data, style_id)
-    # 2、生成海报
-    poster = Poster(poster_style.get_style_data())
-    poster_image = poster.make()
-
-    # 3、保存上传图片（测试环境）
-    storage_path = 'vimage/resource'
-    QiniuCloud.save_file(poster_image, storage_path)
-
-    folder = 'vimage'
+    folder = 'wxacode'
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
-
-    # 3、启动上传任务（生成环境）
-
+    # 生成图片地址
     image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+
+    # 启动任务
+    make_wxacode_image.apply_async(args=[path_key, data, style_id])
 
     return full_response(R200_OK, {
         'image_url': image_url
@@ -55,7 +46,7 @@ def make_wxa_poster():
 
 
 @api.route('/maker/promotion_poster', methods=['POST'])
-def get_sales_poster():
+def make_sales_poster():
     """
     获取生成的商品促销海报
 
@@ -74,8 +65,16 @@ def get_sales_poster():
         'qr_code_img': post_data.get('qr_code_img')
     }
 
-    # result_image_url = create_poster(data, PosterClass.GoodsSales, 1)
+    style_id = 1
+
+    folder = 'promotion'
+    path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
+    # 生成图片地址
+    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+
+    # 启动任务
+    make_promotion_image.apply_async(args=[path_key, data, style_id])
 
     return full_response(R200_OK, {
-        'image_url': ''
+        'image_url': image_url
     })

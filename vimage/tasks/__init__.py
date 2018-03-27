@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from .upload import upload_qiniu_content
+from .upload import make_wxacode_image, make_promotion_image

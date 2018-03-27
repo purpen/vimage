@@ -5,3 +5,4 @@ from .imageset import ImageSet, PosterType
 from .templet import Templet
 from .asset import Asset, Directory
 from .sensitive import Sensitive
+from .user import User, AnonymousUser
