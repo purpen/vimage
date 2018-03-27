@@ -89,18 +89,13 @@ class Config:
 
     # schedules
     CELERYBEAT_SCHEDULE = {
-        # 每5分钟检测刷新微信token
-        'wx-refresh-token': {
-            'task': 'wx.refresh_component_token',
-            'schedule': timedelta(seconds=300),
-            'args': ()
-        },
         # 每天上午 11 点 59 分执行一次
-        'update-today-currency': {
-            'task': 'app.tasks.async_currency_rate',
-            'schedule': crontab(hour=11, minute=59),
-            'args': ()
-        },
+        # 'update-today-currency': {
+        #    'task': 'app.tasks.async_currency_rate',
+        #    'schedule': crontab(hour=11, minute=59),
+        #    'args': ()
+        # },
+        # 每分钟检测刷新
         'every-minute-demo': {
             'task': 'demo.add_together',
             'schedule': timedelta(seconds=60),

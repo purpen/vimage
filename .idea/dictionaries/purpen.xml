@@ -2,6 +2,8 @@
   <dictionary name="purpen">
     <words>
       <w>badrequest</w>
+      <w>crontab</w>
+      <w>formet</w>
       <w>helloworld</w>
       <w>imagesets</w>
       <w>nocontent</w>
