@@ -54,6 +54,10 @@ def make_sales_poster():
     """
     post_data = request.get_json()
 
+    # 验证参数是否合法
+    if not post_data or 'sales_title' not in post_data:
+        return status_response(R400_BADREQUEST, False)
+
     data = {
         'sales_title': post_data.get('sales_title'),
         'sales_pct': post_data.get('sales_pct'),
