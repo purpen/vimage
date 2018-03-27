@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from flask import request, url_for, abort, g
+from flask import request, abort, g, current_app
 
 from . import api
-from vimage.models import Templet
+from vimage.helpers import QiniuCloud, Poster
+from vimage.helpers.style import GoodsWxaStyle, GoodsSalesStyle
 from vimage.helpers.utils import *
-from vimage.helpers.image import *
 
 
 @api.route('/maker/wxa_poster', methods=['POST'])
@@ -30,10 +30,27 @@ def make_wxa_poster():
         'qr_code_img': post_data.get('qr_code_img')
     }
 
-    result_image_url = create_poster(data, PosterClass.GoodsInfoWxa, 0)
+    style_id = 0
+
+    # 1、获取样式数据
+    poster_style = GoodsWxaStyle(data, style_id)
+    # 2、生成海报
+    poster = Poster(poster_style.get_style_data())
+    poster_image = poster.make()
+
+    # 3、保存上传图片（测试环境）
+    storage_path = 'vimage/resource'
+    QiniuCloud.save_file(poster_image, storage_path)
+
+    folder = 'vimage'
+    path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
+
+    # 3、启动上传任务（生成环境）
+
+    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
 
     return full_response(R200_OK, {
-        'image_url': result_image_url
+        'image_url': image_url
     })
 
 
@@ -57,8 +74,8 @@ def get_sales_poster():
         'qr_code_img': post_data.get('qr_code_img')
     }
 
-    result_image_url = create_poster(data, PosterClass.GoodsSales, 1)
+    # result_image_url = create_poster(data, PosterClass.GoodsSales, 1)
 
     return full_response(R200_OK, {
-        'image_url': result_image_url
+        'image_url': ''
     })
