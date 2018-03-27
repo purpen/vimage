@@ -21,7 +21,6 @@ from config import config
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-app.config["SQLALCHEMY_DATABASE_URI"] = config['development'].SQLALCHEMY_DATABASE_URI
 manager = Manager(app)
 migrate = Migrate(app, db)
 
