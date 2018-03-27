@@ -3,8 +3,14 @@ from vimage import db
 from vimage.helpers.utils import timestamp
 
 __all__ = [
-    'ImageSet'
+    'ImageSet',
+    'PosterType'
 ]
+
+
+class PosterType:
+    GOODS_WXA_CODE = 1  # 商品小程序码
+    GOODS_PROMOTION_AD = 2  # 商品促销海波
 
 
 class ImageSet(db.Model):

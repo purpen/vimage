@@ -63,6 +63,11 @@ def timestamp():
     return time.time()
 
 
+def timestamp2string(ts, formet='%Y-%m-%d %H:%M:%S'):
+    """Convert int to string."""
+    return datetime.fromtimestamp(ts).strftime(formet)
+
+
 def string_to_timestamp(str_value):
     """字符串日期时间转换成时间戳"""
     d = datetime.strptime(str_value, "%Y-%m-%d %H:%M:%S")
