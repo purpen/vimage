@@ -371,8 +371,8 @@ def create_poster(data, poster_class, style_id):
     poster_image = canvas.create_poster_image()
 
     # 保存上传图片
-    image_src = save_image(poster_image, 'vimage/resource/poster')
+    image_src = save_image(poster_image, 'vimage/resource/test')
 
-    return upload_image(image_src, 'wxapp')
+    return upload_image(image_src, 'wxa')
 
 
