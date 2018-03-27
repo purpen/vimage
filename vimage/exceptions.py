@@ -8,3 +8,13 @@ class Colors:
         'white': '#FFFFFF',
         'black': '#000000'
     }
+
+
+class Size:
+    """ 尺寸大小配置 """
+
+    DEFAULT_IMAGE_SIZE = {
+        'square': (750, 750),
+        'horizontal_rectangle': (1334, 750),
+        'vertical_rectangle': (750, 1334)
+    }
