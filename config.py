@@ -130,7 +130,7 @@ class DevelopmentConfig(Config):
     # mysql+pymysql://<username>:<password>@<host>/<dbname>[?<options>]
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:@localhost/vimage'
 
-    MAKE_IMAGE_FONTS_PATH = '/Users/FLYang/vimage_fonts/'
+    MAKE_IMAGE_FONTS_PATH = '/Users/purpen/Project/vimage/public/fonts/'
 
 
 class TestingConfig(Config):
@@ -163,6 +163,8 @@ class ProductionConfig(Config):
     ERROR_LOG = '/var/log/fxaim/vimage-error.log'
 
     UPLOADED_PHOTOS_DEST = '/opt/project/vimage/uploads'
+
+    MAKE_IMAGE_FONTS_PATH = '/opt/project/vimage/public/fonts/'
 
 
 config = {
