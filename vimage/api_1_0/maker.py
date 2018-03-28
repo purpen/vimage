@@ -60,7 +60,7 @@ def make_wxa_poster():
         current_app.logger.warn('Qiniu upload wxacode error: %s' % str(err))
 
     # 启动任务
-    make_wxacode_image.apply_async(args=[path_key, data, style_id])
+    # make_wxacode_image.apply_async(args=[path_key, data, style_id])
 
     return full_response(R200_OK, {
         'image_url': image_url
@@ -75,6 +75,10 @@ def make_sales_poster():
     :return image_url: 海报url
     """
     post_data = request.get_json()
+
+    # 验证参数是否合法
+    if not post_data or 'sales_title' not in post_data:
+        return status_response(R400_BADREQUEST, False)
 
     data = {
         'sales_title': post_data.get('sales_title'),

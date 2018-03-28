@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from enum import Enum, unique
 from ..helpers import switch, sensitive
-
+from ..exceptions import *
 
 @unique
 class ImageType(Enum):
@@ -159,7 +159,7 @@ def format_text_data(style_class, text_type, font_size, font_family, align, text
     content = get_text_content(text_type, data)
 
     # 字体名称
-    font_name = font_family or 'PingFang'
+    font_name = font_family or Fonts.DEFAULT_FONT_FAMILY
 
     # 字体方向（默认居左）
     text_align = align or 'left'
@@ -350,7 +350,7 @@ class GoodsSalesStyle:
 
         # 文字
         sales_title_data = format_text_data(self, TextType.SalesTitle, 42, None, 'center', '#FFFFFF', 194, 123, 0)
-        sales_pct_data = format_text_data(self, TextType.SalesPCT, 190, None, 'center', '#FFFFFF', 225, 146, 1)
+        sales_pct_data = format_text_data(self, TextType.SalesPCT, 190, 'PingFang Bold', 'center', '#FFFFFF', 225, 146, 1)
         sales_info_data = format_text_data(self, TextType.SalesInfo, 90, None, 'center', '#FFFFFF', 196, 357, 2)
         sales_brand_data = format_text_data(self, TextType.SalesBrand, 30, None, 'center', '#333333', 215, 564, 3)
         time_data = format_text_data(self, TextType.Time, 30, None, 'center', '#FFFFFF', 283, 473, 4)
@@ -374,11 +374,11 @@ class GoodsSalesStyle:
 
         # 文字
         sales_title_data = format_text_data(self, TextType.SalesTitle, 42, None, 'center', '#FFFFFF', 194, 123, 0)
-        sales_pct_data = format_text_data(self, TextType.SalesPCT, 190, None, 'center', '#FFFFFF', 225, 146, 1)
+        sales_pct_data = format_text_data(self, TextType.SalesPCT, 190, 'PingFang Bold', 'center', '#FFFFFF', 225, 146, 1)
         sales_info_data = format_text_data(self, TextType.SalesInfo, 90, None, 'center', '#FFFFFF', 196, 357, 2)
         sales_brand_data = format_text_data(self, TextType.SalesBrand, 30, None, 'center', '#FFFFFF', 215, 564, 3)
         time_data = format_text_data(self, TextType.Time, 30, None, 'center', '#FFFFFF', 283, 473, 4)
-        hint_text = format_text_data(self, TextType.Hint, 24, None, 'center', '#333333', 260, 1080, 5)
+        hint_text = format_text_data(self, TextType.Hint, 24, 'PingFang Light', 'center', '#333333', 260, 1080, 5)
 
         texts = [sales_title_data, sales_pct_data, sales_info_data, sales_brand_data, time_data, hint_text]
 
