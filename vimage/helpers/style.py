@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from enum import Enum, unique
 from ..helpers import switch, sensitive
-from ..exceptions import *
+from ..constant import *
 
 @unique
 class ImageType(Enum):

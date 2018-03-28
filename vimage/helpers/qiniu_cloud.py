@@ -5,6 +5,7 @@ from io import BytesIO
 import requests as req
 from PIL import Image, ImageDraw, ImageFont
 from qiniu import Auth, put_file, put_data
+from flask import current_app
 from .utils import timestamp, timestamp2string, MixGenId
 from ..exceptions import *
 
@@ -55,9 +56,7 @@ class QiniuCloud(object):
 
         ret, info = put_data(token, path_key, content)
 
-        print(ret)
-
-        print(info)
+        current_app.logger.debug('Upload ret: %s' % ret)
 
         if ret['key'] != path_key:
             raise QiniuError('上传文件有误！')
