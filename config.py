@@ -22,7 +22,7 @@ class Config:
     DOMAIN_URL = 'http://127.0.0.1:8080'
 
     CSRF_ENABLED = False
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'Img#2018%0110!'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'Fxaim#2018%0110!'
 
     # 默认语言, zh_CN,
     BABEL_DEFAULT_LOCALE = 'zh'
@@ -61,7 +61,7 @@ class Config:
     QINIU_BUCKET_NAME = 'frking'
 
     # 日志
-    ERROR_LOG = 'logs/mic-error.log'
+    ERROR_LOG = 'logs/vig-error.log'
 
     # pagination
     MAX_SEARCH_RESULTS = 50
@@ -107,37 +107,12 @@ class Config:
     # CACHE_REDIS_URL 连接到Redis服务器的URL。
     # 例如：redis://user:password@localhost:6379/2。 仅用于RedisCache。
     CACHE_TYPE = 'redis'
-    CACHE_KEY_PREFIX = 'fx_'
+    CACHE_KEY_PREFIX = 'fv_'
     CACHE_REDIS_HOST = 'localhost'
     CACHE_REDIS_PORT = '6379'
     CACHE_REDIS_PASSWORD = ''
     CACHE_REDIS_DB = '2'
     CACHE_REDIS_URL = 'redis://:@localhost:6379/2'
-
-    # 小程序第三方开发
-    WX_APP_TOKEN = 'AKIAJMIYNJXL7QEHTXNQ'
-    WX_APP_DES_KEY = '16122e1e525b4cdb869d538b143fe231d69a6268fb9'
-    WX_APP_ID = 'wx80ea263688082055'
-    WX_APP_SECRET = 'c37328fc19aec73f471ab761508bba2d'
-
-    # 微信支付
-    WXPAY_APP_ID = 'wx11363b7f6fe26ac8'  # 小程序ID
-    # 商户号
-    WXPAY_MCH_ID = '1490941762'
-    # 商户支付密钥
-    WXPAY_MCH_SECRET = 'a4a3cae89a6e71338df9ca65c7841c96'
-    # 异步通知url
-    WXPAY_NOTIFY_URL = '/open/wx/pay_notify'
-
-    # 设置商户证书路径
-    WXPAY_SSL_CERT_PATH = '/Users/xiaoyi/Project/micku/wxpay_m_cert/apiclient_cert.pem'
-    WXPAY_SSL_KEY_PATH = '/Users/xiaoyi/Project/micku/wxpay_m_cert/apiclient_key.pem'
-    WXPAY_ROOT_CA = '/Users/xiaoyi/Project/micku/wxpay_m_cert/rootca.pem'
-    # 设置代理机器，只有需要代理的时候才设置，不需要代理，请设置为0.0.0.0和0
-    WXPAY_PROXY_HOST = '0.0.0.0'
-    WXPAY_PROXY_POST = 0
-    # 接口调用上报等级，默认紧错误上报（注意：上报超时间为【1s】，上报无论成败【永不抛出异常】
-    WXPAY_REPORT_LEVEL = 1
 
     @staticmethod
     def init_app(app):
@@ -155,7 +130,7 @@ class DevelopmentConfig(Config):
     # mysql+pymysql://<username>:<password>@<host>/<dbname>[?<options>]
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:@localhost/vimage'
 
-    MAKE_IMAGE_FONTS_PATH = '/Users/FLYang/vimage_fonts/'
+    MAKE_IMAGE_FONTS_PATH = '/Users/purpen/Project/vimage/public/fonts/'
 
 
 class TestingConfig(Config):
@@ -165,7 +140,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     MODE = 'prod'
-    DOMAIN_URL = 'https://fx.taihuoniao.com'
+    DOMAIN_URL = 'https://aim.taihuoniao.com'
 
     DEBUG_LOG = False
     DEBUG = False
@@ -183,16 +158,13 @@ class ProductionConfig(Config):
     CDN_HTTPS = True
 
     SQLALCHEMY_ECHO = False
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://fxadmin:fxdb@1801?!@10.10.39.2/vimage?charset=utf8'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://fxadmin:fxdb@1801?!@10.10.39.2/fximage?charset=utf8'
 
-    ERROR_LOG = '/var/log/fxerp/mix-error.log'
+    ERROR_LOG = '/var/log/fxaim/vimage-error.log'
 
-    UPLOADED_PHOTOS_DEST = '/opt/project/fxerp/uploads'
+    UPLOADED_PHOTOS_DEST = '/opt/project/vimage/uploads'
 
-    # 设置商户证书路径
-    WXPAY_SSL_CERT_PATH = '/opt/project/fxerp/wxpay_m_cert/apiclient_cert.pem'
-    WXPAY_SSL_KEY_PATH = '/opt/project/fxerp/wxpay_m_cert/apiclient_key.pem'
-    WXPAY_ROOT_CA = '/opt/project/fxerp/wxpay_m_cert/rootca.pem'
+    MAKE_IMAGE_FONTS_PATH = '/opt/project/vimage/public/fonts/'
 
 
 config = {
