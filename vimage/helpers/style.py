@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from enum import Enum, unique
 from ..helpers import switch, sensitive
-from ..exceptions import *
+from ..constant import *
 
 
 @unique
@@ -59,7 +59,7 @@ def get_text_content(text_type, data):
             break
 
         if case(TextType.SalePrice):
-            content = '%s%s' % ('￥', data.get('sale_price'))
+            content = '￥%s' % data.get('sale_price')
             break
 
         if case(TextType.Hint):
@@ -79,7 +79,7 @@ def get_text_content(text_type, data):
             break
 
         if case(TextType.SalesPCT):
-            content = '%s%s' % (data.get('sales_pct'), '折')
+            content = '%s折' % data.get('sales_pct')
             break
 
         if case(TextType.SalesInfo):
@@ -87,7 +87,7 @@ def get_text_content(text_type, data):
             break
 
         if case(TextType.SalesBrand):
-            content = '%s%s' % ('店铺名:', data.get('sales_brand'))
+            content = '店铺名:%s' % data.get('sales_brand')
             break
 
         if case():

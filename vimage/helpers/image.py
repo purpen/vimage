@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageDraw, ImageFont
+from flask import current_app
 from vimage.helpers.qiniu_cloud import QiniuCloud
 from vimage.helpers.switch import Switch
 from config import *
@@ -143,7 +144,8 @@ class Poster(object):
         xy = (x, y)
 
         # 字体的样式
-        font_path = '%s%s%s' % (config['development'].MAKE_IMAGE_FONTS_PATH, text.font_family, '.ttf')
+        font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], text.font_family, '.ttf')
+        current_app.logger.debug('Font path: %s' % font_path)
         draw_font = ImageFont.truetype(font=font_path,
                                        size=text.font_size)
 
