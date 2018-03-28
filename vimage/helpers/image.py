@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageDraw, ImageFont
 from vimage.helpers.qiniu_cloud import QiniuCloud
+from config import *
 
 
 class TextObject:
@@ -100,7 +101,8 @@ class Poster(object):
         xy = (x, y)
 
         # 字体的样式
-        draw_font = ImageFont.truetype(font=text.font_family,
+        font_path = '%s%s%s' % (config['development'].MAKE_IMAGE_FONTS_PATH, text.font_family, '.ttf')
+        draw_font = ImageFont.truetype(font=font_path,
                                        size=text.font_size)
 
         # 文字的样式配置
