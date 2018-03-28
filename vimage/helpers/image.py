@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageDraw, ImageFont
 from vimage.helpers.qiniu_cloud import QiniuCloud
+from vimage.helpers.switch import Switch
 from config import *
+from vimage.exceptions import *
+from vimage.helpers.style import *
 
 
 class TextObject:
-    """
-        文字
-    """
+    """文字类"""
 
     def __init__(self, text_data=None):
         """
@@ -31,9 +32,7 @@ class TextObject:
 
 
 class ImageObject:
-    """
-        图像
-    """
+    """图像类"""
 
     def __init__(self, image_data=None):
         """
@@ -47,19 +46,61 @@ class ImageObject:
         self.type = data.get('type')           # 类型
         self.size = data.get('size')           # 尺寸
         self.position = data.get('position')   # 位置
-
         self.url = data.get('url')             # 网络Url
-
         self.z_index = data.get('z_index')     # 层级（叠加顺序）
 
 
-class Poster(object):
+class ShapeObject:
+    """图形类"""
+
+    def __init__(self, shape_data=None):
+        """
+        初始化图形对象
+
+        :param shape_data: 图形样式信息
+        """
+
+        data = shape_data or {}
+
+        self.type = data.get('type')           # 类型
+        self.position = data.get('position')   # 位置
+        self.width = data.get('width')         # 宽度
+        self.color = data.get('color')         # 颜色
+        self.z_index = data.get('z_index')     # 层级（叠加顺序）
+
+
+def draw_line(image, draw_position, color, width=0):
     """
-        海报生成器
+    图片上绘制一条直线
+
+    :param image: 图片
+    :param draw_position: 直线的大小、位置 [(x1, y1), (x2, y2)]
+    :param color: 颜色
+    :param width: 宽度
+    :return: 绘制完成的图片
+        """
+
+    ImageDraw.Draw(image).line(draw_position, color, width)
+
+
+def draw_rectangle(image, draw_position, color):
+    """
+    图片上绘制矩形
+
+    :param image: 图片
+    :param draw_position: 矩形的大小、位置 [(x1, y1), (x2, y2)]
+    :param color: 颜色
+    :return: 绘制完成的图片
     """
 
+    ImageDraw.Draw(image).rectangle(draw_position, color)
+
+
+class Poster(object):
+    """海报生成器"""
+
     # 默认颜色
-    default_color = (255, 255, 255)
+    default_color = Colors.DEFAULT_BACKGROUND_COLOR['black']
 
     def __init__(self, data):
         """
@@ -79,6 +120,7 @@ class Poster(object):
 
         self.texts = info_data.get('texts')     # 文字
         self.images = info_data.get('images')   # 图片
+        self.shapes = info_data.get('shapes')   # 图形
 
         # 创建初始画布
         self.canvas = self.create_canvas()
@@ -109,28 +151,25 @@ class Poster(object):
         ImageDraw.Draw(self.canvas).text(xy=xy, text=text.content, fill=text.text_color, font=draw_font,
                                          align=text.align)
 
-    def draw_line(self, draw_position, color, width=0):
+    def draw_shapes(self, shape_obj=ShapeObject()):
         """
-        图片上绘制一条直线
+        在图片上绘制图形
 
-        :param draw_position: 直线的大小、位置 [(x1, y1), (x2, y2)]
-        :param color: 颜色
-        :param width: 宽度
+        :param shape_obj: 图形对象
         :return: 绘制完成的图片
         """
 
-        ImageDraw.Draw(self.canvas).line(draw_position, color, width)
+        shape_type = shape_obj.type
 
-    def draw_rectangle(self, draw_position, color):
-        """
-        图片上绘制矩形
+        for case in Switch(shape_type):
+            if case(DrawShapeType.Line):
+                draw_line(self.canvas, shape_obj.position, shape_obj.color, shape_obj.width)
 
-        :param draw_position: 矩形的大小、位置 [(x1, y1), (x2, y2)]
-        :param color: 颜色
-        :return: 绘制完成的图片
-        """
+            if case(DrawShapeType.Rectangle):
+                draw_rectangle(self.canvas, shape_obj.position, shape_obj.color)
 
-        ImageDraw.Draw(self.canvas).rectangle(draw_position, color)
+            if case():
+                draw_line(self.canvas, shape_obj.position, shape_obj.color, shape_obj.width)
 
     def paste_image(self, image_obj=ImageObject()):
         """
@@ -167,10 +206,18 @@ class Poster(object):
             image_obj = ImageObject(image_data)
             self.paste_image(image_obj)
 
-        # 3、排序后的文字（文字叠加的顺序）
+        # 3、排序后的图形（图形叠加顺序）
+        shape_list = _sort_list_layer(self.shapes, 'z_index')
+
+        # 4、绘制图形（分割线，文字背景色等）
+        for shape_data in shape_list:
+            shape_obj = ShapeObject(shape_data)
+            self.draw_shapes(shape_obj)
+
+        # 5、排序后的文字（文字叠加的顺序）
         text_list = _sort_list_layer(self.texts, 'z_index')
 
-        # 4、文字内容绘制到画布上
+        # 6、文字内容绘制到画布上
         for text_data in text_list:
             text_obj = TextObject(text_data)
             self.draw_text(text_obj)
