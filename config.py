@@ -155,6 +155,8 @@ class DevelopmentConfig(Config):
     # mysql+pymysql://<username>:<password>@<host>/<dbname>[?<options>]
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:@localhost/vimage'
 
+    MAKE_IMAGE_FONTS_PATH = '/Users/FLYang/vimage_fonts/'
+
 
 class TestingConfig(Config):
     TESTING = True
