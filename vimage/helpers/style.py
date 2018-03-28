@@ -3,8 +3,11 @@ from enum import Enum, unique
 from ..helpers import switch, sensitive
 from ..exceptions import *
 
+
 @unique
 class ImageType(Enum):
+    """图片的类型"""
+
     Goods = 0           # 商品图
     Background = 1      # 背景
     QRCode = 2          # 二维码
@@ -17,6 +20,8 @@ class ImageType(Enum):
 
 @unique
 class TextType(Enum):
+    """文字内容的类型"""
+
     Title = 0       # 标题
     SalePrice = 1   # 价格
     Hint = 2        # 提示
@@ -27,6 +32,14 @@ class TextType(Enum):
     SalesInfo = 7   # 促销信息
     SalesPCT = 8    # 促销百分比
     SalesBrand = 9  # 促销品牌
+
+
+@unique
+class DrawShapeType(Enum):
+    """绘制图形的类型"""
+
+    Line = 0        # 直线
+    Rectangle = 1   # 矩形
 
 
 def get_text_content(text_type, data):
@@ -118,11 +131,17 @@ def get_image_url(image_type, data):
     return url
 
 
-def format_style_data(identify, size, color, texts, images):
+def format_style_data(identify, size, color, texts, images, shapes):
     """
     格式化样式数据
 
-    :return: 样式数据
+    :param identify: 样式id
+    :param size: 尺寸大小
+    :param color: 颜色
+    :param texts: 文字内容
+    :param images: 图片内容
+    :param shapes: 图形内容
+    :return:
     """
 
     # 结果
@@ -131,7 +150,8 @@ def format_style_data(identify, size, color, texts, images):
         'size': size,
         'color': color,
         'texts': texts,
-        'images': images
+        'images': images,
+        'shapes': shapes
     }
 
     return result_data
@@ -162,7 +182,7 @@ def format_text_data(style_class, text_type, font_size, font_family, align, text
     font_name = font_family or Fonts.DEFAULT_FONT_FAMILY
 
     # 字体方向（默认居左）
-    text_align = align or 'left'
+    text_align = align or Fonts.DEFAULT_FONT_ALIGN
 
     # 字体样式
     style = {
@@ -232,6 +252,29 @@ def format_image_data(style_class, image_type, width, height, x, y, z_index):
     return image_data
 
 
+def format_shape_data(shape_type, position, width, color, z_index):
+    """
+    格式化图形元素数据
+
+    :param shape_type: 图片类型
+    :param position: 位置 [(x1, y1), (x2, y2)]
+    :param width: 宽度
+    :param color: 颜色
+    :param z_index: 层级
+    :return:
+    """
+
+    shape_data = {
+        'type': shape_type or DrawShapeType.Line,
+        'width': width or 1,
+        'position': position,
+        'color': color or Colors.DEFAULT_BACKGROUND_COLOR['black'],
+        'z_index': z_index
+    }
+
+    return shape_data
+
+
 class GoodsWxaStyle:
     """
         商品小程序分享样式
@@ -246,7 +289,7 @@ class GoodsWxaStyle:
         """
 
         self.style_id = style_id
-        width, height = 750, 1334
+        width, height = Size.POSTER_IMAGE_SIZE['width'], Size.POSTER_IMAGE_SIZE['height']
         self.size = {"width": width, "height": height}
         self.color = (255, 255, 255)
         self.data = post_data or {}
@@ -271,8 +314,13 @@ class GoodsWxaStyle:
 
         images = [goods_image_data, qr_code_image_data, logo_image_data]
 
+        # 图形元素
+        draw_line_data = format_shape_data(DrawShapeType.Line, [(50, 990), (700, 990)], 1, '#979797', 0)
+
+        shapes = [draw_line_data]
+
         # 格式化数据
-        return format_style_data(self.style_id, self.size, self.color, texts, images)
+        return format_style_data(self.style_id, self.size, self.color, texts, images, shapes)
 
     def get_style_two(self):
         """
@@ -294,11 +342,16 @@ class GoodsWxaStyle:
 
         images = [goods_image_data, qr_code_image_data, logo_image_data]
 
+        # 图形元素
+        draw_line_data = format_shape_data(DrawShapeType.Line, [(50, 839), (700, 839)], 1, '#979797', 0)
+
+        shapes = [draw_line_data]
+
         # 格式化数据
         width, height = 750, 1101
         size = {"width": width, "height": height}
 
-        return format_style_data(self.style_id, size, self.color, texts, images)
+        return format_style_data(self.style_id, size, self.color, texts, images, shapes)
 
     def get_style_data(self):
         """
@@ -338,7 +391,7 @@ class GoodsSalesStyle:
         """
 
         self.style_id = style_id
-        width, height = 750, 750
+        width, height = Size.POSTER_IMAGE_SIZE['width'], Size.POSTER_IMAGE_SIZE['height']
         self.size = {"width": width, "height": height}
         self.color = (255, 255, 255)
         self.data = post_data or {}
@@ -364,8 +417,13 @@ class GoodsSalesStyle:
 
         images = [background_image_data, qr_code_image_data, logo_image_data]
 
+        # 图形元素
+        draw_rectangle_data = format_shape_data(DrawShapeType.Rectangle, [(193, 545), (553, 625)], None, '#FFFFFF', 0)
+
+        shapes = [draw_rectangle_data]
+
         # 格式化数据
-        return format_style_data(self.style_id, self.size, self.color, texts, images)
+        return format_style_data(self.style_id, self.size, self.color, texts, images, shapes)
 
     def get_style_two(self):
         """
@@ -388,11 +446,16 @@ class GoodsSalesStyle:
 
         images = [background_image_data, qr_code_image_data]
 
+        # 图形元素
+        draw_rectangle_data = format_shape_data(DrawShapeType.Rectangle, [(193, 545), (553, 625)], None, '#FFFFFF', 0)
+
+        shapes = [draw_rectangle_data]
+
         # 格式化数据
         width, height = 750, 1150
         size = {"width": width, "height": height}
 
-        return format_style_data(self.style_id, size, self.color, texts, images)
+        return format_style_data(self.style_id, size, self.color, texts, images, shapes)
 
     def get_style_data(self):
         """

@@ -19,8 +19,20 @@ class Size:
         'vertical_rectangle': (750, 1334)
     }
 
+    POSTER_IMAGE_SIZE = {
+        'width': 750,
+        'height': 1334
+    }
+
 
 class Fonts:
     """字体样式"""
 
     DEFAULT_FONT_FAMILY = 'PingFang Regular'
+    DEFAULT_FONT_ALIGN = 'left'
+
+
+class Image:
+    """图片相关"""
+
+    SAVE_IMAGE_QUALITY = 90
