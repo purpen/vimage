@@ -8,4 +8,4 @@ from . import adminlte
 def dashboard():
     """管理控制台"""
 
-    return render_template('adminlte/dashboard.html')
+    return render_template('adminlte/dashboardz.html')
