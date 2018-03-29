@@ -150,6 +150,12 @@ class MixGenId(object):
         return ''.join([prefix, MixGenId.gen_digits(length)])
 
     @staticmethod
+    def gen_image_sn(length=6):
+        """生成图片编号"""
+        prefix = 'I'
+        return ''.join([prefix, MixGenId.gen_digits(length)])
+
+    @staticmethod
     def gen_user_xid(length=10):
         prefix = '1'
         return ''.join([prefix, MixGenId.gen_digits(length)])

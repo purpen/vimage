@@ -17,7 +17,7 @@ def hello_ocr():
 @api.route('/tools/pick_sensitive', methods=['POST'])
 def pick_sensitive():
     """智能识别敏感词"""
-    image_url = request.json.get('image')
+    image_url = request.json.get('images')
 
     # 测试
     # 读取图片，进行识别文本

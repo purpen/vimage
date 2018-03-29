@@ -10,7 +10,7 @@ __all__ = [
 
 class PosterType:
     GOODS_WXA_CODE = 1  # 商品小程序码
-    GOODS_PROMOTION_AD = 2  # 商品促销海波
+    GOODS_PROMOTION_AD = 2  # 商品促销海报
 
 
 class ImageSet(db.Model):
@@ -26,6 +26,9 @@ class ImageSet(db.Model):
     cover_id = db.Column(db.Integer, default=0)
     description = db.Column(db.Text(), nullable=False)
     tags = db.Column(db.String(200))
+
+    # 图片 url
+    image = db.Column(db.Text(), nullable=False)
 
     # 1、样例 2、成品图 3、背景 4、矢量图 5、产品图
     type = db.Column(db.SmallInteger, default=1)
