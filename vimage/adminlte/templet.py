@@ -24,7 +24,7 @@ def get_templets(page=1):
     per_page = request.args.get('per_page', 10, type=int)
     status = request.args.get('status', 0, type=int)
 
-    builder = Templet.query
+    builder = Templet.querys
 
     if status:
         builder = builder.filter_by(status=status)

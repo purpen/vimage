@@ -18,7 +18,7 @@
 <div class="form-page">
 	<div class="page-header">
 		<span>
-			{% if mode == 'add' %}
+			{% if mode == 'create' %}
 				新增敏感词
 			{% else %}
 				编辑敏感词
@@ -28,7 +28,7 @@
 			<button type="submit" form="form-sensitive" class="btn btn-icon btn-mixpus" data-toggle="tooltip" data-original-title="保存">
 				<i class="fa fa-save"></i>
 			</button>
-			<a href="{{ url_for('adminlte.get_sensitive_words') }}" class="btn btn-icon btn-default" data-toggle="tooltip" data-original-title="取消">
+			<a href="{{ url_for('adminlte.create_sensitive_word') }}" class="btn btn-icon btn-default" data-toggle="tooltip" data-original-title="取消">
 				<i class="fa fa-reply"></i>
 			</a>
 		</div>
@@ -40,7 +40,7 @@
 		<div class="form-group required {% if form.errors.word %} has-error{% endif %}">
 			{{ form.word.label(class="col-sm-2 control-label") }}
 			<div class="col-sm-6">
-				{{ form.word(maxlength=256, class='form-control') }}
+				{{ form.word(maxlength=128, class='form-control') }}
 
 				{% for error in form.errors.word %}
 				<span class="help-block">{{ error }}</span><br>

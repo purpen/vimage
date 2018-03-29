@@ -43,7 +43,7 @@ class Directory(db.Model):
 
 
 class Asset(db.Model):
-    """Asset table.(image、file、video、pdf)"""
+    """Asset table.(images、file、video、pdf)"""
 
     __tablename__ = 'assets'
 

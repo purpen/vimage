@@ -25,11 +25,12 @@ def get_sensitive_words(page=1):
     return '敏感词列表'
 
 
-@adminlte.route('/sensitive_words/add', methods=['GET', 'POST'])
-def add_sensitive_word():
+@adminlte.route('/sensitive_words/create', methods=['GET', 'POST'])
+def create_sensitive_word():
     """添加敏感词"""
 
     form = SensitiveWordsForm()
+
     if request.method == 'POST':
         if form.validate_on_submit():
             sensitive_word = Sensitive(
@@ -43,12 +44,12 @@ def add_sensitive_word():
             flash('添加敏感词成功', 'success')
         else:
             current_app.logger.warn('Add Sensitive word error: %s' % form.errors)
-            return redirect(url_for('adminlte.add_sensitive_word'))
+            return redirect(url_for('adminlte.create_sensitive_word'))
 
         return redirect(url_for('adminlte.get_sensitive_words'))
 
-    mode = 'add'
-    return render_template('adminlte/sensitive_words/add_and_edit.html',
+    mode = 'create'
+    return render_template('adminlte/sensitive_words/create_and_edit.html',
                            mode=mode,
                            form=form,
                            **load_common_data())

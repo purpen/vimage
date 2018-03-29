@@ -13,7 +13,7 @@ class Sensitive(db.Model):
     __tablename__ = 'sensitives'
 
     id = db.Column(db.Integer, primary_key=True)
-    word = db.Column(db.String(32), nullable=False)
+    word = db.Column(db.String(128), nullable=False)
     # 类型：1、广告违禁词；2、敏感词；
     type = db.Column(db.SmallInteger, default=1)
 

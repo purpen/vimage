@@ -1,0 +1,120 @@
+{% extends "layout/admin.html" %}
+
+{% block sidebar %}
+	{% include 'adminlte/images/_sub_menu.html' %}
+{% endblock %}
+
+{% block after_jquery %}
+<script type="text/javascript">
+	$(function () {
+		mixpus.init_page_layout();
+
+		mixpus.upload_file_manager();
+	});
+</script>
+{% endblock %}
+
+{% block mainbar %}
+<div class="form-page">
+	<div class="page-header">
+		<span>
+			{% if mode == 'create' %}
+				新增图片素材
+			{% else %}
+				编辑图片素材
+			{% endif %}
+		</span>
+		<div class="pull-right">
+			<button type="submit" form="form-images" class="btn btn-icon btn-mixpus" data-toggle="tooltip" data-original-title="保存">
+				<i class="fa fa-save"></i>
+			</button>
+			<a href="{{ url_for('adminlte.get_images') }}" class="btn btn-icon btn-default" data-toggle="tooltip" data-original-title="取消">
+				<i class="fa fa-reply"></i>
+			</a>
+		</div>
+	</div>
+
+	<form class="form-horizontal" role="form" method="post" id="form-images" action="">
+		{{ form.hidden_tag() }}
+
+        <div class="form-group required">
+            {{ form.image.label(class="col-sm-2 control-label") }}
+            <div class="col-sm-6">
+                {% if mode == 'create' %}
+                <a href="javascript:void(0);" id="cover_thumb_image" data-target="cover" data-toggle="image" class="img-thumbnail">
+                    <img src="{{ url_for('static', filename='img/no_img100x100.png') }}" width="100px">
+                </a>
+                {% else %}
+                <a href="javascript:void(0);" id="cover_thumb_image" data-target="cover" data-toggle="image" class="img-thumbnail">
+                    <img src="{{ templet.cover.view_url|default(url_for('static', filename='img/no_img100x100.png')) }}" width="100px">
+                </a>
+                {% endif %}
+                <input id="cover_id" name="cover_id" value="{{ form.cover_id.data|default(0) }}" type="hidden">
+            </div>
+        </div>
+
+		<div class="form-group">
+			{{ form.name.label(class="col-sm-2 control-label") }}
+			<div class="col-sm-6">
+				{{ form.name(maxlength=64, class='form-control') }}
+			</div>
+		</div>
+
+		<div class="form-group required">
+			{{ form.description.label(class="col-sm-2 control-label") }}
+			<div class="col-sm-6">
+				{{ form.description(class='form-control', rows="5") }}
+			</div>
+		</div>
+
+        <div class="form-group">
+			{{ form.tags.label(class="col-sm-2 control-label") }}
+			<div class="col-sm-6">
+				{{ form.tags(maxlength=200, class='form-control') }}
+			</div>
+		</div>
+
+        <!--<div class="form-group required">-->
+            <!--{{ form.cover_id.label(class="col-sm-2 control-label") }}-->
+            <!--<div class="col-sm-6">-->
+                <!--{% if mode == 'create' %}-->
+                <!--<a href="javascript:void(0);" id="cover_thumb_image" data-target="cover" data-toggle="image" class="img-thumbnail">-->
+                    <!--<img src="{{ url_for('static', filename='img/no_img100x100.png') }}" width="100px">-->
+                <!--</a>-->
+                <!--{% else %}-->
+                <!--<a href="javascript:void(0);" id="cover_thumb_image" data-target="cover" data-toggle="image" class="img-thumbnail">-->
+                    <!--<img src="{{ templet.cover.view_url|default(url_for('static', filename='img/no_img100x100.png')) }}" width="100px">-->
+                <!--</a>-->
+                <!--{% endif %}-->
+                <!--<input id="cover_id" name="cover_id" value="{{ form.cover_id.data|default(0) }}" type="hidden">-->
+            <!--</div>-->
+        <!--</div>-->
+
+		<div class="form-group">
+			{{ form.type.label(class="col-sm-2 control-label") }}
+			<div class="col-sm-6">
+				{{ form.type(class='form-control select2') }}
+			</div>
+		</div>
+
+        <div class="form-group">
+			<div class="col-sm-2 text-right">
+				{{ form.approved.label(class="") }}
+			</div>
+            <div class="col-sm-6">
+				{{ form.approved(class='checkbox-group') }}
+			</div>
+		</div>
+
+        <div class="form-group">
+			<div class="col-sm-2 text-right">
+				{{ form.status.label(class="control-label") }}
+			</div>
+			<div class="col-sm-6">
+				{{ form.status(class='radio-inline-group') }}
+			</div>
+		</div>
+
+	</form>
+</div>
+{% endblock %}
