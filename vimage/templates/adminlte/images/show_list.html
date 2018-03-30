@@ -1,10 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout/admin.html" %}
 
-</body>
-</html>
+{% block sidebar %}
+	{% include 'adminlte/images/_sub_menu.html' %}
+{% endblock %}
+
+{% block after_jquery %}
+<script type="text/javascript">
+	$(function () {
+		mixpus.init_page_layout();
+
+		mixpus.hook_per_page_select();
+	});
+</script>
+{% endblock %}
+
+
+{% block mainbar %}
+<div class="list-page">
+	<h2 class="page-header">
+		图像列表
+		<span class="pull-right">
+			{% include 'block/_select_items.html' %}
+            <a href="{{ url_for('adminlte.create_image') }}" class="btn btn-icon btn-mixpus" data-toggle="tooltip" data-original-title="新增">
+				<i class="fa fa-plus"></i>
+			</a>
+			<button type="button" data-form-id="form-images" class="btn btn-icon btn-danger delete-all hidden" data-toggle="tooltip" data-original-title="删除">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</span>
+	</h2>
+	
+	<div class="table-responsive m-t-20">
+		<form id="form-images" action="{{ url_for('adminlte.delete_image') }}" method="post">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" >
+
+			<table class="table table-bordered table-hover" role="grid">
+				<thead>
+					<tr role="row">
+						<th class="text-center">
+							<input name="check_all" type="checkbox" class="check-all">
+						</th>
+						<th>展示图</th>
+						<th>图像编号</th>
+						<th>图像名称</th>
+						<th>图像类型</th>
+						<th>图像描述</th>
+						<th class="text-right">状态</th>
+						<th class="text-right">操作</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					{% for image in paginated_images.items %}
+					<tr role="row">
+						<td class="text-center">
+							<input name="selected[]" class="check-one" value="{{ image.sn }}" type="checkbox">
+						</td>
+						<td>
+							<img src="{{ image.cover.view_url }}" width="100px" />
+						</td>
+						<td>{{ image.sn }}</td>
+						<td>{{ image.name }}</td>
+						<td>{{ image.type_label }}</td>
+						<td>
+							{{ image.description }}
+						</td>
+						<td class="text-right">
+							{% if image.status == 1%}
+							<span class="indicator success">可用</span>
+							{% else %}
+							<span class="indicator danger">禁用</span>
+							{% endif %}
+						</td>
+						<td class="actions text-right">
+							<a href="{{ url_for('adminlte.edit_image', rid=image.sn) }}" class="btn-link">
+								编辑
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</form>
+
+		{% import "block/_macros.html" as macros %}
+		{{ macros.pagination_widget(paginated_images, '.get_images') }}
+	</div>
+</div>
+{% endblock %}

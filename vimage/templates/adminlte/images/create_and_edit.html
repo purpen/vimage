@@ -19,9 +19,9 @@
 	<div class="page-header">
 		<span>
 			{% if mode == 'create' %}
-				新增图片素材
+				新增图像素材
 			{% else %}
-				编辑图片素材
+				编辑图像素材
 			{% endif %}
 		</span>
 		<div class="pull-right">
@@ -38,7 +38,7 @@
 		{{ form.hidden_tag() }}
 
         <div class="form-group required">
-            {{ form.image.label(class="col-sm-2 control-label") }}
+            {{ form.cover_id.label(class="col-sm-2 control-label") }}
             <div class="col-sm-6">
                 {% if mode == 'create' %}
                 <a href="javascript:void(0);" id="cover_thumb_image" data-target="cover" data-toggle="image" class="img-thumbnail">
@@ -46,7 +46,7 @@
                 </a>
                 {% else %}
                 <a href="javascript:void(0);" id="cover_thumb_image" data-target="cover" data-toggle="image" class="img-thumbnail">
-                    <img src="{{ templet.cover.view_url|default(url_for('static', filename='img/no_img100x100.png')) }}" width="100px">
+                    <img src="{{ image.cover.view_url|default(url_for('static', filename='img/no_img100x100.png')) }}" width="100px">
                 </a>
                 {% endif %}
                 <input id="cover_id" name="cover_id" value="{{ form.cover_id.data|default(0) }}" type="hidden">
@@ -73,22 +73,6 @@
 				{{ form.tags(maxlength=200, class='form-control') }}
 			</div>
 		</div>
-
-        <!--<div class="form-group required">-->
-            <!--{{ form.cover_id.label(class="col-sm-2 control-label") }}-->
-            <!--<div class="col-sm-6">-->
-                <!--{% if mode == 'create' %}-->
-                <!--<a href="javascript:void(0);" id="cover_thumb_image" data-target="cover" data-toggle="image" class="img-thumbnail">-->
-                    <!--<img src="{{ url_for('static', filename='img/no_img100x100.png') }}" width="100px">-->
-                <!--</a>-->
-                <!--{% else %}-->
-                <!--<a href="javascript:void(0);" id="cover_thumb_image" data-target="cover" data-toggle="image" class="img-thumbnail">-->
-                    <!--<img src="{{ templet.cover.view_url|default(url_for('static', filename='img/no_img100x100.png')) }}" width="100px">-->
-                <!--</a>-->
-                <!--{% endif %}-->
-                <!--<input id="cover_id" name="cover_id" value="{{ form.cover_id.data|default(0) }}" type="hidden">-->
-            <!--</div>-->
-        <!--</div>-->
 
 		<div class="form-group">
 			{{ form.type.label(class="col-sm-2 control-label") }}
