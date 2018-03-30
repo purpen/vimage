@@ -55,7 +55,7 @@
 			<nav class="navbar navbar-static-top">
 				<ul class="nav navbar-nav navbar-menu">
 					<li {% if top_menu == 'system' %}class="active"{% endif %}>
-						<a href="{{ url_for('adminlte.dashboard') }}">图像</a>
+						<a href="{{ url_for('adminlte.get_images') }}">图像</a>
 					</li>
 					<li {% if top_menu == 'templets' %}class="active"{% endif %}>
 						<a href="{{ url_for('adminlte.get_templets') }}">模板</a>
