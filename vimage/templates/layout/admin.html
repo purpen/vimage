@@ -54,11 +54,14 @@
 			</a>
 			<nav class="navbar navbar-static-top">
 				<ul class="nav navbar-nav navbar-menu">
-					<li {% if top_menu == 'system' %}class="active"{% endif %}>
+					<li {% if top_menu == 'images' %}class="active"{% endif %}>
 						<a href="{{ url_for('adminlte.get_images') }}">图像</a>
 					</li>
 					<li {% if top_menu == 'templets' %}class="active"{% endif %}>
 						<a href="{{ url_for('adminlte.get_templets') }}">模板</a>
+					</li>
+					<li {% if top_menu == 'sensitive_words' %}class="active"{% endif %}>
+						<a href="{{ url_for('adminlte.get_sensitive_words') }}">敏感词</a>
 					</li>
 				</ul>
 				<div class="navbar-custom-menu">
