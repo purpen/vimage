@@ -32,7 +32,7 @@ class Fonts:
     DEFAULT_FONT_ALIGN = 'left'
 
 
-class Image:
+class ImageInfo:
     """图片相关"""
 
     SAVE_IMAGE_QUALITY = 90

@@ -118,10 +118,13 @@ class QiniuCloud(object):
         :return: 图片实例
         """
 
+        print ('===================== %s' % image_url)
+
         # 请求图片链接，生成图片
         try:
             r = req.get(image_url)
             image = Image.open(BytesIO(r.content)).convert('RGBA')
+
         except (req.exceptions.HTTPError, req.exceptions.URLRequired):
             image = Image.new('RGBA', Size.DEFAULT_IMAGE_SIZE['square'], Colors.DEFAULT_BACKGROUND_COLOR['white'])
 

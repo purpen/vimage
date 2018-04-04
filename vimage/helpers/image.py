@@ -63,11 +63,12 @@ class ShapeObject:
 
         data = shape_data or {}
 
-        self.type = data.get('type')           # 类型
-        self.position = data.get('position')   # 位置
-        self.width = data.get('width')         # 宽度
-        self.color = data.get('color')         # 颜色
-        self.z_index = data.get('z_index')     # 层级（叠加顺序）
+        self.type = data.get('type')            # 类型
+        self.position = data.get('position')    # 位置
+        self.width = data.get('width')          # 宽度
+        self.color = data.get('color')          # 填充颜色
+        self.out_color = data.get('out_color')  # 边框颜色
+        self.z_index = data.get('z_index')      # 层级（叠加顺序）
 
 
 def draw_line(image, draw_position, color, width=0):
@@ -84,17 +85,18 @@ def draw_line(image, draw_position, color, width=0):
     ImageDraw.Draw(image).line(draw_position, color, width)
 
 
-def draw_rectangle(image, draw_position, color):
+def draw_rectangle(image, draw_position, color, out_color):
     """
     图片上绘制矩形
 
     :param image: 图片
     :param draw_position: 矩形的大小、位置 [(x1, y1), (x2, y2)]
-    :param color: 颜色
+    :param color: 填充颜色
+    :param out_color: 边框颜色
     :return: 绘制完成的图片
     """
 
-    ImageDraw.Draw(image).rectangle(draw_position, color)
+    ImageDraw.Draw(image).rectangle(draw_position, color, out_color)
 
 
 class Poster(object):
@@ -168,7 +170,7 @@ class Poster(object):
                 draw_line(self.canvas, shape_obj.position, shape_obj.color, shape_obj.width)
 
             if case(DrawShapeType.Rectangle):
-                draw_rectangle(self.canvas, shape_obj.position, shape_obj.color)
+                draw_rectangle(self.canvas, shape_obj.position, shape_obj.color, shape_obj.out_color)
 
             if case():
                 draw_line(self.canvas, shape_obj.position, shape_obj.color, shape_obj.width)
