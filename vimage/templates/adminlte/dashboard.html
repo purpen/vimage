@@ -1,1 +1,22 @@
 {% extends "layout/admin.html" %}
+
+
+{% block content %}
+<div class="main">
+	<div class="list-page">
+		<h2 class="page-header">
+			功能列表
+		</h2>
+		
+		<div class="row">
+			{% for feature in features %}
+			<div class="col-sm-2">
+				<div class="well">
+					{{ feature }}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
