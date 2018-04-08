@@ -255,7 +255,7 @@ class GoodsWxaStyle:
         """
             样式一
         """
-
+        rid = 'Toool090'
         # 文字
         goods_title_data = format_text_data(self, TextType.Title, 38, None, 'left', '#333333', 50, 780, 0)
         goods_price_data = format_text_data(self, TextType.SalePrice, 38, None, 'left', '#DD3C3C', 50, 906, 1)

@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7292935-d3a1-4ab5-97d0-a4f5d4652e8a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/vimage.iml" afterPath="$PROJECT_DIR$/.idea/vimage.iml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/.qiniu_pythonsdk_hostscache.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/config.py" afterPath="$PROJECT_DIR$/config.py" />
-      <change beforePath="$PROJECT_DIR$/vimage/constant.py" afterPath="$PROJECT_DIR$/vimage/constant.py" />
-      <change beforePath="$PROJECT_DIR$/vimage/exceptions.py" afterPath="$PROJECT_DIR$/vimage/exceptions.py" />
-      <change beforePath="$PROJECT_DIR$/vimage/helpers/image.py" afterPath="$PROJECT_DIR$/vimage/helpers/image.py" />
-      <change beforePath="$PROJECT_DIR$/vimage/helpers/qiniu_cloud.py" afterPath="$PROJECT_DIR$/vimage/helpers/qiniu_cloud.py" />
       <change beforePath="$PROJECT_DIR$/vimage/helpers/style.py" afterPath="$PROJECT_DIR$/vimage/helpers/style.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,11 +24,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="132" column="71" lean-forward="false" selection-start-line="132" selection-start-column="71" selection-end-line="132" selection-end-column="71" />
+            <state relative-caret-position="167">
+              <caret line="109" column="28" lean-forward="false" selection-start-line="109" selection-start-column="28" selection-end-line="109" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="templet.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vimage/models/templet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="20" column="6" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -57,8 +59,8 @@
       <file leaf-file-name="maker.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vimage/api_1_0/maker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="51" column="36" lean-forward="false" selection-start-line="51" selection-start-column="22" selection-end-line="51" selection-end-column="36" />
+            <state relative-caret-position="430">
+              <caret line="36" column="16" lean-forward="true" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
               <folding>
                 <element signature="e#24#33#0" expanded="true" />
               </folding>
@@ -69,7 +71,7 @@
       <file leaf-file-name="qiniu_cloud.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vimage/helpers/qiniu_cloud.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
+            <state relative-caret-position="986">
               <caret line="58" column="56" lean-forward="false" selection-start-line="58" selection-start-column="56" selection-end-line="58" selection-end-column="56" />
               <folding>
                 <element signature="e#24#33#0" expanded="true" />
@@ -81,11 +83,21 @@
       <file leaf-file-name="image.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vimage/helpers/image.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1785">
+            <state relative-caret-position="804">
               <caret line="105" column="61" lean-forward="false" selection-start-line="105" selection-start-column="61" selection-end-line="105" selection-end-column="61" />
               <folding>
                 <element signature="e#24#67#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vimage/helpers/style.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-388">
+              <caret line="297" column="33" lean-forward="false" selection-start-line="297" selection-start-column="29" selection-end-line="297" selection-end-column="33" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -154,13 +166,13 @@
         <option value="$PROJECT_DIR$/vimage/forms/sensitive_words_forms.py" />
         <option value="$PROJECT_DIR$/vimage/adminlte/views.py" />
         <option value="$PROJECT_DIR$/vimage/exceptions.py" />
-        <option value="$PROJECT_DIR$/vimage/helpers/style.py" />
         <option value="$PROJECT_DIR$/vimage/constant.py" />
         <option value="$PROJECT_DIR$/vimage/helpers/image.py" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/config.py" />
-        <option value="$PROJECT_DIR$/vimage/api_1_0/maker.py" />
         <option value="$PROJECT_DIR$/vimage/helpers/qiniu_cloud.py" />
+        <option value="$PROJECT_DIR$/vimage/helpers/style.py" />
+        <option value="$PROJECT_DIR$/vimage/api_1_0/maker.py" />
       </list>
     </option>
   </component>
@@ -171,7 +183,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="69" />
+    <option name="x" value="242" />
     <option name="y" value="23" />
     <option name="width" value="1370" />
     <option name="height" value="980" />
@@ -213,7 +225,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -222,10 +233,34 @@
               <item name="vimage" type="b2602c69:ProjectViewProjectNode" />
               <item name="vimage" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="vimage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vimage" type="462c0819:PsiDirectoryNode" />
+              <item name="vimage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vimage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vimage" type="462c0819:PsiDirectoryNode" />
+              <item name="vimage" type="462c0819:PsiDirectoryNode" />
+              <item name="api_1_0" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vimage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vimage" type="462c0819:PsiDirectoryNode" />
+              <item name="vimage" type="462c0819:PsiDirectoryNode" />
+              <item name="helpers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vimage" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vimage" type="462c0819:PsiDirectoryNode" />
+              <item name="vimage" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -301,7 +336,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="69" y="23" width="1370" height="980" extended-state="0" />
+    <frame x="242" y="23" width="1370" height="980" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -310,7 +345,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871014" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22439758" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22740965" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -393,13 +428,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/15219504800.png" />
-    <entry file="file://$PROJECT_DIR$/vimage/models/templet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vimage/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -562,19 +590,8 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="748">
             <caret line="44" column="46" lean-forward="false" selection-start-line="44" selection-start-column="46" selection-end-line="44" selection-end-column="46" />
-            <folding />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/helpers/style.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2788">
-          <caret line="164" column="32" lean-forward="false" selection-start-line="164" selection-start-column="32" selection-end-line="164" selection-end-column="32" />
-          <folding>
-            <element signature="e#24#53#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -583,16 +600,6 @@
         <state relative-caret-position="425">
           <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/helpers/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1785">
-          <caret line="105" column="61" lean-forward="false" selection-start-line="105" selection-start-column="61" selection-end-line="105" selection-end-column="61" />
-          <folding>
-            <element signature="e#24#67#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -616,9 +623,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="430">
           <caret line="38" column="0" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -636,7 +640,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
           <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/qiniu/zone.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="133" column="22" lean-forward="false" selection-start-line="133" selection-start-column="18" selection-end-line="133" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/qiniu/services/storage/uploader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="94" column="57" lean-forward="false" selection-start-line="94" selection-start-column="57" selection-end-line="94" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vimage/helpers/qiniu_cloud.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="58" column="56" lean-forward="false" selection-start-line="58" selection-start-column="56" selection-end-line="58" selection-end-column="56" />
+          <folding>
+            <element signature="e#24#33#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -648,46 +675,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/qiniu/zone.py">
+    <entry file="file://$PROJECT_DIR$/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="133" column="22" lean-forward="false" selection-start-line="133" selection-start-column="18" selection-end-line="133" selection-end-column="22" />
+        <state relative-caret-position="167">
+          <caret line="109" column="28" lean-forward="false" selection-start-line="109" selection-start-column="28" selection-end-line="109" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/qiniu/services/storage/uploader.py">
+    <entry file="file://$PROJECT_DIR$/vimage/models/templet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="94" column="57" lean-forward="false" selection-start-line="94" selection-start-column="57" selection-end-line="94" selection-end-column="57" />
+        <state relative-caret-position="289">
+          <caret line="20" column="6" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vimage/helpers/qiniu_cloud.py">
+    <entry file="file://$PROJECT_DIR$/vimage/helpers/image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="58" column="56" lean-forward="false" selection-start-line="58" selection-start-column="56" selection-end-line="58" selection-end-column="56" />
+        <state relative-caret-position="804">
+          <caret line="105" column="61" lean-forward="false" selection-start-line="105" selection-start-column="61" selection-end-line="105" selection-end-column="61" />
           <folding>
-            <element signature="e#24#33#0" expanded="true" />
+            <element signature="e#24#67#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vimage/api_1_0/maker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="51" column="36" lean-forward="false" selection-start-line="51" selection-start-column="22" selection-end-line="51" selection-end-column="36" />
+        <state relative-caret-position="430">
+          <caret line="36" column="16" lean-forward="true" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
           <folding>
             <element signature="e#24#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.py">
+    <entry file="file://$PROJECT_DIR$/vimage/helpers/style.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="132" column="71" lean-forward="false" selection-start-line="132" selection-start-column="71" selection-end-line="132" selection-end-column="71" />
+        <state relative-caret-position="-388">
+          <caret line="297" column="33" lean-forward="false" selection-start-line="297" selection-start-column="29" selection-end-line="297" selection-end-column="33" />
           <folding />
         </state>
       </provider>
