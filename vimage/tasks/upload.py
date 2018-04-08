@@ -7,6 +7,7 @@ from vimage import db
 from vimage.models import ImageSet
 from vimage.helpers import QiniuCloud, QiniuError, Poster
 from vimage.helpers.style import GoodsWxaStyle, GoodsSalesStyle
+from vimage.constant import *
 
 FAIL = 'FAIL'
 SKIP = 'SKIP'
@@ -25,7 +26,7 @@ def make_wxacode_image(path_key, data, style_id):
 
     # 3、获取图像二进制流
     poster_content = io.BytesIO()
-    poster_image.save(poster_content, 'png')
+    poster_image.save(poster_content, 'png', optimize=True, quality=ImageInfo.SAVE_IMAGE_QUALITY)
 
     # 4、上传图片至云服务
     qiniu_cloud = QiniuCloud(current_app.config['QINIU_ACCESS_KEY'], current_app.config['QINIU_ACCESS_SECRET'],
@@ -51,7 +52,7 @@ def make_promotion_image(path_key, data, style_id):
 
     # 3、获取图像二进制流
     poster_content = io.BytesIO()
-    poster_image.save(poster_content, 'png')
+    poster_image.save(poster_content, 'png', optimize=True, quality=ImageInfo.SAVE_IMAGE_QUALITY)
 
     # 4、上传图片至云服务
     qiniu_cloud = QiniuCloud(current_app.config['QINIU_ACCESS_KEY'], current_app.config['QINIU_ACCESS_SECRET'],

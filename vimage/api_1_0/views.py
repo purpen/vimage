@@ -10,4 +10,12 @@ from . import api
 from vimage.helpers.utils import *
 from vimage.helpers.image import *
 from vimage.models import ImageSet
+from vimage.models.sensitive import *
+from vimage import db
 
+
+@api.route('/', methods=['GET'])
+def hello_world():
+    """test"""
+
+    return 'Hello World!'

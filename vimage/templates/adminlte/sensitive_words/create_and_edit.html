@@ -1,0 +1,59 @@
+{% extends "layout/admin.html" %}
+
+{% block sidebar %}
+	{% include 'adminlte/sensitive_words/_sub_menu.html' %}
+{% endblock %}
+
+{% block after_jquery %}
+<script type="text/javascript">
+	$(function () {
+		mixpus.init_page_layout();
+
+		mixpus.upload_file_manager();
+	});
+</script>
+{% endblock %}
+
+{% block mainbar %}
+<div class="form-page">
+	<div class="page-header">
+		<span>
+			{% if mode == 'create' %}
+				新增敏感词
+			{% else %}
+				编辑敏感词
+			{% endif %}
+		</span>
+		<div class="pull-right">
+			<button type="submit" form="form-sensitive" class="btn btn-icon btn-mixpus" data-toggle="tooltip" data-original-title="保存">
+				<i class="fa fa-save"></i>
+			</button>
+			<a href="{{ url_for('adminlte.get_sensitive_words') }}" class="btn btn-icon btn-default" data-toggle="tooltip" data-original-title="取消">
+				<i class="fa fa-reply"></i>
+			</a>
+		</div>
+	</div>
+
+	<form class="form-horizontal" role="form" method="post" id="form-sensitive" action="">
+		{{ form.hidden_tag() }}
+
+		<div class="form-group required {% if form.errors.word %} has-error{% endif %}">
+			{{ form.word.label(class="col-sm-2 control-label") }}
+			<div class="col-sm-6">
+				{{ form.word(maxlength=32, class='form-control') }}
+
+				{% for error in form.errors.word %}
+				<span class="help-block">{{ error }}</span><br>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="form-group">
+			{{ form.type.label(class="col-sm-2 control-label") }}
+			<div class="col-sm-6">
+				{{ form.type(class='form-control select2') }}
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

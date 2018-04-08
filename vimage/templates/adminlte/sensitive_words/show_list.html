@@ -1,0 +1,72 @@
+{% extends "layout/admin.html" %}
+
+{% block sidebar %}
+	{% include 'adminlte/sensitive_words/_sub_menu.html' %}
+{% endblock %}
+
+{% block after_jquery %}
+<script type="text/javascript">
+	$(function () {
+		mixpus.init_page_layout();
+
+		mixpus.hook_per_page_select();
+	});
+</script>
+{% endblock %}
+
+
+{% block mainbar %}
+<div class="list-page">
+	<h2 class="page-header">
+		敏感词列表
+		<span class="pull-right">
+			{% include 'block/_select_items.html' %}
+            <a href="{{ url_for('adminlte.create_sensitive_word') }}" class="btn btn-icon btn-mixpus" data-toggle="tooltip" data-original-title="新增">
+				<i class="fa fa-plus"></i>
+			</a>
+			<button type="button" data-form-id="form-sensitive_words" class="btn btn-icon btn-danger delete-all hidden" data-toggle="tooltip" data-original-title="删除">
+				<i class="fa fa-trash-o"></i>
+			</button>
+		</span>
+	</h2>
+
+	<div class="table-responsive m-t-20">
+		<form id="form-sensitive_words" action="{{ url_for('adminlte.delete_sensitive_word') }}" method="post">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" >
+
+			<table class="table table-bordered table-hover" role="grid">
+				<thead>
+					<tr role="row">
+						<th class="text-center">
+							<input name="check_all" type="checkbox" class="check-all">
+						</th>
+						<th>文字内容</th>
+						<th>类型</th>
+						<th class="text-right">操作</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for sensitive_word in paginated_sensitive_words.items %}
+					<tr role="row">
+						<td class="text-center">
+							<input name="selected[]" class="check-one" value="{{ sensitive_word.id }}" type="checkbox">
+						</td>
+						<td>{{ sensitive_word.word }}</td>
+						<td>{{ sensitive_word.type_label }}</td>
+						<td class="actions text-right">
+							<a href="{{ url_for('adminlte.edit_sensitive_word', rid=sensitive_word.id) }}" class="btn-link">
+								编辑
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</form>
+
+		{% import "block/_macros.html" as macros %}
+		{{ macros.pagination_widget(paginated_sensitive_words, '.get_sensitive_words') }}
+	</div>
+</div>
+{% endblock %}

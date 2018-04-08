@@ -63,3 +63,4 @@ wcwidth==0.1.7
 webassets==0.12.1
 Werkzeug==0.14.1
 WTForms==2.1
+pytesseract==0.2.0
