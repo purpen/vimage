@@ -39,13 +39,14 @@ def ocr_url_image(image_url):
     ocr 网络图片识别测试
 
     :param image_url: 图片 url
-    :return: 识别结果
+    :return: 识别的文字内容
     """
 
     text = ''
 
     # 请求网络图片
     r = req.get(image_url, stream=True)
+
     if r.status_code == 200:
         image = Image.open(BytesIO(r.content)).convert('L')
         text = pytesseract.image_to_string(image, lang='chi_sim')

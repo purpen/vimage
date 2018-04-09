@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from vimage.helpers.style_element import *
 from vimage.helpers.switch import Switch
-from vimage.helpers.sensitive import Sensitive
+from vimage.helpers.sensitive import PickSensitive
 from vimage.constant import *
 
 
@@ -32,7 +32,7 @@ def get_text_content(text_type, data):
 
     content = text_content_data.get(text_type)
 
-    content = Sensitive(text=content).filter_words()
+    content = PickSensitive(text=content).filter_words()
 
     return content
 
