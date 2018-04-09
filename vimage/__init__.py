@@ -4,6 +4,7 @@
     ~~~~~~~~~~~~~~
     :copyright: (c) 2018 by purpen.
 """
+import os
 from flask import Flask
 # 导入扩展
 from .extensions import (
@@ -21,6 +22,7 @@ from .assets import assets_env, bundles
 # 导入配置参数
 from config import config
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 # 创建set
 uploader = UploadSet(
@@ -36,9 +38,13 @@ login_manager.login_view = 'auth.login'
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
-    app.config.from_pyfile('../private_config.py')
-    config[config_name].init_app(app)
 
+    # 加载私有环境变量
+    if os.path.exists('%s/private_config.py' % basedir):
+        app.config.from_pyfile('%s/private_config.py' % basedir)
+
+    config[config_name].init_app(app)
+    
     db.init_app(app)
     bootstrap.init_app(app)
     login_manager.init_app(app)
