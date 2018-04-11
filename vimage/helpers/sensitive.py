@@ -55,7 +55,7 @@ class PickSensitive:
                 }
                 self.result_words.append(word_type_dict)
 
-        return result_format_json(self.result_text, self.result_words)
+        return _result_format_json(self.result_text, self.result_words)
 
     def filter_text(self):
         """
@@ -78,7 +78,7 @@ class PickSensitive:
         return self.filter_words(filter_text=image_text)
 
 
-def result_format_json(result_text, result_list):
+def _result_format_json(result_text, result_list):
     """
     格式化返回信息
 
@@ -93,7 +93,7 @@ def result_format_json(result_text, result_list):
     return data
 
 
-def base64_convert_image(image_base64):
+def _base64_convert_image(image_base64):
     """
     base64 转换成图片
     :param image_base64: 图片base64数据

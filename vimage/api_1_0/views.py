@@ -8,7 +8,7 @@ from flask import request, abort, g, url_for, jsonify
 
 from . import api
 from vimage.helpers.utils import *
-from vimage.helpers.image import *
+from vimage.helpers.image_make import *
 from vimage.models import ImageSet
 from vimage.models.sensitive import *
 from vimage import db
