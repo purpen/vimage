@@ -46,6 +46,7 @@ class QiniuCloud(object):
         :param folder_name: 文件夹名称
         :return:
         """
+
         if path_key is None:
             path_key = QiniuCloud.gen_path_key()
 
@@ -129,13 +130,18 @@ class QiniuCloud(object):
         return image
 
     @staticmethod
-    def gen_path_key():
+    def gen_path_key(suffix=None):
         """
-            设置图片的path
+        设置图片的path
+
+        :param suffix: 后缀名
+        :return: 文件名
         """
 
+        file_suffix = suffix or '.png'
+
         # 根据时间戳生成文件名
-        filename = '%s/%s%s' % (timestamp2string(timestamp(), '%Y%m%d'), MixGenId.gen_letters(20), '.png')
+        filename = '%s/%s%s' % (timestamp2string(timestamp(), '%Y%m%d'), MixGenId.gen_letters(20), file_suffix)
 
         return filename
 

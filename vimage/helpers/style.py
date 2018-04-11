@@ -121,7 +121,7 @@ class GoodsWxaStyle:
 
         style_id = str(self.style_id)
 
-        style_data = styles.get(style_id)
+        style_data = self.styles.get(style_id)
 
         return style_data
 
