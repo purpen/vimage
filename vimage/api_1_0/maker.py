@@ -6,15 +6,14 @@ from . import api
 from vimage.helpers import QiniuCloud, Poster, QiniuError
 from vimage.helpers.utils import *
 from vimage.tasks import make_wxacode_image, make_promotion_image
-from vimage.helpers.style import GoodsWxaStyle, GoodsSalesStyle
+from vimage.helpers.style import *
+from vimage.helpers.image_gif import GifTool
 
 
 @api.route('/maker/wxa_poster', methods=['POST'])
 def make_wxa_poster():
     """
-    生成的商品小程序码海报
-
-    :return image_url: 海报url
+        生成的商品小程序码海报
     """
     post_data = request.get_json()
 
@@ -71,9 +70,7 @@ def make_wxa_poster():
 @api.route('/maker/promotion_poster', methods=['POST'])
 def make_sales_poster():
     """
-    获取生成的商品促销海报
-
-    :return image_url: 海报url
+        获取生成的商品促销海报
     """
     post_data = request.get_json()
 
@@ -123,3 +120,57 @@ def make_sales_poster():
     return full_response(R200_OK, {
         'image_url': image_url
     })
+
+
+@api.route('/maker/gif_poster', methods=['POST'])
+def make_gif_poster():
+    """
+        制作 GIF 动图海报
+    """
+
+    post_data = request.get_json()
+
+    """
+    post 接收参数说明
+    
+    images: 图片数据(array，图片数量 >= 2，暂只支持 url 格式) | (必传)
+    qr_code_img: 二维码 | (可不传)
+    sales_info: 展示的内容文字 | (可不传)
+    
+    请求示例
+    {
+    "images": [
+        "http://static.zara-static.cn/photos/2014/I/0/2/p/4284/212/707/2/w/1920/4284212707_2_1_1.jpg?ts=1402076633517",
+        "http://static.zara-static.cn/photos/2014/I/0/2/p/4284/212/707/2/w/1920/4284212707_2_3_1.jpg?timestamp=1402076642250",
+        "http://static.zara-static.cn/photos/2014/I/0/2/p/4284/212/707/2/w/1920/4284212707_2_2_1.jpg?ts=1402076637678"
+        ],
+    "qr_code_img": "https://kg.erp.taihuoniao.com/qrcode/wxacode-wx11363b7f6fe26ac8-6157c47acb344ba43a3b345ddc21dc46.jpg",
+    "sales_info": "天然凉爽的讲究面料\n自带降温滤镜\n穿上身即是大写的 “酷” 字"
+    }
+    """
+
+    # 验证参数是否合法
+    if not post_data or 'images' not in post_data:
+        return status_response(R400_BADREQUEST, False)
+
+    images = post_data.get('images')
+
+    data = {
+        'qr_code_img': post_data.get('qr_code_img'),
+        'sales_info': post_data.get('sales_info')
+    }
+
+    style_id = 1
+
+    # 获取样式数据
+    poster_style = GoodsGifStyle(data, style_id)
+
+    # 生成海报
+    poster = Poster(poster_style.get_style_data())
+    poster_image = poster.make()
+
+    # 创建 GIF 工具类，生成 GIF 图
+    gif_tool = GifTool(type=1, images=images)
+    result_gif = gif_tool.create_gif_poster(poster_image)
+
+    return full_response(R200_OK, result_gif)

@@ -80,7 +80,7 @@ def draw_line(image, draw_position, color, width=0):
     :param color: 颜色
     :param width: 宽度
     :return: 绘制完成的图片
-        """
+    """
 
     ImageDraw.Draw(image).line(draw_position, color, width)
 
@@ -148,12 +148,10 @@ class Poster(object):
         # 字体的样式
         font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], text.font_family, '.ttf')
         current_app.logger.debug('Font path: %s' % font_path)
-        draw_font = ImageFont.truetype(font=font_path,
-                                       size=text.font_size)
+        draw_font = ImageFont.truetype(font=font_path, size=text.font_size)
 
         # 文字的样式配置
-        ImageDraw.Draw(self.canvas).text(xy=xy, text=text.content, fill=text.text_color, font=draw_font,
-                                         align=text.align)
+        ImageDraw.Draw(self.canvas).text(xy=xy, text=text.content, fill=text.text_color, font=draw_font, align=text.align)
 
     def draw_shapes(self, shape_obj=ShapeObject()):
         """
@@ -168,12 +166,15 @@ class Poster(object):
         for case in Switch(shape_type):
             if case(DrawShapeType.Line):
                 draw_line(self.canvas, shape_obj.position, shape_obj.color, shape_obj.width)
+                break
 
             if case(DrawShapeType.Rectangle):
                 draw_rectangle(self.canvas, shape_obj.position, shape_obj.color, shape_obj.out_color)
+                break
 
             if case():
                 draw_line(self.canvas, shape_obj.position, shape_obj.color, shape_obj.width)
+                break
 
     def paste_image(self, image_obj=ImageObject()):
         """

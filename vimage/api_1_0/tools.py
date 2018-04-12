@@ -89,7 +89,7 @@ def make_gif():
     type: 工具类型 | 1：图片合成GIF、2：视频制作GIF、3：GIF 提取帧图片、4：GIF 倒放 | (默认为 1)
     
     images: 图片数据(array，图片数量 >= 2，暂只支持 url 格式) | (type 为1时，必传)
-    movie: 视频数据 | (type 为2时，必传)
+    video: 视频数据 | (type 为2时，必传)
     gif: 原始 GIF 图，url 格式 | (type 为3、4时，必传)
     
     size: 尺寸大小(array，[宽，高]) | 默认第1张图的尺寸，非必传

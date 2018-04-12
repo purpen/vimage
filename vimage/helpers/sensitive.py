@@ -42,7 +42,7 @@ class PickSensitive:
             过滤敏感词
         """
 
-        self.result_text = filter_text
+        self.result_text = str(filter_text)
 
         for word in self.sensitive_words:
             if word in self.result_text:
@@ -63,6 +63,19 @@ class PickSensitive:
         """
 
         return self.filter_words(filter_text=self.text)
+
+    def replace_filter_words(self):
+        """
+            替换要过滤的敏感词
+        """
+
+        self.result_text = str(self.text)
+
+        for word in self.sensitive_words:
+            if word in self.result_text:
+                self.result_text = self.result_text.replace(word, len(word) * '*')
+
+        return self.result_text
 
     def filter_image(self):
         """
