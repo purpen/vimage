@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 from qiniu import Auth, put_file, put_data
 from flask import current_app
 from .utils import timestamp, timestamp2string, MixGenId
-from ..exceptions import *
+from vimage.constant import *
 
 __all__ = [
     'QiniuCloud',
@@ -118,6 +118,11 @@ class QiniuCloud(object):
 
         :return: 图片实例
         """
+
+        if not image_url:
+            image = Image.new('RGBA', Size.DEFAULT_IMAGE_SIZE['square'], Colors.DEFAULT_BACKGROUND_COLOR['white'])
+
+            return image
 
         # 请求图片链接，生成图片
         try:
