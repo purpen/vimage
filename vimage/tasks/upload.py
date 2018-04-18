@@ -6,7 +6,7 @@ from vimage.extensions import fsk_celery
 from vimage import db
 from vimage.models import ImageSet
 from vimage.helpers import QiniuCloud, QiniuError, Poster
-from vimage.helpers.style import GoodsWxaStyle, GoodsSalesStyle
+from vimage.helpers.poster_style import GoodsWxaStyle, GoodsSalesStyle
 from vimage.constant import *
 
 FAIL = 'FAIL'

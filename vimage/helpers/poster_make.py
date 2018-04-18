@@ -5,7 +5,7 @@ from vimage.helpers.qiniu_cloud import QiniuCloud
 from vimage.helpers.switch import Switch
 from config import *
 from vimage.exceptions import *
-from vimage.helpers.style import *
+from vimage.helpers.poster_style import *
 
 
 class TextObject:
