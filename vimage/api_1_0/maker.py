@@ -6,8 +6,9 @@ from . import api
 from vimage.helpers import QiniuCloud, Poster, QiniuError
 from vimage.helpers.utils import *
 from vimage.tasks import make_wxacode_image, make_promotion_image
-from vimage.helpers.style import *
-from vimage.helpers.image_gif import GifTool
+from vimage.helpers.poster_style import *
+from vimage.helpers.gif_style import *
+from vimage.helpers.gif_make import GifTool
 
 
 @api.route('/maker/wxa_poster', methods=['POST'])

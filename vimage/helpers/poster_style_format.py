@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from vimage.helpers.style_element import *
+from vimage.helpers.poster_style_element import *
 from vimage.helpers.switch import Switch
 from vimage.helpers.sensitive import PickSensitive
 from vimage.constant import *

@@ -6,7 +6,8 @@ from . import api
 from vimage.models import Sensitive
 from vimage.helpers.utils import *
 from vimage.helpers.ocr import *
-from vimage.helpers.image_gif import GifTool
+from vimage.helpers.gif_make import GifTool
+from vimage.helpers.video_make import *
 from vimage.helpers.sensitive import PickSensitive
 from vimage.helpers import QiniuCloud, QiniuError
 
@@ -75,7 +76,7 @@ def pick_sensitive_image():
     return full_response(R200_OK, result_data)
 
 
-@api.route('/tools/make_gif', methods=['POST'])
+@api.route('/tools/gif', methods=['POST'])
 def make_gif():
     """
         制作 GIF 图
@@ -122,13 +123,13 @@ def make_gif():
     }
     """
 
-    if not post_data or 'images' not in post_data and 'movie' not in post_data and 'gif' not in post_data:
+    if not post_data or 'images' not in post_data and 'video' not in post_data and 'gif' not in post_data:
         return status_response(R400_BADREQUEST, False)
 
     type = post_data.get('type', 1)
     size = post_data.get('size')
     images = post_data.get('images')
-    movie = post_data.get('movie')
+    video = post_data.get('video')
     gif = post_data.get('gif')
     duration = post_data.get('duration')
 
@@ -137,7 +138,45 @@ def make_gif():
             return custom_response('图片数量不足 2 张', 400, False)
 
     # 创建 GIF 工具类，生成 GIF 图
-    gif_tool = GifTool(type, images, movie, gif, size, duration)
-    result_gif = gif_tool.get_result_gif()
+    gif_tool = GifTool(type, images, video, gif, size, duration)
+    result_data = gif_tool.get_result_gif()
 
-    return full_response(R200_OK, result_gif)
+    return full_response(R200_OK, result_data)
+
+
+@api.route('/tools/video', methods=['POST'])
+def make_video():
+    """
+        制作视频
+    """
+
+    post_data = request.get_json()
+
+    """
+    post 接收参数说明
+    
+    images: 图片完整URL
+    
+    请求示例：
+    {
+        "images": [
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524659408&di=0cd528f30be918bc8d433bd52da956e0&imgtype=jpg&er=1&src=http%3A%2F%2Fpic29.nipic.com%2F20130524%2F8384088_142644789000_2.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524659427&di=b6dba0bf33d2415a525135fff23cb3ae&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D55c986aeefdde711f3df4bb5cf86a46e%2F91ef76c6a7efce1b1dbdfe61a551f3deb58f6582.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524659442&di=c151d4a86bb758aff3b67111641af309&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D4e344d757cc6a7efad2ba0659593c524%2Fcf1b9d16fdfaaf515afb6915865494eef01f7a04.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524659458&di=91be1d54d1df645dc608e0c998070f33&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D50953cc1bcfd5266b3263457c371fd5e%2Fd1160924ab18972b055930e0eccd7b899e510abc.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524659470&di=bb169087bb89d786c21dcab5c38d91c9&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D53213dc0bcfd5266b3263457c371fd5e%2Fd1160924ab18972b06ed31e1eccd7b899f510ac1.jpg"
+        ]
+    }
+    """
+
+    # 验证参数是否合法
+    if not post_data or 'images' not in post_data:
+        return status_response(R400_BADREQUEST, False)
+
+    images = post_data.get('images', None)
+
+    images_to_video(images)
+
+    return full_response(R200_OK, {
+        'status': 'OK'
+    })

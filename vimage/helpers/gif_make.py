@@ -8,6 +8,7 @@ from flask import current_app
 from vimage.helpers import QiniuCloud, QiniuError
 from vimage.constant import *
 
+
 def _download_image(url, is_convert=False):
     """
     从图片链接中下载图片
@@ -53,6 +54,34 @@ def _qiniu_upload(content, key):
         current_app.logger.warn('Qiniu upload file error: %s' % str(err))
 
     return result_url
+
+
+def scale_image_size(image, scale_w=None, scale_h=None):
+    """
+    按比列缩放图片的尺寸
+
+    :param image: 图片
+    :param scale_w: 按宽度
+    :param scale_h: 按高度
+    :return: 缩放后的尺寸
+    """
+
+    img_w, img_h = image.size[0], image.size[1]
+
+    if scale_w is not None:
+        img_h = scale_w / img_w * img_h
+        size = (scale_w, int(img_h))
+
+        return size
+
+    elif scale_h is not None:
+        img_w = img_h / scale_h * img_w
+
+        size = (int(img_w), scale_h)
+
+        return size
+
+    return image.size
 
 
 class GifTool:
@@ -112,13 +141,6 @@ class GifTool:
         return {
             'result_gif': result
         }
-
-    def create_video_gif(self):
-        """
-            视频制作 GIF 图
-        """
-
-        return '视频制作 GIF 图'
 
     def create_resolve_gif(self):
         """
@@ -242,33 +264,3 @@ class GifTool:
         result_image = image.resize(size, Image.ANTIALIAS)
 
         return result_image
-
-
-def scale_image_size(image, scale_w=None, scale_h=None):
-    """
-    按比列缩放图片的尺寸
-
-    :param image: 图片
-    :param scale_w: 按宽度
-    :param scale_h: 按高度
-    :return: 缩放后的尺寸
-    """
-
-    img_w, img_h = image.size[0], image.size[1]
-
-    if scale_w is not None:
-        img_h = scale_w / img_w * img_h
-        size = (scale_w, int(img_h))
-
-        return size
-
-    elif scale_h is not None:
-        img_w = img_h / scale_h * img_w
-
-        size = (int(img_w), scale_h)
-
-        return size
-
-    return image.size
-
-
