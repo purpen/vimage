@@ -12,11 +12,8 @@ def take_view_url(asset_id):
     :return: 图片链接
     """
 
-    image_url = ''
-
     asset = Asset.query.filter_by(id=asset_id).first()
-    if asset:
-        image_url = asset.view_url
+    image_url = asset.view_url if asset else ''
 
     return image_url
 
@@ -48,7 +45,7 @@ class GoodsWxaStyle:
         """
             样式一
         """
-        rid = 'Toool090'
+
         # 文字
         default_text = {
             'sale_price': '￥%s' % self.data.get('sale_price'),

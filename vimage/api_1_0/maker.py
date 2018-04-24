@@ -16,6 +16,21 @@ def make_wxa_poster():
     """
         生成的商品小程序码海报
     """
+
+    """
+    请求示例：
+    
+    {
+        "title": "卡哇 普罗旺斯超声波创意香薰加湿器\nUSB 办公室车载迷你加湿器",
+        "sale_price": "88",
+        "brand_name": "D3IN未来店",
+        "hint_text": "",
+        "goods_img": "https://kg.erp.taihuoniao.com/20180315/FucRIvI9p0Ay0cqlAXtpJIvsTRhR.jpg",
+        "logo_img": "https://kg.erp.taihuoniao.com/20180320/FmdRh9D1LFZLMSo1DLl2gExwHX0P.png",
+        "wxa_code_img": "https://kg.erp.taihuoniao.com/qrcode/wxacode-wx11363b7f6fe26ac8-6157c47acb344ba43a3b345ddc21dc46.jpg"
+    }
+    """
+
     post_data = request.get_json()
 
     current_app.logger.warn('Poster data: %s' % post_data)

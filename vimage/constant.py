@@ -24,6 +24,11 @@ class Size:
         'height': 1334
     }
 
+    GOODS_VIDEO_SIZE = {
+        'width': 640,
+        'height': 480
+    }
+
 
 class Fonts:
     """字体样式"""

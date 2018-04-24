@@ -2,32 +2,14 @@
 import io
 import requests as req
 from flask import current_app
-from vimage.constant import Fonts
-from vimage.helpers.utils import *
 from PIL import Image
 import numpy as np
 import imageio
 imageio.plugins.ffmpeg.download()
 
 from moviepy.editor import *
-
-
-def _url_to_image(url):
-    """
-    通过 url 加载图片
-
-    :param url: 图片链接
-    :return: 图片
-    """
-
-    try:
-        r = req.get(url)
-        image = Image.open(io.BytesIO(r.content)).convert('RGB')
-
-    except (req.exceptions.HTTPError, req.exceptions.URLRequired):
-        return custom_response('图片链接获取失败', 400, False)
-
-    return image
+from vimage.constant import Fonts
+from vimage.helpers.image_tools import load_url_image
 
 
 def images_to_video(images, fps=24, duration=10, size=(640, 480)):
@@ -41,24 +23,38 @@ def images_to_video(images, fps=24, duration=10, size=(640, 480)):
     :return: 视频
     """
 
-    imgs_url = images or []
-
-    if len(imgs_url) == 0:
-        return custom_response('没有图片链接', 400, False)
+    images_url = images or []
 
     videos = []
 
-    for img_url in imgs_url:
-        image = _url_to_image(img_url)
-        video = ImageClip(np.array(image), duration=duration/len(imgs_url))
-        videos.append(video)
+    # 图像帧
+    for img_url in images_url:
+        image = load_url_image(img_url)
+        clip = ImageClip(np.array(image), duration=duration/len(images_url)).set_start(1.5).crossfadein(0.5)
+        clip = clip.resize(size)
+        videos.append(clip)
 
-    result_video = concatenate_videoclips(videos).resize(size)
+    # 图像合成视频
+    result_video = concatenate_videoclips(videos)
 
+    # 文字帧
     font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], Fonts.DEFAULT_FONT_FAMILY, '.ttf')
-    text_clip = TextClip('测试显示', font=font_path, fontsize=70, bg_color='black', color='white')
+    text_clip = TextClip('测试显示', font=font_path, fontsize=70, color='white', method='label')
     text_clip = text_clip.set_pos('center').set_duration(2)
 
-    video = CompositeVideoClip([result_video, text_clip])
-
+    # 合成视频文件输出
+    video = CompositeVideoClip([result_video, text_clip], size=size)
     video.write_videofile('out_video.mp4', fps=fps)
+
+
+class VideoMake(object):
+    """
+        视频生成器
+    """
+
+    def __int__(self, data):
+        """
+        初始化视频对象
+
+        :param data: 视频数据
+        """
