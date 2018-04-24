@@ -6,6 +6,7 @@ from vimage.helpers.switch import Switch
 from config import *
 from vimage.exceptions import *
 from vimage.helpers.poster_style import *
+from vimage.helpers.image_tools import load_url_image
 
 
 class TextObject:
@@ -102,9 +103,6 @@ def draw_rectangle(image, draw_position, color, out_color):
 class Poster(object):
     """海报生成器"""
 
-    # 默认颜色
-    default_color = Colors.DEFAULT_BACKGROUND_COLOR['black']
-
     def __init__(self, data):
         """
         初始化海报对象
@@ -194,7 +192,7 @@ class Poster(object):
         xy = (x, y)
 
         # 加载图片
-        load_image = QiniuCloud.load_image(image_obj.url)
+        load_image = load_url_image(image_obj.url, is_create=True)
         resize_image = load_image.resize((width, height))
 
         # 对图片合成

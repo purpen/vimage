@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 import random
-from io import BytesIO
-import requests as req
-from PIL import Image, ImageDraw, ImageFont
 from qiniu import Auth, put_file, put_data
 from flask import current_app
 from .utils import timestamp, timestamp2string, MixGenId
-from vimage.constant import *
+
 
 __all__ = [
     'QiniuCloud',
@@ -110,29 +107,6 @@ class QiniuCloud(object):
 
         # 3600为token过期时间，秒为单位。3600等于一小时
         return q.upload_token(bucket_name, None, 3600, policy)
-
-    @staticmethod
-    def load_image(image_url):
-        """
-        加载图片 url
-
-        :return: 图片实例
-        """
-
-        if not image_url:
-            image = Image.new('RGBA', Size.DEFAULT_IMAGE_SIZE['square'], Colors.DEFAULT_BACKGROUND_COLOR['white'])
-
-            return image
-
-        # 请求图片链接，生成图片
-        try:
-            r = req.get(image_url)
-            image = Image.open(BytesIO(r.content)).convert('RGBA')
-
-        except (req.exceptions.HTTPError, req.exceptions.URLRequired):
-            image = Image.new('RGBA', Size.DEFAULT_IMAGE_SIZE['square'], Colors.DEFAULT_BACKGROUND_COLOR['white'])
-
-        return image
 
     @staticmethod
     def gen_path_key(suffix=None):
