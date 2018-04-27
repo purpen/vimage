@@ -10,7 +10,9 @@ from vimage.helpers.image_tools import load_url_image
 
 
 class TextObject:
-    """文字类"""
+    """
+        文字类
+    """
 
     def __init__(self, text_data=None):
         """
@@ -20,7 +22,7 @@ class TextObject:
         """
 
         data = text_data or {}
-        style_data = data.get('style') or {}                # 文字样式信息
+        style_data = data.get('style', {})                  # 文字样式信息
 
         self.type = data.get('type')                        # 类型（标题/内容/附加信息等）
         self.content = data.get('content')                  # 内容
@@ -34,7 +36,9 @@ class TextObject:
 
 
 class ImageObject:
-    """图像类"""
+    """
+        图像类
+    """
 
     def __init__(self, image_data=None):
         """
@@ -53,7 +57,9 @@ class ImageObject:
 
 
 class ShapeObject:
-    """图形类"""
+    """
+        图形类
+    """
 
     def __init__(self, shape_data=None):
         """
@@ -101,7 +107,9 @@ def draw_rectangle(image, draw_position, color, out_color):
 
 
 class Poster(object):
-    """海报生成器"""
+    """
+        海报生成器
+    """
 
     def __init__(self, data):
         """
@@ -127,7 +135,10 @@ class Poster(object):
         self.canvas = self.create_canvas()
 
     def create_canvas(self):
-        """创建画布"""
+        """
+            创建画布
+        """
+
         return Image.new('RGBA', (self.width, self.height), self.color)
 
     def draw_text(self, text=TextObject()):
@@ -199,7 +210,9 @@ class Poster(object):
         self.canvas.paste(resize_image, xy, resize_image)
 
     def make(self):
-        """开始生成海报"""
+        """
+            生成海报
+        """
 
         # 1、排序后的图片（图片叠加的顺序）
         image_list = _sort_list_layer(self.images, 'z_index')
