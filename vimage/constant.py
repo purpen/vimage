@@ -9,6 +9,11 @@ class Colors:
         'black': '#000000'
     }
 
+    DEFAULT_FONT_COLOR = {
+        'white': '#FFFFFF',
+        'black': '#000000'
+    }
+
 
 class Size:
     """尺寸大小配置"""
@@ -28,6 +33,8 @@ class Size:
         'width': 640,
         'height': 480
     }
+
+    DEFAULT_FONT_SIZE = 30
 
 
 class Fonts:
