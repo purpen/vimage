@@ -55,6 +55,21 @@ class MakeVideoStyle:
 
         return self.contents
 
+    def set_content_duration(self):
+        """
+            设置每张图片展示的时间
+        """
+
+        image_count = 0
+
+        for content in self.contents:
+            images = content.get('images')
+            image_count += len(images)
+
+        duration = self.duration/image_count
+
+        return duration
+
     def goods_video_style_1(self):
         """
             商品视频样式 1
@@ -64,33 +79,38 @@ class MakeVideoStyle:
 
         result_styles = []
 
-        for index, content in enumerate(self.contents):
+        image_duration = self.set_content_duration()
 
+        images = []
+
+        for content in self.contents:
             # 图片
             image_style = []
 
-            images = content.get('images')
-            image_data = format_image_data(images, self.size, False, True, False, 3)
+            img = content.get('images')
+            images.append(img)
+
+            image_data = format_image_data(img, self.size, self.fps, False, True, False, image_duration*len(images))
             image_style.append(image_data)
 
             # 文字
             text_style = []
 
             texts = content.get('texts')
-            for txt in texts:
+            for index, txt in enumerate(texts):
                 # 第一组文字为'标题'
-                text_color = 'black' if index == 1 else 'red'
-                text_font_size = 40 if index == 1 else 20
-                text_position = (50, 100) if index == 1 else (50, 150)
+                text_color = 'white' if index == 0 else 'red'
+                text_font_size = 40 if index == 0 else 30
+                text_position = (0.1, 0.8) if index == 0 else (0.1, 0.87)
 
-                text_data = format_text_data(txt, self.size, text_color, 'transparent', font_name, text_font_size,
-                                             text_position, 'label', 'center', True, 2)
+                text_data = format_text_data(txt, None, self.fps, text_color, 'transparent', font_name, text_font_size,
+                                             text_position, 'label', 'center', True, image_duration*len(img))
 
                 text_style.append(text_data)
 
             result_styles.append({'images': image_style, 'texts': text_style})
 
-        return format_result_data(result_styles, self.size, self.fps, self.duration)
+        return format_result_data(result_styles, images, self.size, self.fps, self.duration, image_duration)
 
     def get_style_data(self):
         """
