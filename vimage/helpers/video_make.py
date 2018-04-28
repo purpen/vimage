@@ -34,12 +34,13 @@ class TextClipObject:
 
         self.txt = data.get('txt')                                  # 要写入的文本的字符串
         self.size = data.get('size')                                # 图片的大小. method = 'label'，可以自动设置
+        self.fps = data.get('fps')                                  # fps
         self.bg_color = data.get('bg_color', None)                  # 背景颜色. 使用 TextClip.list('color') 查看颜色名称
         self.color = data.get('color', default_font_color)          # 文字颜色
         self.font = data.get('font', default_font_name)             # 使用的字体名称
         self.font_size = data.get('font_size', default_font_size)   # 字体大小
         self.align = data.get('align', 'center')                    # 对齐方式. method = 'caption' 时生效
-        self.transparent = data.get('transparent', False)           # 透明度
+        self.transparent = data.get('transparent', True)            # 透明度
         self.method = data.get('method', 'label')                   # 类别. 'label'/'caption'
         self.duration = data.get('duration', default_duration)      # 持续时间 (s)
         self.position = data.get('position', ('center', 'top'))     # 位置. (x, y)
@@ -61,7 +62,7 @@ class TextClipObject:
                              transparent=self.transparent,
                              method=self.method)
 
-        text_clip = text_clip.set_position(self.position).set_duration(self.duration)
+        text_clip = text_clip.set_position(self.position, relative=True).set_duration(self.duration)
 
         return text_clip
 
@@ -88,6 +89,7 @@ class ImageClipObject:
         self.from_alpha = data.get('from_alpha', False)         # 透明度为 True 时，设置 alpha
         self.duration = data.get('duration', default_duration)  # 持续时间 (s)
         self.size = data.get('size')                            # 尺寸
+        self.fps = data.get('fps')                              # fps
 
     def make_image_clip(self):
         """
@@ -96,6 +98,8 @@ class ImageClipObject:
 
         clips = []
 
+        duration = self.duration/len(self.images)
+
         for image_url in self.images:
             img = load_url_image(image_url)
 
@@ -103,8 +107,7 @@ class ImageClipObject:
                              ismask=self.is_mask,
                              transparent=self.transparent,
                              fromalpha=self.from_alpha,
-                             duration=self.duration/len(self.images)).resize(self.size)
-
+                             duration=duration).resize(self.size)
             clips.append(clip)
 
         image_clip = concatenate_videoclips(clips)
@@ -161,19 +164,26 @@ def _make_image_clip(image_data):
     return image_clip
 
 
-def _make_text_clip(text_data, image_clip):
+def _make_text_clip(text_data, img_clip, size):
     """
-        制作文字帧视频
+    制作文字帧视频
+
+    :param text_data: 文字数据
+    :param img_clip: 图片帧
+    :param size: 尺寸
+    :return: 文字图片合成后的视频
     """
 
-    clips = [image_clip]
+    clips = [img_clip]
 
-    index = 0
     for data in text_data:
-        index += 1
         txt_obj = TextClipObject(data)
+        txt_clip = txt_obj.make_text_clip()
+        clips.append(txt_clip)
 
-    # return text_clip
+    text_clip = CompositeVideoClip(clips, size=size)
+
+    return text_clip
 
 
 class VideoMake:
@@ -192,11 +202,11 @@ class VideoMake:
 
         self.style_data = MakeVideoStyle(post_data, style_id).get_style_data()
         self.content = self.style_data.get('content')
+        self.images = self.style_data.get('images')
         self.size = self.style_data.get('size')
         self.fps = self.style_data.get('fps')
         self.duration = self.style_data.get('duration')
-
-        # self.make_video()
+        self.img_duration = self.style_data.get('img_duration')
 
     def make_video(self):
         """
@@ -205,14 +215,24 @@ class VideoMake:
 
         clips = []
 
+        start = 0
+
         # 拆分内容数据，单独生成每一帧（一组数据，包含图片、文字等）
-        for content in self.content:
+        for index, content in enumerate(self.content):
             # 图片
             images = content.get('images')
             img_clip = _make_image_clip(images)
 
             texts = content.get('texts')
-            txt_clip = _make_text_clip(texts, img_clip)
+            txt_clip = _make_text_clip(texts, img_clip, self.size)
+
+            clips.append(txt_clip.set_start(start).crossfadein(0.2))
+            start += self.img_duration * len(self.images[index])
+
+        video = CompositeVideoClip(clips)
+        video.write_videofile('out.mp4', fps=self.fps)
+
+        return {'message': '创建成功'}
 
 
 def images_to_video(images, fps=24, duration=10, size=(640, 480)):

@@ -162,7 +162,7 @@ def make_video():
         "contents": [
             {
                 "images":[
-                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524659408&di=0cd528f30be918bc8d433bd52da956e0&imgtype=jpg&er=1&src=http%3A%2F%2Fpic29.nipic.com%2F20130524%2F8384088_142644789000_2.jpg"
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1525493094&di=b8a30d4bef4d6a0b0d64e711bf1af7f1&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01d9115a5965a4a80120121fd09501.jpg%401280w_1l_2o_100sh.jpg"
                     ],
                 "texts":[
                     "普罗旺斯薰衣草",
@@ -171,7 +171,8 @@ def make_video():
             },
             {
                 "images":[
-                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524659427&di=b6dba0bf33d2415a525135fff23cb3ae&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D55c986aeefdde711f3df4bb5cf86a46e%2F91ef76c6a7efce1b1dbdfe61a551f3deb58f6582.jpg"
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524898435400&di=4256edfc192c317f652c2655072d31b0&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c84e59e94e91a801216a4b3ebb80.jpg%401280w_1l_2o_100sh.jpg",
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524898394497&di=1d39b1aaf43d1fe53a513d005d38f58c&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01af4559e94e93a801202b0c64207e.jpg%401280w_1l_2o_100sh.jpg"
                     ],
                 "texts":[
                     "地中海风情",
@@ -183,18 +184,10 @@ def make_video():
     """
 
     # 验证参数是否合法
-    # if not post_data or 'images' not in post_data:
-    #     return status_response(R400_BADREQUEST, False)
-    #
-    # images = post_data.get('images', None)
-    #
-    # images_to_video(images)
-
-    # 验证参数是否合法
     if not post_data or 'contents' not in post_data:
         return status_response(R400_BADREQUEST, False)
 
-    VideoMake(post_data)
+    VideoMake(post_data).make_video()
 
     return full_response(R200_OK, {
         'status': 'OK'

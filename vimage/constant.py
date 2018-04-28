@@ -30,8 +30,8 @@ class Size:
     }
 
     GOODS_VIDEO_SIZE = {
-        'width': 640,
-        'height': 480
+        'width': 1280,
+        'height': 720
     }
 
     DEFAULT_FONT_SIZE = 30
