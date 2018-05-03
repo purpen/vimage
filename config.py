@@ -131,6 +131,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:yangfei@localhost/vimage_dev'
 
     MAKE_IMAGE_FONTS_PATH = '../vimage/public/fonts/'
+    MAKE_VIDEO_AUDIO_PATH = '../vimage/public/audio/'
 
 
 class TestingConfig(Config):

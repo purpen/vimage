@@ -90,6 +90,18 @@ def make_sales_poster():
     """
     post_data = request.get_json()
 
+    """
+    请求示例：
+    
+    {
+        "sales_title": "今天天气很好啊",
+        "sales_pct": 60,
+        "sales_info": "疯  狂  大  减  价  等  你  来  ！",
+        "hint_text": "扫码参加",
+        "qr_code_img": "https://kg.erp.taihuoniao.com/qrcode/wxacode-wx11363b7f6fe26ac8-6157c47acb344ba43a3b345ddc21dc46.jpg"
+    }
+    """
+
     # 验证参数是否合法
     if not post_data or 'sales_title' not in post_data:
         return status_response(R400_BADREQUEST, False)

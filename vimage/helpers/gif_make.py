@@ -110,7 +110,6 @@ class GifTool:
 
         self.tools = {
             '1': self.create_images_gif(),
-            '2': self.create_video_gif(),
             '3': self.create_resolve_gif(),
             '4': self.create_reverse_gif()
         }

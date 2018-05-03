@@ -23,8 +23,8 @@ class MakeVideoStyle:
         default_size = (width, height)
         self.size = self.data.get('size', default_size)      # 尺寸
         self.style_id = style_id                             # 样式标识
-        self.duration = self.data.get('duration', 10)        # 持续时间(s)
-        self.fps = self.data.get('fps', 24)                  # 默认帧率
+        self.duration = self.data.get('duration', 15)        # 持续时间(s)
+        self.fps = self.data.get('fps', 25)                  # 默认帧率
         self.title = self.data.get('title', '')              # 标题
         self.sub_title = self.data.get('sub_title', '')      # 副标题
 
@@ -78,11 +78,10 @@ class MakeVideoStyle:
         font_name = Fonts.DEFAULT_FONT_FAMILY
 
         result_styles = []
-
         image_duration = self.set_content_duration()
-
         images = []
 
+        # 展示的内容信息
         for content in self.contents:
             # 图片
             image_style = []
@@ -100,17 +99,20 @@ class MakeVideoStyle:
             for index, txt in enumerate(texts):
                 # 第一组文字为'标题'
                 text_color = 'white' if index == 0 else 'red'
-                text_font_size = 40 if index == 0 else 30
-                text_position = (0.1, 0.8) if index == 0 else (0.1, 0.87)
+                text_font_size = 60 if index == 0 else 40
+                text_position = (90, 500) if index == 0 else (90, 584)
 
-                text_data = format_text_data(txt, None, self.fps, text_color, 'transparent', font_name, text_font_size,
+                text_data = format_text_data(txt, self.size, self.fps, text_color, 'transparent', font_name, text_font_size,
                                              text_position, 'label', 'center', True, image_duration*len(img))
 
                 text_style.append(text_data)
 
             result_styles.append({'images': image_style, 'texts': text_style})
 
-        return format_result_data(result_styles, images, self.size, self.fps, self.duration, image_duration)
+        # 音频信息
+        audio = format_audio_data('audio_1', self.duration)
+
+        return format_result_data(result_styles, audio, images, self.size, self.fps, self.duration, image_duration)
 
     def get_style_data(self):
         """

@@ -65,11 +65,37 @@ def format_text_data(texts, size, fps, color, bg_color, font, font_size, positio
     return text_data
 
 
-def format_result_data(content, images, size, fps, duration, img_duration):
+def format_audio_data(filename, duration, buffersize=200000, nbytes=2, bitrate=3000, fps=44100):
+    """
+    格式化音频结果数据
+
+    :param filename: 展示内容
+    :param duration: 持续时间
+    :param buffersize: 缓冲区大小
+    :param nbytes: 原始音频文件每帧的位数. 采样宽度（对于16位声音设置为2，对于32位声音设置为4）
+    :param bitrate: 比特率
+    :param fps: 音频文件中每秒的帧数
+    :return: 样式数据
+    """
+
+    result_data = {
+        'filename': filename,
+        'duration': duration,
+        'buffersize': buffersize,
+        'nbytes': nbytes,
+        'bitrate': bitrate,
+        'fps': fps
+    }
+
+    return result_data
+
+
+def format_result_data(content, audio, images, size, fps, duration, img_duration):
     """
     格式化视频结果数据
 
     :param content: 展示内容
+    :param audio: 音频信息
     :param images: 所有图片
     :param size: 尺寸
     :param fps: 帧率
@@ -80,6 +106,7 @@ def format_result_data(content, images, size, fps, duration, img_duration):
 
     result_data = {
         'content': content,
+        'audio': audio,
         'images': images,
         'size': size,
         'fps': fps,
