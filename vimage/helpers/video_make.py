@@ -5,12 +5,73 @@ from flask import current_app
 from PIL import Image
 import numpy as np
 import imageio
+
 imageio.plugins.ffmpeg.download()
 
 from moviepy.editor import *
+from moviepy.video.tools.segmenting import findObjects
 from vimage.constant import *
 from vimage.helpers.image_tools import load_url_image
 from vimage.helpers.video_style import MakeVideoStyle
+from vimage.helpers.utils import timestamp, MixGenId
+
+
+def animation_vortex(screen_pos, i, n_letters):
+    """
+        文字加载动画一: 漩涡
+    """
+
+    # 矩阵转换
+    def rotMatrix(a):
+        return np.array([[np.cos(a), np.sin(a)], [-np.sin(a), np.cos(a)]])
+
+    # 运动的角度
+    angle = i * np.pi / n_letters
+    v = rotMatrix(angle).dot([-1, 0])
+
+    if i % 2:
+        v[1] = -v[1]
+
+    # 阻尼
+    def damp(t):
+        return 1.0 / (0.3 + t ** 8)
+
+    return lambda t: screen_pos + 400 * damp(t) * rotMatrix(0.5 * damp(t) * angle).dot(v)
+
+
+def animation_cascade(screen_pos, i, n_letters):
+    """
+        文字加载动画二:  下坠
+    """
+
+    v = np.array([0, -1])
+
+    def damp(t):
+        return 1 if t < 0 else abs(np.sinc(t) / (1 + t ** 4))
+
+    return lambda t: screen_pos + v * 400 * damp(t - 0.15 * i)
+
+
+def animation_arrive(screen_pos, i, n_letters):
+    """
+        文字加载动画三: 右进
+    """
+
+    v = np.array([-1, 0])
+
+    def damp(t):
+        return max(0, 3 - 3 * t)
+
+    return lambda t: screen_pos - 400 * v * damp(t - 0.2 * i)
+
+
+def move_letters(func_pos, letters):
+    """
+        移动文字，形成动画
+    """
+
+    return [letter.set_position(func_pos(letter.screenpos, i, len(letters)))
+            for i, letter in enumerate(letters)]
 
 
 class TextClipObject:
@@ -32,39 +93,50 @@ class TextClipObject:
 
         data = text_data or {}
 
-        self.txt = data.get('txt')                                  # 要写入的文本的字符串
-        self.size = data.get('size')                                # 图片的大小. method = 'label'，可以自动设置
-        self.fps = data.get('fps')                                  # fps
-        self.bg_color = data.get('bg_color', None)                  # 背景颜色. 使用 TextClip.list('color') 查看颜色名称
-        self.color = data.get('color', default_font_color)          # 文字颜色
-        self.font = data.get('font', default_font_name)             # 使用的字体名称
-        self.font_size = data.get('font_size', default_font_size)   # 字体大小
-        self.align = data.get('align', 'center')                    # 对齐方式. method = 'caption' 时生效
-        self.transparent = data.get('transparent', True)            # 透明度
-        self.method = data.get('method', 'label')                   # 类别. 'label'/'caption'
-        self.duration = data.get('duration', default_duration)      # 持续时间 (s)
-        self.position = data.get('position', ('center', 'top'))     # 位置. (x, y)
+        self.txt = data.get('txt')  # 要写入的文本的字符串
+        self.size = data.get('size')  # 图片的大小. method = 'label'，可以自动设置
+        self.fps = data.get('fps')  # fps
+        self.bg_color = data.get('bg_color', None)  # 背景颜色. 使用 TextClip.list('color') 查看颜色名称
+        self.color = data.get('color', default_font_color)  # 文字颜色
+        self.font = data.get('font', default_font_name)  # 使用的字体名称
+        self.font_size = data.get('font_size', default_font_size)  # 字体大小
+        self.align = data.get('align', 'center')  # 对齐方式. method = 'caption' 时生效
+        self.transparent = data.get('transparent', True)  # 透明度
+        self.method = data.get('method', 'label')  # 类别. 'label'/'caption'
+        self.duration = data.get('duration', default_duration)  # 持续时间 (s)
+        self.position = data.get('position', ('center', 'top'))  # 位置. (x, y)
 
     def make_text_clip(self):
         """
             生成文字帧
         """
 
-        font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], self.font, '.ttf')  # 字体路径
+        font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], self.font, '.ttf')
 
-        text_clip = TextClip(txt=self.txt,
-                             font=font_path,
-                             fontsize=self.font_size,
-                             color=self.color,
-                             bg_color=self.bg_color,
-                             align=self.align,
-                             size=self.size,
-                             transparent=self.transparent,
-                             method=self.method)
+        txt_clip = TextClip(txt=self.txt,
+                            font=font_path,
+                            fontsize=self.font_size,
+                            color=self.color,
+                            bg_color=self.bg_color,
+                            align=self.align,
+                            size=None,
+                            transparent=self.transparent,
+                            method=self.method).set_position(self.position).set_duration(5)
 
-        text_clip = text_clip.set_position(self.position, relative=True).set_duration(self.duration)
+        text_clip = CompositeVideoClip([txt_clip], size=self.size)
 
-        return text_clip
+        """
+        每个单独对象的 ImageClips 列表
+        
+        :param rem_thr: 经测试，值的大小，影响汉字的偏旁部首显示
+        """
+        letters = findObjects(text_clip, rem_thr=1)
+
+        clips = CompositeVideoClip(move_letters(animation_vortex, letters), size=self.size).set_duration(5)
+
+        # clips.write_videofile(('txt_%s.avi' % MixGenId.gen_letters()), fps=self.fps, codec='mpeg4')
+
+        return clips
 
 
 class ImageClipObject:
@@ -83,13 +155,13 @@ class ImageClipObject:
 
         data = image_data or {}
 
-        self.images = data.get('images')                        # 图片url
-        self.is_mask = data.get('is_mask', False)               # 剪辑是否是蒙版
-        self.transparent = data.get('transparent', True)        # 透明度
-        self.from_alpha = data.get('from_alpha', False)         # 透明度为 True 时，设置 alpha
+        self.images = data.get('images')  # 图片url
+        self.is_mask = data.get('is_mask', False)  # 剪辑是否是蒙版
+        self.transparent = data.get('transparent', True)  # 透明度
+        self.from_alpha = data.get('from_alpha', False)  # 透明度为 True 时，设置 alpha
         self.duration = data.get('duration', default_duration)  # 持续时间 (s)
-        self.size = data.get('size')                            # 尺寸
-        self.fps = data.get('fps')                              # fps
+        self.size = data.get('size')  # 尺寸
+        self.fps = data.get('fps')  # fps
 
     def make_image_clip(self):
         """
@@ -98,7 +170,7 @@ class ImageClipObject:
 
         clips = []
 
-        duration = self.duration/len(self.images)
+        duration = self.duration / len(self.images)
 
         for image_url in self.images:
             img = load_url_image(image_url)
@@ -115,6 +187,43 @@ class ImageClipObject:
         return image_clip
 
 
+class AudioClipObject:
+    """
+        音频对象
+    """
+
+    def __init__(self, audio_data=None):
+        """
+        初始化一个音频
+
+        :param audio_data: 音频数据
+        """
+
+        data = audio_data or {}
+
+        self.filename = data.get('filename')
+        self.duration = data.get('duration')
+        self.buffersize = data.get('buffersize')
+        self.nbytes = data.get('nbytes')
+        self.bitrate = data.get('bitrate')
+        self.fps = data.get('fps')
+
+    def make_audio_clip(self):
+        """
+            生成音频剪辑
+        """
+
+        # 音频文件地址
+        audio_path = '%s%s%s' % (current_app.config['MAKE_VIDEO_AUDIO_PATH'], self.filename, '.mp3')
+
+        audio = AudioFileClip(filename=audio_path,
+                              buffersize=self.buffersize,
+                              nbytes=self.nbytes,
+                              fps=self.fps).set_duration(self.duration)
+
+        return audio
+
+
 class ColorClipObject:
     """
         显示一个颜色帧
@@ -129,10 +238,10 @@ class ColorClipObject:
 
         data = color_data or {}
 
-        self.size = data.get('size')            # 剪辑的大小（width, height）
-        self.color = data.get('color')          # is_mask 为 False 时 RGB 颜色，True 时 0——1
-        self.is_mask = data.get('is_mask')      # 是否用作蒙版
-        self.duration = data.get('duration')    # 持续时间 (s)
+        self.size = data.get('size')  # 剪辑的大小（width, height）
+        self.color = data.get('color')  # is_mask 为 False 时 RGB 颜色，True 时 0——1
+        self.is_mask = data.get('is_mask')  # 是否用作蒙版
+        self.duration = data.get('duration')  # 持续时间 (s)
 
         # 生成结果
         self.color_clip = self.make_color_clip()
@@ -183,6 +292,8 @@ def _make_text_clip(text_data, img_clip, size):
 
     text_clip = CompositeVideoClip(clips, size=size)
 
+    # text_clip.write_videofile(('img_%s.mp4' % MixGenId.gen_letters()), fps=25)
+
     return text_clip
 
 
@@ -202,6 +313,7 @@ class VideoMake:
 
         self.style_data = MakeVideoStyle(post_data, style_id).get_style_data()
         self.content = self.style_data.get('content')
+        self.audio = self.style_data.get('audio')
         self.images = self.style_data.get('images')
         self.size = self.style_data.get('size')
         self.fps = self.style_data.get('fps')
@@ -215,6 +327,7 @@ class VideoMake:
 
         clips = []
 
+        # 每段视频开始的时间，切换时渐隐效果
         start = 0
 
         # 拆分内容数据，单独生成每一帧（一组数据，包含图片、文字等）
@@ -229,42 +342,11 @@ class VideoMake:
             clips.append(txt_clip.set_start(start).crossfadein(0.2))
             start += self.img_duration * len(self.images[index])
 
-        video = CompositeVideoClip(clips)
-        video.write_videofile('out.mp4', fps=self.fps)
+        # 音频剪辑
+        audio = AudioClipObject(self.audio).make_audio_clip()
+        # 最终剪辑文件
+        video = CompositeVideoClip(clips, size=self.size).set_audio(audio)
+
+        # video.write_videofile('out.avi', fps=self.fps, codec='mpeg4')
 
         return {'message': '创建成功'}
-
-
-def images_to_video(images, fps=24, duration=10, size=(640, 480)):
-    """
-    多张图片合成视频
-
-    :param images: 图片列表
-    :param fps: 帧数
-    :param duration: 持续时间
-    :param size: 宽高（x, y）
-    :return: 视频
-    """
-
-    images_url = images or []
-
-    videos = []
-
-    # 图像帧
-    for img_url in images_url:
-        image = load_url_image(img_url)
-        clip = ImageClip(np.array(image), duration=duration/len(images_url)).set_start(1.5).crossfadein(0.5)
-        clip = clip.resize(size)
-        videos.append(clip)
-
-    # 图像合成视频
-    result_video = concatenate_videoclips(videos)
-
-    # 文字帧
-    font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], Fonts.DEFAULT_FONT_FAMILY, '.ttf')
-    text_clip = TextClip('测试显示', font=font_path, fontsize=70, color='white', method='label')
-    text_clip = text_clip.set_position('center').set_duration(2)
-
-    # 合成视频文件输出
-    video = CompositeVideoClip([result_video, text_clip], size=size)
-    video.write_videofile('out_video.mp4', fps=fps)

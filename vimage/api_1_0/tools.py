@@ -187,8 +187,6 @@ def make_video():
     if not post_data or 'contents' not in post_data:
         return status_response(R400_BADREQUEST, False)
 
-    VideoMake(post_data).make_video()
+    result_video = VideoMake(post_data).make_video()
 
-    return full_response(R200_OK, {
-        'status': 'OK'
-    })
+    return full_response(R200_OK, result_video)
