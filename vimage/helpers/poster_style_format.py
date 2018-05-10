@@ -59,11 +59,11 @@ def get_image_url(image_type, data):
     return url
 
 
-def format_text_data(style_data, text_type, font_size, font_family, align, text_color, x, y, z_index):
+def format_text_data(post_data, text_type, font_size, font_family, align, text_color, x, y, z_index):
     """
     格式化文字数据
 
-    :param style_data: 样式展示内容数据
+    :param post_data: 样式展示内容数据
     :param text_type: 文字类型
     :param font_size: 字体大小
     :param font_family: 字体样式
@@ -75,7 +75,7 @@ def format_text_data(style_data, text_type, font_size, font_family, align, text_
     :return:
     """
 
-    data = style_data or {}
+    data = post_data or {}
 
     # 文本内容
     content = get_text_content(text_type, data)
@@ -95,10 +95,7 @@ def format_text_data(style_data, text_type, font_size, font_family, align, text_
     }
 
     # 位置
-    position = {
-        'x': x,
-        'y': y
-    }
+    position = (int(x), int(y))
 
     text_data = {
         'type': text_type,
@@ -112,11 +109,12 @@ def format_text_data(style_data, text_type, font_size, font_family, align, text_
     return text_data
 
 
-def format_image_data(style_data, image_type, width, height, x, y, z_index):
+def format_image_data(post_data, url, image_type, width, height, x, y, z_index):
     """
     格式化图片数据
 
-    :param style_data: 样式展示数据
+    :param post_data: 样式展示数据
+    :param url: 图片地址
     :param image_type: 图片类型
     :param width: 宽度
     :param height: 高度
@@ -126,28 +124,22 @@ def format_image_data(style_data, image_type, width, height, x, y, z_index):
     :return:
     """
 
-    data = style_data or {}
+    data = post_data or {}
 
     # 图片 URL
-    url = get_image_url(image_type, data)
+    img_url = get_image_url(image_type, data) if not url else url
 
     # 尺寸
-    size = {
-        'width': width,
-        'height': height
-    }
+    size = (int(width), int(height))
 
     # 位置
-    position = {
-        'x': x,
-        'y': y
-    }
+    position = (int(x), int(y))
 
     image_data = {
         'type': image_type,
         'size': size,
         'position': position,
-        'url': url,
+        'url': img_url,
         'z_index': z_index
     }
 

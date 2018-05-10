@@ -31,7 +31,7 @@ def _download_image(url, is_convert=False):
     return image
 
 
-def _qiniu_upload(content, key):
+def _qiniu_upload(content, folder, key):
     """
     上传图片至云服务
 
@@ -40,7 +40,7 @@ def _qiniu_upload(content, key):
     :return: 上传结果
     """
 
-    folder = 'gif'
+    folder = folder
     path_key = '%s/%s' % (folder, key)
 
     # 保存的地址
@@ -135,7 +135,7 @@ class GifTool:
         gif_content = BytesIO()
         images[0].save(gif_content, 'gif', save_all=True, append_images=images[1:], duration=self.duration, loop=0)
 
-        result = _qiniu_upload(gif_content.getvalue(), QiniuCloud.gen_path_key('.gif'))
+        result = _qiniu_upload(gif_content.getvalue(), 'gif', QiniuCloud.gen_path_key('.gif'))
 
         return {
             'result_gif': result
@@ -160,7 +160,7 @@ class GifTool:
             image = self.resize_image(iter.copy())
             image.save(image_content, 'png')
 
-            result = _qiniu_upload(image_content.getvalue(), QiniuCloud.gen_path_key())
+            result = _qiniu_upload(image_content.getvalue(), 'gif', QiniuCloud.gen_path_key())
             images.append(result)
 
         return {
@@ -192,7 +192,7 @@ class GifTool:
         gif_content = BytesIO()
         images[0].save(gif_content, 'gif', save_all=True, append_images=images[1:], duration=self.duration, loop=0)
 
-        result = _qiniu_upload(gif_content.getvalue(), QiniuCloud.gen_path_key('.gif'))
+        result = _qiniu_upload(gif_content.getvalue(), 'gif', QiniuCloud.gen_path_key('.gif'))
 
         return {
             'gif': self.gif,
@@ -241,7 +241,7 @@ class GifTool:
         gif_content = BytesIO()
         images[0].save(gif_content, 'gif', save_all=True, append_images=images[1:], duration=self.duration, loop=0)
 
-        result = _qiniu_upload(gif_content.getvalue(), QiniuCloud.gen_path_key('.gif'))
+        result = _qiniu_upload(gif_content.getvalue(), 'gif', QiniuCloud.gen_path_key('.gif'))
 
         return {
             'gif_poster': result

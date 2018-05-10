@@ -6,10 +6,32 @@ from . import api
 from vimage.models import Sensitive
 from vimage.helpers.utils import *
 from vimage.helpers.ocr import *
-from vimage.helpers.gif_make import GifTool
-from vimage.helpers.video_make import *
-from vimage.helpers.sensitive import PickSensitive
-from vimage.helpers import QiniuCloud, QiniuError
+from vimage.helpers import QiniuCloud, QiniuError, GifTool, PickSensitive, VideoMake, QRCodeObject
+
+
+def _qiniu_upload(content, folder, key):
+    """
+    上传图片至云服务
+
+    :param content: 上传的数据
+    :param key: path key
+    :return: 上传结果
+    """
+
+    folder = folder
+    path_key = '%s/%s' % (folder, key)
+
+    # 保存的地址
+    result_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+
+    qiniu_cloud = QiniuCloud(current_app.config['QINIU_ACCESS_KEY'], current_app.config['QINIU_ACCESS_SECRET'],
+                             current_app.config['QINIU_BUCKET_NAME'])
+    try:
+        qiniu_cloud.upload_content(content, path_key)
+    except QiniuError as err:
+        current_app.logger.warn('Qiniu upload file error: %s' % str(err))
+
+    return result_url
 
 
 @api.route('/tools/pick_sensitive_word', methods=['POST'])
@@ -190,3 +212,46 @@ def make_video():
     result_video = VideoMake(post_data).make_video()
 
     return full_response(R200_OK, result_video)
+
+
+@api.route('/tools/qr_code', methods=['POST'])
+def make_qr_code():
+    """
+        制作生成二维码
+    """
+
+    post_data = request.get_json()
+
+    """
+    post 接收参数说明
+    
+    type: 数据类型：1：文字/2：网址
+    content: 数据内容 文字/URL （必传）
+    logo_img: 是否添加logo (url)
+    version: 二维码的大小 (1 —— 40)
+    fill_color: 前景色 ('#000000')
+    back_color: 背景色 ('#FFFFFF')
+    error_correct: 容错率 (L | M | Q | H)
+    box_size: 每个“盒子”有多少像素
+    border: 边框大小
+    """
+
+    # 验证参数是否合法
+    if not post_data or 'content' not in post_data:
+        return status_response(R400_BADREQUEST, False)
+
+    # 生成二维码
+    result_img = QRCodeObject(post_data).create_qr_code()
+
+    # 检测二维码图片是否存在
+    if not result_img:
+        return status_response(custom_status('请输入正确的网址', code=400))
+
+    # 获取二维码地址
+    img_content = io.BytesIO()
+    result_img.save(img_content, 'png')
+
+    # 上传到七牛
+    result_url = _qiniu_upload(img_content.getvalue(), 'QRCode', QiniuCloud.gen_path_key('.png'))
+
+    return full_response(R200_OK, {'result_url': result_url})

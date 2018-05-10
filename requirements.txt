@@ -66,3 +66,4 @@ pytesseract==0.2.0
 moviepy==0.2.3.2
 opencv-python==3.4.0.12
 scipy==1.0.1
+qrcode==6.0
