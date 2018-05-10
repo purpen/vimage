@@ -234,6 +234,24 @@ def make_qr_code():
     error_correct: 容错率 (L | M | Q | H)
     box_size: 每个“盒子”有多少像素
     border: 边框大小
+    gradient: 二维码背景为渐变色，['#FFFFFF', '#000000']
+    g_direction: 渐变色的方向，默认上下
+    hint_text: 扫二维码的提示文字
+    background: 提示文字的背景颜色，为空时显示透明
+    
+    请求示例：
+    {
+        "type": 2,
+        "content": "http://www.baidu.com",
+        "logo_img": "https://kg.erp.taihuoniao.com/20180320/FmdRh9D1LFZLMSo1DLl2gExwHX0P.png",
+        "border": 2,
+        "back_color": "#FFFFFF",
+        "fill_color": "#000000",
+        "gradient": ["#1EC6F4", "#63C848"],
+        "g_direction": 0,
+        "hint_text": "扫一扫去购买",
+        "background": "#FFFFFF"
+    }
     """
 
     # 验证参数是否合法
