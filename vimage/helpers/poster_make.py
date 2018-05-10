@@ -34,6 +34,29 @@ class TextObject:
         self.text_color = style_data.get('text_color')      # 文字颜色
         self.line_spacing = style_data.get('line_spacing')  # 行间距(多行文本)
 
+    def draw_text(self, canvas):
+        """
+        绘制文字
+
+        :param canvas: 画布
+        :return: 添加文字的图片
+        """
+
+        # 字体的样式
+        font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], self.font_family, '.ttf')
+        current_app.logger.debug('Font path: %s' % font_path)
+        draw_font = ImageFont.truetype(font=font_path, size=self.font_size)
+
+        # 重新计算文字内容，保持居中
+        if self.align is 'center':
+            text_size = draw_font.getsize(self.content)
+            position_x = (canvas.size[0] - text_size[0]) / 2
+            self.position = (position_x, self.position[1])
+
+        # 文字的样式配置
+        ImageDraw.Draw(canvas).text(xy=self.position, text=self.content, fill=self.text_color, font=draw_font,
+                                    align=self.align)
+
 
 class ImageObject:
     """
@@ -54,6 +77,21 @@ class ImageObject:
         self.position = data.get('position')   # 位置
         self.url = data.get('url')             # 网络Url
         self.z_index = data.get('z_index')     # 层级（叠加顺序）
+
+    def paste_image(self, canvas):
+        """
+        粘贴图片
+
+        :param canvas: 画布
+        :return: 拼贴后的结果图片
+        """
+
+        # 加载图片
+        load_image = load_url_image(self.url, is_create=True)
+        resize_image = load_image.resize(self.size)
+
+        # 对图片合成
+        canvas.paste(resize_image, self.position, resize_image)
 
 
 class ShapeObject:
@@ -77,33 +115,59 @@ class ShapeObject:
         self.out_color = data.get('out_color')  # 边框颜色
         self.z_index = data.get('z_index')      # 层级（叠加顺序）
 
+    def draw_line(self, image):
+        """
+        图片上绘制一条直线
 
-def draw_line(image, draw_position, color, width=0):
+        :param image: 图片
+        :return: 绘制完成的图片
+        """
+
+        ImageDraw.Draw(image).line(self.position, self.color, self.width)
+
+    def draw_rectangle(self, image):
+        """
+        图片上绘制矩形
+
+        :param image: 图片
+        :return: 绘制完成的图片
+        """
+
+        ImageDraw.Draw(image).rectangle(self.position, self.color, self.out_color)
+
+    def draw_shapes(self, canvas):
+        """
+        在图片上绘制图形
+
+        :param canvas: 画布
+        :return: 绘制完成的图片
+        """
+
+        shape_type = self.type
+
+        for case in Switch(shape_type):
+            if case(DrawShapeType.Line):
+                self.draw_line(canvas)
+                break
+
+            if case(DrawShapeType.Rectangle):
+                self.draw_rectangle(canvas)
+                break
+
+
+def create_canvas(size, color=(255, 255, 255), mode='RGBA'):
     """
-    图片上绘制一条直线
+    创建画布
 
-    :param image: 图片
-    :param draw_position: 直线的大小、位置 [(x1, y1), (x2, y2)]
+    :param mode: 模式
+    :param size: 尺寸
     :param color: 颜色
-    :param width: 宽度
-    :return: 绘制完成的图片
+    :return: image
     """
 
-    ImageDraw.Draw(image).line(draw_position, color, width)
+    canvas = Image.new(mode, size, color)
 
-
-def draw_rectangle(image, draw_position, color, out_color):
-    """
-    图片上绘制矩形
-
-    :param image: 图片
-    :param draw_position: 矩形的大小、位置 [(x1, y1), (x2, y2)]
-    :param color: 填充颜色
-    :param out_color: 边框颜色
-    :return: 绘制完成的图片
-    """
-
-    ImageDraw.Draw(image).rectangle(draw_position, color, out_color)
+    return canvas
 
 
 class Poster(object):
@@ -111,134 +175,78 @@ class Poster(object):
         海报生成器
     """
 
-    def __init__(self, data):
+    def __init__(self, post_data):
         """
         初始化海报对象
 
-        :param data: 海报展示的信息
+        :param post_data: 海报展示的信息
         """
 
-        info_data = data or {}
+        self.data = post_data or {}
 
-        self.id = info_data.get('id')           # 标识
-        self.color = info_data.get('color')     # 颜色
-
-        self.size = info_data.get('size')       # 尺寸
-        self.width = self.size.get('width')     # 宽度
-        self.height = self.size.get('height')   # 高度
-
-        self.texts = info_data.get('texts')     # 文字
-        self.images = info_data.get('images')   # 图片
-        self.shapes = info_data.get('shapes')   # 图形
+        self.id = self.data.get('id')  # 样式标识
+        self.color = self.data.get('color')  # 背景颜色
+        self.size = self.data.get('size')  # 尺寸
+        self.views = self.data.get('views')  # 视图
 
         # 创建初始画布
-        self.canvas = self.create_canvas()
+        self.canvas = create_canvas(self.size, self.color)
 
-    def create_canvas(self):
+    def create_container_view(self, style_data):
         """
-            创建画布
-        """
-
-        return Image.new('RGBA', (self.width, self.height), self.color)
-
-    def draw_text(self, text=TextObject()):
-        """
-        在图片上添加文字
-
-        :param text: 文字
-        :return: 画上文字的图片
+            制作容器视图
         """
 
-        # 文字画的位置
-        x = text.position.get('x')
-        y = text.position.get('y')
-        xy = (x, y)
+        size = style_data.get('size')
+        images = style_data.get('images')
+        texts = style_data.get('texts')
+        shapes = style_data.get('shapes')
 
-        # 字体的样式
-        font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], text.font_family, '.ttf')
-        current_app.logger.debug('Font path: %s' % font_path)
-        draw_font = ImageFont.truetype(font=font_path, size=text.font_size)
+        # 容器视图
+        container_canvas = create_canvas(size=size, color=self.color)
 
-        # 文字的样式配置
-        ImageDraw.Draw(self.canvas).text(xy=xy, text=text.content, fill=text.text_color, font=draw_font, align=text.align)
+        # 1:图片素材合成到画布上
+        image_list = _sort_list_layer(images, 'z_index')
+        for image_data in image_list:
+            ImageObject(image_data).paste_image(container_canvas)
 
-    def draw_shapes(self, shape_obj=ShapeObject()):
+        # 2:绘制图形（分割线，文字背景色等）
+        shape_list = _sort_list_layer(shapes, 'z_index')
+        for shape_data in shape_list:
+            ShapeObject(shape_data).draw_shapes(container_canvas)
+
+        # 3:文字内容绘制到画布上
+        text_list = _sort_list_layer(texts, 'z_index')
+        for text_data in text_list:
+            TextObject(text_data).draw_text(container_canvas)
+
+        return container_canvas
+
+    def make_goods_card(self):
         """
-        在图片上绘制图形
-
-        :param shape_obj: 图形对象
-        :return: 绘制完成的图片
-        """
-
-        shape_type = shape_obj.type
-
-        for case in Switch(shape_type):
-            if case(DrawShapeType.Line):
-                draw_line(self.canvas, shape_obj.position, shape_obj.color, shape_obj.width)
-                break
-
-            if case(DrawShapeType.Rectangle):
-                draw_rectangle(self.canvas, shape_obj.position, shape_obj.color, shape_obj.out_color)
-                break
-
-            if case():
-                draw_line(self.canvas, shape_obj.position, shape_obj.color, shape_obj.width)
-                break
-
-    def paste_image(self, image_obj=ImageObject()):
-        """
-        合成图片
-
-        :param image_obj: 图片素材
-        :return: 拼贴后的结果图片
+            制作商品分享卡片
         """
 
-        # 图像的尺寸
-        width = image_obj.size.get('width')
-        height = image_obj.size.get('height')
+        # 顶部间隔
+        view_h = 0
 
-        # 图像合成的位置
-        x = image_obj.position.get('x')
-        y = image_obj.position.get('y')
-        xy = (x, y)
+        # 合并所有的视图容器
+        for item in self.views:
+            view_canvas = self.create_container_view(item)
+            self.canvas.paste(view_canvas, (0, view_h), view_canvas)
+            view_h += item.get('size')[1]
 
-        # 加载图片
-        load_image = load_url_image(image_obj.url, is_create=True)
-        resize_image = load_image.resize((width, height))
+        return self.canvas
 
-        # 对图片合成
-        self.canvas.paste(resize_image, xy, resize_image)
-
-    def make(self):
+    def make_poster_card(self):
         """
             生成海报
         """
 
-        # 1、排序后的图片（图片叠加的顺序）
-        image_list = _sort_list_layer(self.images, 'z_index')
+        # 海报画布
+        poster_canvas = self.create_container_view(self.data)
 
-        # 2、图片素材合成到画布上
-        for image_data in image_list:
-            image_obj = ImageObject(image_data)
-            self.paste_image(image_obj)
-
-        # 3、排序后的图形（图形叠加顺序）
-        shape_list = _sort_list_layer(self.shapes, 'z_index')
-
-        # 4、绘制图形（分割线，文字背景色等）
-        for shape_data in shape_list:
-            shape_obj = ShapeObject(shape_data)
-            self.draw_shapes(shape_obj)
-
-        # 5、排序后的文字（文字叠加的顺序）
-        text_list = _sort_list_layer(self.texts, 'z_index')
-
-        # 6、文字内容绘制到画布上
-        for text_data in text_list:
-            text_obj = TextObject(text_data)
-            self.draw_text(text_obj)
-
-        return self.canvas
+        return poster_canvas
 
 
 def _sort_list_layer(original_list, key):

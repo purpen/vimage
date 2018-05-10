@@ -25,7 +25,9 @@ def make_wxa_poster():
         "sale_price": "88",
         "brand_name": "D3IN未来店",
         "hint_text": "",
-        "goods_img": "https://kg.erp.taihuoniao.com/20180315/FucRIvI9p0Ay0cqlAXtpJIvsTRhR.jpg",
+        "goods_images": [
+                "https://kg.erp.taihuoniao.com/20180315/FucRIvI9p0Ay0cqlAXtpJIvsTRhR.jpg"
+            ]
         "logo_img": "https://kg.erp.taihuoniao.com/20180320/FmdRh9D1LFZLMSo1DLl2gExwHX0P.png",
         "wxa_code_img": "https://kg.erp.taihuoniao.com/qrcode/wxacode-wx11363b7f6fe26ac8-6157c47acb344ba43a3b345ddc21dc46.jpg"
     }
@@ -44,13 +46,11 @@ def make_wxa_poster():
         'sale_price': post_data.get('sale_price'),
         'brand_name': post_data.get('brand_name'),
         'hint_text': post_data.get('hint_text'),
-        'goods_img': post_data.get('goods_img'),
+        'goods_images': post_data.get('goods_images'),
         'logo_img': post_data.get('logo_img'),
         'qr_code_img': post_data.get('qr_code_img'),
         'wxa_code_img': post_data.get('wxa_code_img')
     }
-
-    style_id = 1
 
     folder = 'wxacode'
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
@@ -58,10 +58,10 @@ def make_wxa_poster():
     image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
-    poster_style = GoodsWxaStyle(data, style_id)
+    poster_style = GoodsWxaStyle(data)
     # 2、生成海报
     poster = Poster(poster_style.get_style_data())
-    poster_image = poster.make()
+    poster_image = poster.make_goods_card()
 
     # 3、获取图像二进制流
     poster_content = io.BytesIO()
@@ -128,7 +128,7 @@ def make_sales_poster():
     poster_style = GoodsSalesStyle(data, style_id)
     # 2、生成海报
     poster = Poster(poster_style.get_style_data())
-    poster_image = poster.make()
+    poster_image = poster.make_poster_card()
 
     # 3、获取图像二进制流
     poster_content = io.BytesIO()
