@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from io import BytesIO
 import requests as req
-from PIL import Image
+from PIL import Image, ImageDraw
 from vimage.helpers.utils import *
 from vimage.constant import *
 
@@ -86,3 +86,28 @@ def gradient_color(color1=(255, 255, 255), color2=(0, 0, 0), w=256, h=256, direc
             color_img.putpixel(xy, gradient[y])
 
     return color_img
+
+
+def circle_image(image):
+    """
+    裁剪圆形图像
+
+    :param image: 图片
+    :return: 裁圆后的图片
+    """
+
+    image = image.convert("RGBA")
+    size = image.size
+    r2 = min(size[0], size[1])
+
+    if size[0] != size[1]:
+        image = image.resize((r2, r2), Image.ANTIALIAS)
+
+    circle = Image.new('L', (r2, r2), 0)
+    draw = ImageDraw.Draw(circle)
+    draw.ellipse((0, 0, r2, r2), fill=255)
+    alpha = Image.new('L', (r2, r2), 255)
+    alpha.paste(circle, (0, 0))
+    image.putalpha(alpha)
+
+    return image

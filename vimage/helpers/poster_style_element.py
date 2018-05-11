@@ -15,6 +15,7 @@ class ImageType(Enum):
     Modify = 6          # 修饰
     Mask = 7            # 蒙版
     Wxacode = 8         # 小程序码
+    Avatar = 9          # 头像
 
 
 @unique

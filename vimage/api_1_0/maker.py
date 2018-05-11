@@ -59,6 +59,7 @@ def make_wxa_poster():
 
     # 1、获取样式数据
     poster_style = GoodsWxaStyle(data)
+
     # 2、生成海报
     poster = Poster(poster_style.get_style_data())
     poster_image = poster.make_goods_card()
@@ -126,6 +127,63 @@ def make_sales_poster():
 
     # 1、获取样式数据
     poster_style = GoodsSalesStyle(data, style_id)
+
+    # 2、生成海报
+    poster = Poster(poster_style.get_style_data())
+    poster_image = poster.make_poster_card()
+
+    # 3、获取图像二进制流
+    poster_content = io.BytesIO()
+    poster_image.save(poster_content, 'png')
+
+    # 4、上传图片至云服务
+    qiniu_cloud = QiniuCloud(current_app.config['QINIU_ACCESS_KEY'], current_app.config['QINIU_ACCESS_SECRET'],
+                             current_app.config['QINIU_BUCKET_NAME'])
+    try:
+        qiniu_cloud.upload_content(poster_content.getvalue(), path_key)
+    except QiniuError as err:
+        current_app.logger.warn('Qiniu upload wxacode error: %s' % str(err))
+
+    # 启动任务
+    # make_promotion_image.apply_async(args=[path_key, data, style_id])
+
+    return full_response(R200_OK, {
+        'image_url': image_url
+    })
+
+
+@api.route('/maker/saying_poster', methods=['POST'])
+def make_saying_poster():
+    """
+        制作语录、日签海报
+    """
+
+    post_data = request.get_json()
+
+    """
+    请求示例：
+    {
+        "style_id": "1",
+        "info": "人真正的完美不在于他们拥有什么，而在于\n他们愿意分享什么",
+        "nickname": "D3IN未来店",
+        "back_img": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526521188&di=cae0dd720e3e08fcfe115a88cf3e690a&imgtype=jpg&er=1&src=http%3A%2F%2Farticle.fd.zol-img.com.cn%2Ft_s640x2000%2Fg5%2FM00%2F0B%2F0B%2FChMkJ1lTb4GIQ8XUAADODdoHCSsAAdqKADTk4MAAM4l529.jpg",
+        "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526637159&di=eff4c9cc5b644cb48941112c4a248ffc&imgtype=jpg&er=1&src=http%3A%2F%2Fimgtu.5011.net%2Fuploads%2Fcontent%2F20170209%2F4934501486627131.jpg",
+        "qr_code": "https://kg.erp.taihuoniao.com/qrcode/wxacode-wx11363b7f6fe26ac8-6157c47acb344ba43a3b345ddc21dc46.jpg",
+        "hint_text": ""
+    }
+    """
+
+    if not post_data:
+        return status_response(R400_BADREQUEST, False)
+
+    folder = 'saying'
+    path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
+    # 生成图片地址
+    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+
+    # 1、获取样式数据
+    poster_style = SayingStyle(post_data)
+
     # 2、生成海报
     poster = Poster(poster_style.get_style_data())
     poster_image = poster.make_poster_card()
@@ -195,7 +253,7 @@ def make_gif_poster():
 
     # 生成海报
     poster = Poster(poster_style.get_style_data())
-    poster_image = poster.make()
+    poster_image = poster.make_poster_card()
 
     # 创建 GIF 工具类，生成 GIF 图
     gif_tool = GifTool(type=1, images=images)

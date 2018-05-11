@@ -47,11 +47,16 @@ class TextObject:
         current_app.logger.debug('Font path: %s' % font_path)
         draw_font = ImageFont.truetype(font=font_path, size=self.font_size)
 
+        # 海报的宽度
+        poster_w = canvas.size[0]
+
         # 重新计算文字内容，保持居中
         if self.align is 'center':
             text_size = draw_font.getsize(self.content)
-            position_x = (canvas.size[0] - text_size[0]) / 2
-            self.position = (position_x, self.position[1])
+
+            if text_size[0] < poster_w:
+                position_x = (poster_w - text_size[0]) / 2
+                self.position = (position_x, self.position[1])
 
         # 文字的样式配置
         ImageDraw.Draw(canvas).text(xy=self.position, text=self.content, fill=self.text_color, font=draw_font,
@@ -89,6 +94,9 @@ class ImageObject:
         # 加载图片
         load_image = load_url_image(self.url, is_create=True)
         resize_image = load_image.resize(self.size)
+
+        if self.type is ImageType.Avatar:
+            resize_image = circle_image(resize_image)
 
         # 对图片合成
         canvas.paste(resize_image, self.position, resize_image)

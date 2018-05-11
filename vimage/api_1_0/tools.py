@@ -9,17 +9,18 @@ from vimage.helpers.ocr import *
 from vimage.helpers import QiniuCloud, QiniuError, GifTool, PickSensitive, VideoMake, QRCodeObject
 
 
-def _qiniu_upload(content, folder, key):
+def qiniu_upload(content, folder, file_suffix):
     """
     上传图片至云服务
 
     :param content: 上传的数据
-    :param key: path key
+    :param folder: 文件夹名称
+    :param file_suffix: 文件后缀名
     :return: 上传结果
     """
 
     folder = folder
-    path_key = '%s/%s' % (folder, key)
+    path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key(file_suffix))
 
     # 保存的地址
     result_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
@@ -270,6 +271,6 @@ def make_qr_code():
     result_img.save(img_content, 'png')
 
     # 上传到七牛
-    result_url = _qiniu_upload(img_content.getvalue(), 'QRCode', QiniuCloud.gen_path_key('.png'))
+    result_url = qiniu_upload(img_content.getvalue(), 'QRCode', '.png')
 
     return full_response(R200_OK, {'result_url': result_url})

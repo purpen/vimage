@@ -187,14 +187,14 @@ class GoodsWxaStyle:
         size = (self.width, self.center_h)
 
         # 商品标题
-        goods_title_data = format_text_data(post_data=self.data, text_type=TextType.Title, font_size=38,
+        goods_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Title, font_size=38,
                                             font_family=None, align='left', text_color='#333333', x=60, y=40, z_index=0)
 
         # 商品价格
         default_text = {
             'sale_price': '￥%s' % self.data.get('sale_price'),
         }
-        goods_price_data = format_text_data(post_data=default_text, text_type=TextType.SalePrice, font_size=38,
+        goods_price_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalePrice, font_size=38,
                                             font_family=None, align='left', text_color='#DD3C3C', x=60, y=164, z_index=1)
 
         return {
@@ -215,11 +215,11 @@ class GoodsWxaStyle:
         default_text = {
             'hint_text': '长按识别小程序码'
         }
-        hint_text_data = format_text_data(post_data=default_text, text_type=TextType.Hint, font_size=28,
+        hint_text_data = format_text_data(post_data=default_text, text=None, text_type=TextType.Hint, font_size=28,
                                           font_family=None, align='left', text_color='#999999', x=60, y=56, z_index=0)
 
         # 品牌名称
-        brand_name_data = format_text_data(post_data=self.data, text_type=TextType.BrandName, font_size=32,
+        brand_name_data = format_text_data(post_data=self.data, text=None, text_type=TextType.BrandName, font_size=32,
                                            font_family=None, align='left', text_color='#666666', x=170, y=144, z_index=1)
 
         # 二维码
@@ -314,23 +314,23 @@ class GoodsSalesStyle:
             'sales_brand': '店铺名：%s' % self.data.get('sales_brand')
         }
 
-        sales_title_data = format_text_data(post_data=self.data, text_type=TextType.SalesTitle, font_size=42,
+        sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=42,
                                             font_family=None, align='center', text_color=text_color,
                                             x=194, y=123, z_index=0)
 
-        sales_pct_data = format_text_data(post_data=default_text, text_type=TextType.SalesPCT, font_size=190,
+        sales_pct_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesPCT, font_size=190,
                                           font_family='PingFang Bold', align='center', text_color=text_color,
                                           x=225, y=146, z_index=1)
 
-        sales_info_data = format_text_data(post_data=self.data, text_type=TextType.SalesInfo, font_size=90,
+        sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=90,
                                            font_family=None, align='center', text_color=text_color,
                                            x=196, y=357, z_index=2)
 
-        sales_brand_data = format_text_data(post_data=default_text, text_type=TextType.SalesBrand, font_size=30,
+        sales_brand_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesBrand, font_size=30,
                                             font_family=None, align='center', text_color='#333333',
                                             x=215, y=564, z_index=3)
 
-        time_data = format_text_data(post_data=self.data, text_type=TextType.Time, font_size=30,
+        time_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Time, font_size=30,
                                      font_family=None, align='center', text_color=text_color,
                                      x=283, y=473, z_index=4)
 
@@ -365,27 +365,27 @@ class GoodsSalesStyle:
             'sales_brand': '店铺名：%s' % self.data.get('sales_brand')
         }
 
-        sales_title_data = format_text_data(post_data=self.data, text_type=TextType.SalesTitle, font_size=42,
+        sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=42,
                                             font_family=None, align='center', text_color=text_color,
                                             x=194, y=123, z_index=0)
 
-        sales_pct_data = format_text_data(post_data=default_text, text_type=TextType.SalesPCT, font_size=190,
+        sales_pct_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesPCT, font_size=190,
                                           font_family='PingFang Bold', align='center', text_color=text_color,
                                           x=225, y=146, z_index=1)
 
-        sales_info_data = format_text_data(post_data=self.data, text_type=TextType.SalesInfo, font_size=90,
+        sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=90,
                                            font_family=None, align='center', text_color=text_color,
                                            x=196, y=357, z_index=2)
 
-        sales_brand_data = format_text_data(post_data=default_text, text_type=TextType.SalesBrand, font_size=30,
+        sales_brand_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesBrand, font_size=30,
                                             font_family=None, align='center', text_color='#333333',
                                             x=215, y=564, z_index=3)
 
-        time_data = format_text_data(post_data=self.data, text_type=TextType.Time, font_size=30,
+        time_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Time, font_size=30,
                                      font_family=None, align='center', text_color=text_color,
                                      x=283, y=473, z_index=4)
 
-        hint_text = format_text_data(post_data=self.data, text_type=TextType.Hint, font_size=24,
+        hint_text = format_text_data(post_data=self.data, text=None, text_type=TextType.Hint, font_size=24,
                                      font_family='PingFang Light', align='center', text_color='#333333',
                                      x=260, y=1080, z_index=5)
 
@@ -424,27 +424,27 @@ class GoodsSalesStyle:
             'sales_pct': '全场 %s 折' % self.data.get('sales_pct'),
             'hint_text': '扫    码    参    加'
         }
-        sales_title_data = format_text_data(post_data=self.data, text_type=TextType.SalesTitle, font_size=30,
+        sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=30,
                                             font_family='PingFang Light', align='center', text_color=text_color,
                                             x=240, y=415, z_index=0)
 
-        sales_pct_data = format_text_data(post_data=default_text, text_type=TextType.SalesPCT, font_size=22,
+        sales_pct_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesPCT, font_size=22,
                                           font_family='PingFang Light', align='center', text_color=text_color,
                                           x=414, y=690, z_index=1)
 
-        sales_info_data = format_text_data(post_data=self.data, text_type=TextType.SalesInfo, font_size=22,
+        sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=22,
                                            font_family='PingFang Light', align='center', text_color='#FFFFFF',
                                            x=240, y=690, z_index=2)
 
-        sales_other_1 = format_text_data(post_data=default_text, text_type=TextType.OtherInfo1, font_size=160,
+        sales_other_1 = format_text_data(post_data=default_text, text=None, text_type=TextType.OtherInfo1, font_size=160,
                                          font_family='PingFang Light', align='center', text_color=text_color,
                                          x=215, y=207, z_index=3)
 
-        sales_other_2 = format_text_data(post_data=default_text, text_type=TextType.OtherInfo2, font_size=160,
+        sales_other_2 = format_text_data(post_data=default_text, text=None, text_type=TextType.OtherInfo2, font_size=160,
                                          font_family='PingFang Light', align='center', text_color=text_color,
                                          x=215, y=441, z_index=4)
 
-        hint_text = format_text_data(post_data=default_text, text_type=TextType.Hint, font_size=24,
+        hint_text = format_text_data(post_data=default_text, text=None, text_type=TextType.Hint, font_size=24,
                                      font_family='PingFang Light', align='center', text_color=text_color,
                                      x=279, y=1143, z_index=5)
 
@@ -493,31 +493,31 @@ class GoodsSalesStyle:
             'symbol_pct': '%',
             'symbol_off': 'OFF'
         }
-        sales_title_data = format_text_data(post_data=self.data, text_type=TextType.SalesTitle, font_size=30,
+        sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=30,
                                             font_family='PingFang Light', align='center', text_color=text_color,
                                             x=240, y=395, z_index=0)
 
-        sales_pct_data = format_text_data(post_data=self.data, text_type=TextType.SalesPCT, font_size=360,
+        sales_pct_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesPCT, font_size=360,
                                           font_family='DIN Condensed Bold', align='left', text_color=text_color,
                                           x=213, y=487, z_index=1)
 
-        sales_info_data = format_text_data(post_data=self.data, text_type=TextType.SalesInfo, font_size=24,
+        sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=24,
                                            font_family='PingFang Light', align='center', text_color=text_color,
                                            x=203, y=803, z_index=2)
 
-        sales_other_1 = format_text_data(post_data=default_text, text_type=TextType.OtherInfo1, font_size=70,
+        sales_other_1 = format_text_data(post_data=default_text, text=None, text_type=TextType.OtherInfo1, font_size=70,
                                          font_family='PingFang Light', align='center', text_color=text_color,
                                          x=183, y=287, z_index=3)
 
-        hint_text = format_text_data(post_data=default_text, text_type=TextType.Hint, font_size=24,
+        hint_text = format_text_data(post_data=default_text, text=None, text_type=TextType.Hint, font_size=24,
                                      font_family='PingFang Light', align='center', text_color=text_color,
                                      x=282, y=1058, z_index=4)
 
-        symbol_pct = format_text_data(post_data=default_text, text_type=TextType.SymbolPCT, font_size=120,
+        symbol_pct = format_text_data(post_data=default_text, text=None, text_type=TextType.SymbolPCT, font_size=120,
                                       font_family='DIN Condensed Bold', align='left', text_color=text_color,
                                       x=480, y=612, z_index=5)
 
-        symbol_off = format_text_data(post_data=default_text, text_type=TextType.SymbolOff, font_size=48,
+        symbol_off = format_text_data(post_data=default_text, text=None, text_type=TextType.SymbolOff, font_size=48,
                                       font_family='DIN Condensed Bold', align='left', text_color=text_color,
                                       x=480, y=712, z_index=6)
 
@@ -558,27 +558,27 @@ class GoodsSalesStyle:
             'hint_text': '扫   码   参   加',
             'sales_pct': '全 场 %s  折' % self.data.get('sales_pct')
         }
-        sales_title_data = format_text_data(post_data=self.data, text_type=TextType.SalesTitle, font_size=200,
+        sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=200,
                                             font_family='DIN Condensed Bold', align='left', text_color=text_color,
                                             x=139, y=160, z_index=0)
 
-        sales_other_1 = format_text_data(post_data=default_text, text_type=TextType.OtherInfo1, font_size=90,
+        sales_other_1 = format_text_data(post_data=default_text, text=None, text_type=TextType.OtherInfo1, font_size=90,
                                          font_family='PingFang Regular', align='center', text_color=text_color,
                                          x=150, y=350, z_index=1)
 
-        sales_pct_data = format_text_data(post_data=default_text, text_type=TextType.SalesPCT, font_size=90,
+        sales_pct_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesPCT, font_size=90,
                                           font_family='PingFang Regular', align='center', text_color=text_color,
                                           x=153, y=490, z_index=2)
 
-        time_data = format_text_data(post_data=self.data, text_type=TextType.Time, font_size=40,
+        time_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Time, font_size=40,
                                      font_family='DIN Condensed Bold', align='center', text_color='#FFFFFF',
                                      x=233, y=690, z_index=3)
 
-        sales_info_data = format_text_data(post_data=self.data, text_type=TextType.SalesInfo, font_size=24,
+        sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=24,
                                            font_family='PingFang Regular', align='center', text_color=text_color,
                                            x=203, y=962, z_index=4)
 
-        hint_text = format_text_data(post_data=default_text, text_type=TextType.Hint, font_size=24,
+        hint_text = format_text_data(post_data=default_text, text=None, text_type=TextType.Hint, font_size=24,
                                      font_family='PingFang Light', align='center', text_color='#000000',
                                      x=291, y=1241, z_index=5)
 
@@ -602,6 +602,91 @@ class GoodsSalesStyle:
                                                   width=None, color='#FD4136', out_color=None, z_index=0)
 
         shapes = [draw_rectangle_1_data]
+
+        # 格式化数据
+        return format_style_data(self.style_id, self.size, self.color, texts, images, shapes)
+
+    def get_style_data(self):
+        """
+        获取海报样式数据
+
+        :return: 样式数据
+        """
+
+        style_id = str(self.style_id)
+
+        style_data = self.styles.get(style_id)
+
+        return style_data
+
+
+class SayingStyle:
+    """
+        语录、日签样式
+    """
+
+    def __init__(self, post_data):
+        """
+        初始化海报样式
+
+        :param post_data: 内容数据
+        """
+
+        self.data = post_data or {}
+
+        self.style_id = self.data.get('style_id', '1')  # 样式id
+        self.back_img = self.data.get('back_img')  # 背景图片
+        self.avatar = self.data.get('avatar')  # 用户头像
+        self.nickname = self.data.get('nickname')  # 用户昵称
+        self.content = self.data.get('info')  # 内容文字
+        self.qr_code = self.data.get('qr_code')  # 二维码图片
+        self.hint_text = self.data.get('hint_text')  # 提示文字
+
+        # 海报通用默认信息
+        width, height = Size.POSTER_IMAGE_SIZE['width'], Size.POSTER_IMAGE_SIZE['height']
+        self.size = (width, height)
+        self.color = (255, 255, 255)
+
+        self.styles = {
+            '1': self.get_style_1()
+        }
+
+    def get_style_1(self):
+        """
+            样式1
+        """
+
+        # 文字
+        content_data = format_text_data(post_data=self.data, text=self.content, text_type=TextType.Info, font_size=28,
+                                        font_family='PingFang Regular', align='center', text_color='#333333',
+                                        x=100, y=700, z_index=0)
+
+        time_data = format_text_data(post_data=self.data, text='2018.05.11', text_type=TextType.Time, font_size=24,
+                                     font_family='PingFang Bold', align='center', text_color='#666666',
+                                     x=313, y=920, z_index=1)
+
+        texts = [content_data, time_data]
+
+        # 图片素材
+        background_image_data = format_image_data(post_data=self.data, url=self.back_img, image_type=ImageType.Background,
+                                                  width=750, height=480, x=0, y=0, z_index=0)
+
+        avatar_image_data = format_image_data(post_data=self.data, url=self.avatar, image_type=ImageType.Avatar,
+                                              width=160, height=160, x=296, y=400, z_index=1)
+
+        qr_code_image_data = format_image_data(post_data=self.data, url=self.qr_code, image_type=ImageType.QRCode,
+                                               width=160, height=160, x=296, y=1114, z_index=2)
+
+        images = [background_image_data, avatar_image_data, qr_code_image_data]
+
+        # 图形元素
+        draw_line_data_1 = format_shape_data(shape_type=DrawShapeType.Line, position=[(154, 938), (274, 938)],
+                                             width=1, color='#979797', out_color=None, z_index=0)
+
+        draw_line_data_2 = format_shape_data(shape_type=DrawShapeType.Line, position=[(476, 938), (596, 938)],
+                                             width=1, color='#979797', out_color=None, z_index=1)
+
+        shapes = [draw_line_data_1, draw_line_data_2]
 
         # 格式化数据
         return format_style_data(self.style_id, self.size, self.color, texts, images, shapes)

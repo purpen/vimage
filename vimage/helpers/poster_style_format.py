@@ -19,7 +19,7 @@ def get_text_content(text_type, data):
         TextType.SalePrice: data.get('sale_price'),
         TextType.Hint: data.get('hint_text'),
         TextType.BrandName: data.get('brand_name'),
-        TextType.Time: data.get('sales_time'),
+        TextType.Time: data.get('time'),
         TextType.SalesTitle: data.get('sales_title'),
         TextType.SalesPCT: data.get('sales_pct'),
         TextType.SalesInfo: data.get('sales_info'),
@@ -59,11 +59,12 @@ def get_image_url(image_type, data):
     return url
 
 
-def format_text_data(post_data, text_type, font_size, font_family, align, text_color, x, y, z_index):
+def format_text_data(post_data, text, text_type, font_size, font_family, align, text_color, x, y, z_index):
     """
     格式化文字数据
 
     :param post_data: 样式展示内容数据
+    :param text: 文字内容
     :param text_type: 文字类型
     :param font_size: 字体大小
     :param font_family: 字体样式
@@ -78,7 +79,7 @@ def format_text_data(post_data, text_type, font_size, font_family, align, text_c
     data = post_data or {}
 
     # 文本内容
-    content = get_text_content(text_type, data)
+    content = get_text_content(text_type, data) if not text else text
 
     # 字体名称
     font_name = font_family or Fonts.DEFAULT_FONT_FAMILY
