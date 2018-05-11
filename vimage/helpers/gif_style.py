@@ -18,7 +18,7 @@ class GoodsGifStyle:
 
         self.style_id = style_id
         width, height = Size.POSTER_IMAGE_SIZE['width'], Size.POSTER_IMAGE_SIZE['height']
-        self.size = {"width": width, "height": height}
+        self.size = (width, height)
         self.color = (255, 255, 255)
         self.data = post_data or {}
 
@@ -31,12 +31,12 @@ class GoodsGifStyle:
         """
 
         # 文字
-        sales_info_data = format_text_data(self.data, TextType.SalesInfo, 26, 'PingFang Bold', 'left', '#333333', 123, 1092, 0)
+        sales_info_data = format_text_data(self.data, None, TextType.SalesInfo, 26, 'PingFang Bold', 'left', '#333333', 123, 1092, 0)
 
         texts = [sales_info_data]
 
         # 图片
-        qr_code_image_data = format_image_data(self.data, ImageType.QRCode, 190, 190, 520, 1052, 0)
+        qr_code_image_data = format_image_data(self.data, None, ImageType.QRCode, 190, 190, 520, 1052, 0)
 
         images = [qr_code_image_data]
 
