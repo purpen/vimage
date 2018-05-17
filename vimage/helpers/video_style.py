@@ -78,7 +78,9 @@ class MakeVideoStyle:
         font_name = Fonts.DEFAULT_FONT_FAMILY
 
         result_styles = []
+
         image_duration = self.set_content_duration()
+
         images = []
 
         # 展示的内容信息
@@ -89,7 +91,8 @@ class MakeVideoStyle:
             img = content.get('images')
             images.append(img)
 
-            image_data = format_image_data(img, self.size, self.fps, False, True, False, image_duration*len(images))
+            image_data = format_image_data(images=img, size=self.size, fps=self.fps, is_mask=False, transparent=True,
+                                           from_alpha=False, duration=image_duration*len(images))
             image_style.append(image_data)
 
             # 文字
@@ -100,10 +103,11 @@ class MakeVideoStyle:
                 # 第一组文字为'标题'
                 text_color = 'white' if index == 0 else 'red'
                 text_font_size = 60 if index == 0 else 40
-                text_position = (90, 500) if index == 0 else (90, 584)
+                text_position = (60, 600) if index == 0 else (60, 684)
 
-                text_data = format_text_data(txt, self.size, self.fps, text_color, 'transparent', font_name, text_font_size,
-                                             text_position, 'label', 'center', True, image_duration*len(img))
+                text_data = format_text_data(texts=txt, size=self.size, fps=self.fps, color=text_color, bg_color='transparent',
+                                             font=font_name, font_size=text_font_size, position=text_position, method='label',
+                                             align='center', transparent=True, duration=image_duration*len(img))
 
                 text_style.append(text_data)
 
@@ -112,7 +116,8 @@ class MakeVideoStyle:
         # 音频信息
         audio = format_audio_data('audio_1', self.duration)
 
-        return format_result_data(result_styles, audio, images, self.size, self.fps, self.duration, image_duration)
+        return format_result_data(content=result_styles, audio=audio, images=images, size=self.size, fps=self.fps,
+                                  duration=self.duration, img_duration=image_duration)
 
     def get_style_data(self):
         """
