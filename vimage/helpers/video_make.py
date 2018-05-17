@@ -14,6 +14,7 @@ from vimage.constant import *
 from vimage.helpers.image_tools import load_url_image
 from vimage.helpers.video_style import MakeVideoStyle
 from vimage.helpers.utils import timestamp, MixGenId
+from PIL import Image
 
 
 def animation_vortex(screen_pos, i, n_letters):
@@ -39,7 +40,7 @@ def animation_vortex(screen_pos, i, n_letters):
     return lambda t: screen_pos + 400 * damp(t) * rotMatrix(0.5 * damp(t) * angle).dot(v)
 
 
-def animation_cascade(screen_pos, i, n_letters):
+def animation_cascade(screen_pos, i, n_letters=None):
     """
         文字加载动画二:  下坠
     """
@@ -52,7 +53,7 @@ def animation_cascade(screen_pos, i, n_letters):
     return lambda t: screen_pos + v * 400 * damp(t - 0.15 * i)
 
 
-def animation_arrive(screen_pos, i, n_letters):
+def animation_arrive(screen_pos, i, n_letters=None):
     """
         文字加载动画三: 右进
     """
@@ -89,7 +90,6 @@ class TextClipObject:
         default_font_color = Colors.DEFAULT_FONT_COLOR['black']
         default_font_name = Fonts.DEFAULT_FONT_FAMILY
         default_font_size = Size.DEFAULT_FONT_SIZE
-        default_duration = 1
 
         data = text_data or {}
 
@@ -103,7 +103,7 @@ class TextClipObject:
         self.align = data.get('align', 'center')  # 对齐方式. method = 'caption' 时生效
         self.transparent = data.get('transparent', True)  # 透明度
         self.method = data.get('method', 'label')  # 类别. 'label'/'caption'
-        self.duration = data.get('duration', default_duration)  # 持续时间 (s)
+        self.duration = data.get('duration')  # 持续时间 (s)
         self.position = data.get('position', ('center', 'top'))  # 位置. (x, y)
 
     def make_text_clip(self):
@@ -121,22 +121,23 @@ class TextClipObject:
                             align=self.align,
                             size=None,
                             transparent=self.transparent,
-                            method=self.method).set_position(self.position).set_duration(5)
+                            method=self.method).set_position(self.position).set_duration(self.duration)
 
-        text_clip = CompositeVideoClip([txt_clip], size=self.size)
+        # text_clip = CompositeVideoClip([txt_clip], size=self.size)
 
         """
+        生成文字动画
         每个单独对象的 ImageClips 列表
         
-        :param rem_thr: 经测试，值的大小，影响汉字的偏旁部首显示
+        :param rem_thr: 值的大小，影响汉字的偏旁部首显示
         """
-        letters = findObjects(text_clip, rem_thr=1)
-
-        clips = CompositeVideoClip(move_letters(animation_vortex, letters), size=self.size).set_duration(5)
+        # letters = findObjects(text_clip, rem_thr=1)
+        #
+        # clips = CompositeVideoClip(move_letters(animation_arrive, letters), size=self.size).set_duration(self.duration)
 
         # clips.write_videofile(('txt_%s.avi' % MixGenId.gen_letters()), fps=self.fps, codec='mpeg4')
 
-        return clips
+        return txt_clip
 
 
 class ImageClipObject:
@@ -173,13 +174,13 @@ class ImageClipObject:
         duration = self.duration / len(self.images)
 
         for image_url in self.images:
-            img = load_url_image(image_url)
+            img = load_url_image(image_url).resize(self.size)
 
             clip = ImageClip(np.array(img),
                              ismask=self.is_mask,
                              transparent=self.transparent,
                              fromalpha=self.from_alpha,
-                             duration=duration).resize(self.size)
+                             duration=duration)
             clips.append(clip)
 
         image_clip = concatenate_videoclips(clips)
@@ -292,8 +293,6 @@ def _make_text_clip(text_data, img_clip, size):
 
     text_clip = CompositeVideoClip(clips, size=size)
 
-    # text_clip.write_videofile(('img_%s.mp4' % MixGenId.gen_letters()), fps=25)
-
     return text_clip
 
 
@@ -347,6 +346,6 @@ class VideoMake:
         # 最终剪辑文件
         video = CompositeVideoClip(clips, size=self.size).set_audio(audio)
 
-        # video.write_videofile('out.mp4', fps=self.fps, codec='mpeg4')
+        video.write_videofile('out.mp4', fps=self.fps, codec='mpeg4')
 
         return {'message': '创建成功'}
