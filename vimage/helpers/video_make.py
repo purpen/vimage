@@ -346,6 +346,6 @@ class VideoMake:
         # 最终剪辑文件
         video = CompositeVideoClip(clips, size=self.size).set_audio(audio)
 
-        video.write_videofile('out.mp4', fps=self.fps, codec='mpeg4')
+        video.write_videofile('out.mp4', fps=self.fps)
 
         return {'message': '创建成功'}

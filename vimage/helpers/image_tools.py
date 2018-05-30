@@ -1,9 +1,11 @@
 # -*- coding:utf-8 -*-
-from io import BytesIO
 import requests as req
 from PIL import Image, ImageDraw
-from vimage.helpers.utils import *
+from io import BytesIO
+import imagehash
+
 from vimage.constant import *
+from vimage.helpers.utils import *
 
 
 def load_url_image(image_url, is_create=False):
@@ -111,3 +113,65 @@ def circle_image(image):
     image.putalpha(alpha)
 
     return image
+
+
+def image_hash(image, hash_size=8):
+    """
+    图片的 hash 处理
+
+    :param image: 图片对象
+    :param hash_size: 尺寸，默认 =8
+    :return: hash 值
+    """
+
+    hash = imagehash.dhash(image, hash_size=hash_size)
+
+    return hash
+
+
+def hamming(hash1, hash2):
+    """
+    相似度计算：汉明距离
+
+    :param hash1: 图片的指纹 1
+    :param hash2: 图片的指纹 2
+    :return: 相似度，越大越相似
+    """
+
+    result = 1 - (hash1 - hash2) / len(hash1.hash) ** 2
+
+    return result
+
+
+def similar_images(input_image_url, data_image_urls):
+    """
+    相似图片比对
+
+    :param input_image_url: 输入图片 url
+    :param data_image_urls: 数据图片集 url
+    :return: 比对结果
+    """
+
+    # 加载输入的图片，进行 hash
+    input_img = load_url_image(input_image_url)
+    input_img_hash = image_hash(input_img, hash_size=8)
+
+    # 加载图片数据集，计算图片的相似度
+    result = []
+    for data_img_url in data_image_urls:
+        data_img_hash = image_hash(load_url_image(data_img_url), hash_size=8)
+        hamming_len = hamming(input_img_hash, data_img_hash)
+
+        # 保存相似度结果
+        result.append({'img_url': data_img_url,
+                       'similarity': hamming_len})
+
+        # 进行升降排序
+        if len(result) > 1:
+            result = sorted(result, key=lambda e: e.get('similarity'))
+            result.reverse()
+
+    return {
+        'original_img': input_image_url,
+        'result': result
+    }
