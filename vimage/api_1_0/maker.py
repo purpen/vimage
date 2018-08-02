@@ -6,9 +6,95 @@ from . import api
 from vimage.helpers import QiniuCloud, Poster, QiniuError
 from vimage.helpers.utils import *
 from vimage.tasks import make_wxacode_image, make_promotion_image
-from vimage.helpers.poster_style import *
-from vimage.helpers.gif_style import *
+from vimage.poster_style.poster_style import *
+from vimage.poster_style.gif_style import *
+from vimage.poster_style.lexi_style import *
 from vimage.helpers.gif_make import GifTool
+
+
+@api.route('/maker/lexi_poster', methods=['POST'])
+def make_lexi_poster():
+    """
+        生成乐喜海报
+    """
+
+    """
+    请求示例：
+
+    {
+        "type": "3",
+        "brand_name": "Charles的精品杂货铺",
+        "describe": "自然手繪的插畫明信片，厚磅數紙質手感佳，送\n禮跟收藏都很合適！",
+        "goods_images": [
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526479946&di=5cf70cc2618ac597b5e375e9546e21b9&imgtype=jpg&er=1&src=http%3A%2F%2Fstatic.kouclo.com%2Fshop%2Fuploads%2Fimuzone%2Fm7147as2kg%2Fuamytqtt4cn.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526479948&di=673378ea3732a3f5d6a4ffcdcac57b98&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.ylwgift.com%2FFiles%2FProduct%2F520%2F201501060320578451-1.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526479949&di=424959022576f459c0ba27b4f8a22882&imgtype=jpg&er=1&src=http%3A%2F%2Fcbu01.alicdn.com%2Fimg%2Fibank%2F2016%2F947%2F035%2F3323530749_1802120433.jpg",
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526479953&di=91b8dc18f03701b07362f27669b247e9&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5q.duitang.com%2Fuploads%2Fblog%2F201411%2F21%2F20141121234846_484n5.jpeg"
+        ],
+        "avatar_img": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4195649369,2360312559&fm=27&gp=0.jpg",
+        "brand_logo_img": "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1311958929,179260596&fm=27&gp=0.jpg",
+        "nickname": "Charles",
+        "wxa_code_img": "https://kg.erp.taihuoniao.com/qrcode/wxacode-wx11363b7f6fe26ac8-6157c47acb344ba43a3b345ddc21dc46.jpg",
+        "title": "插画明信片-星星的悄悄話",
+        "sale_price": "9.9",
+        "coupon_days": "7",
+        "coupon_amount": "50"
+    }
+    """
+
+    post_data = request.get_json()
+
+    current_app.logger.warn('Poster data: %s' % post_data)
+
+    # 验证参数是否符合规则
+    if not post_data:
+        return status_response(R400_BADREQUEST, False)
+
+    data = {
+        'type': post_data.get('type'),
+        'brand_name': post_data.get('brand_name'),
+        'describe': post_data.get('describe'),
+        'goods_images': post_data.get('goods_images'),
+        'brand_logo_img': post_data.get('brand_logo_img'),
+        'wxa_code_img': post_data.get('wxa_code_img'),
+        'avatar_img': post_data.get('avatar_img'),
+        'coupon_amount': post_data.get('coupon_amount', 0),
+        'coupon_days': post_data.get('coupon_days', 0),
+        'nickname': post_data.get('nickname'),
+        'title': post_data.get('title'),
+        'sale_price': post_data.get('sale_price'),
+    }
+
+    folder = 'lexi'
+    path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
+    # 生成图片地址
+    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+
+    # 1、获取样式数据
+    poster_style = LexiPosterStyle(data)
+
+    # 2、生成海报
+    poster = Poster(poster_style.get_style_data())
+    poster_image = poster.make_goods_card()
+
+    # 3、获取图像二进制流
+    poster_content = io.BytesIO()
+    poster_image.save(poster_content, 'png')
+
+    # 4、上传图片至云服务
+    qiniu_cloud = QiniuCloud(current_app.config['QINIU_ACCESS_KEY'], current_app.config['QINIU_ACCESS_SECRET'],
+                             current_app.config['QINIU_BUCKET_NAME'])
+    try:
+        qiniu_cloud.upload_content(poster_content.getvalue(), path_key)
+    except QiniuError as err:
+        current_app.logger.warn('Qiniu upload wxacode error: %s' % str(err))
+
+    # 启动任务
+    # make_wxacode_image.apply_async(args=[path_key, data, style_id])
+
+    return full_response(R200_OK, {
+        'image_url': image_url
+    })
 
 
 @api.route('/maker/wxa_poster', methods=['POST'])

@@ -28,6 +28,9 @@ def get_text_content(text_type, data):
         TextType.OtherInfo2: data.get('other_2'),
         TextType.SymbolPCT: data.get('symbol_pct'),
         TextType.SymbolOff: data.get('symbol_off'),
+        TextType.BrandSlogan: data.get('brand_slogan'),
+        TextType.Describe: data.get('describe'),
+        TextType.Nickname: data.get('nickname'),
     }
 
     content = text_content_data.get(text_type)
@@ -51,7 +54,10 @@ def get_image_url(image_type, data):
         ImageType.QRCode: data.get('qr_code_img'),
         ImageType.Logo: data.get('logo_img'),
         ImageType.Background: data.get('background_img'),
-        ImageType.Wxacode: data.get('wxa_code_img'),
+        ImageType.Modify: data.get('modify_img'),
+        ImageType.WxaCode: data.get('wxa_code_img'),
+        ImageType.Avatar: data.get('avatar_img'),
+        ImageType.BrandLogo: data.get('brand_logo_img'),
     }
 
     url = image_url_data.get(image_type)
@@ -59,7 +65,7 @@ def get_image_url(image_type, data):
     return url
 
 
-def format_text_data(post_data, text, text_type, font_size, font_family, align, text_color, x, y, z_index):
+def format_text_data(post_data, text, text_type, font_size, font_family, align, text_color, x, y, spacing, z_index, width=None):
     """
     格式化文字数据
 
@@ -72,7 +78,9 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
     :param text_color: 文字颜色
     :param x: 位置：x
     :param y: 位置：y
+    :param spacing: 行间距
     :param z_index: 层级
+    :param width: 宽度
     :return:
     """
 
@@ -92,7 +100,8 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
         'align': text_align,
         'font_size': font_size,
         'font_family': font_name,
-        'text_color': text_color
+        'text_color': text_color,
+        'line_spacing': spacing
     }
 
     # 位置
@@ -100,17 +109,18 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
 
     text_data = {
         'type': text_type,
-        'content': content,
+        'content': content.replace('\n', ''),
         'align': text_align,
         'style': style,
         'position': position,
-        'z_index': z_index
+        'z_index': z_index,
+        'width': width
     }
 
     return text_data
 
 
-def format_image_data(post_data, url, image_type, width, height, x, y, z_index):
+def format_image_data(post_data, url, image_type, width, height, radius, x, y, z_index):
     """
     格式化图片数据
 
@@ -119,6 +129,7 @@ def format_image_data(post_data, url, image_type, width, height, x, y, z_index):
     :param image_type: 图片类型
     :param width: 宽度
     :param height: 高度
+    :param radius: 圆角半径
     :param x: 位置：x
     :param y: 位置：y
     :param z_index: 层级
@@ -140,6 +151,7 @@ def format_image_data(post_data, url, image_type, width, height, x, y, z_index):
         'type': image_type,
         'size': size,
         'position': position,
+        'radius': radius,
         'url': img_url,
         'z_index': z_index
     }

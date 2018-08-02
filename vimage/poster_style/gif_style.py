@@ -31,12 +31,12 @@ class GoodsGifStyle:
         """
 
         # 文字
-        sales_info_data = format_text_data(self.data, None, TextType.SalesInfo, 26, 'PingFang Bold', 'left', '#333333', 123, 1092, 0)
+        sales_info_data = format_text_data(self.data, None, TextType.SalesInfo, 26, 'PingFang Bold', 'left', '#333333', 123, 1092, None, 0)
 
         texts = [sales_info_data]
 
         # 图片
-        qr_code_image_data = format_image_data(self.data, None, ImageType.QRCode, 190, 190, 520, 1052, 0)
+        qr_code_image_data = format_image_data(self.data, None, ImageType.QRCode, 190, 190, 0, 520, 1052, 0)
 
         images = [qr_code_image_data]
 

@@ -12,7 +12,7 @@ from moviepy.editor import *
 from moviepy.video.tools.segmenting import findObjects
 from vimage.constant import *
 from vimage.helpers.image_tools import load_url_image
-from vimage.helpers.video_style import MakeVideoStyle
+from vimage.poster_style.video_style import MakeVideoStyle
 from vimage.helpers.utils import timestamp, MixGenId
 from PIL import Image
 
@@ -346,6 +346,6 @@ class VideoMake:
         # 最终剪辑文件
         video = CompositeVideoClip(clips, size=self.size).set_audio(audio)
 
-        video.write_videofile('out.mp4', fps=self.fps)
+        # video.write_videofile('out.mp4', fps=self.fps)
 
         return {'message': '创建成功'}
