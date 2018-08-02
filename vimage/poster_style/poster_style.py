@@ -104,14 +104,14 @@ class GoodsWxaStyle:
         if img_count == 1:
             # 全屏状态的图片，第一张
             full_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
-                                                width=f_img_w, height=f_img_w, x=0, y=0, z_index=0)
+                                                width=f_img_w, height=f_img_w, radius=0, x=0, y=0, z_index=0)
 
             images_style_data.append(full_image_data)
 
         else:
             # 有间隔状态的图片，第一张
             interval_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
-                                                    width=i_img_w, height=i_img_w, x=40, y=40, z_index=0)
+                                                    width=i_img_w, height=i_img_w, radius=0, x=40, y=40, z_index=0)
 
             images_style_data.append(interval_image_data)
 
@@ -121,7 +121,8 @@ class GoodsWxaStyle:
                 img_url = self.goods_images[1:][index]  # 图片地址
                 image_x = 40 + (width + 20) * index  # 附加图片的x间隔
                 goods_image_data = format_image_data(post_data=self.data, url=img_url, image_type=ImageType.Goods,
-                                                     width=width, height=width, x=image_x, y=i_img_w + 60, z_index=index + 1)
+                                                     width=width, height=width, radius=0, x=image_x, y=i_img_w + 60,
+                                                     z_index=index + 1)
 
                 images_style_data.append(goods_image_data)
 
@@ -150,7 +151,7 @@ class GoodsWxaStyle:
 
         # 有间隔状态的图片，第一张
         interval_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
-                                                width=img_w, height=img_h, x=40, y=40, z_index=0)
+                                                width=img_w, height=img_h, radius=0, x=40, y=40, z_index=0)
 
         images_style_data.append(interval_image_data)
 
@@ -165,7 +166,7 @@ class GoodsWxaStyle:
             goods_image_data = format_image_data(post_data=self.data, url=img_url, image_type=ImageType.Goods,
                                                  width=width if len(self.goods_images) > 2 else img_w,
                                                  height=height if len(self.goods_images) > 2 else img_h,
-                                                 x=image_x, y=image_y, z_index=index + 1)
+                                                 radius=0, x=image_x, y=image_y, z_index=index + 1)
 
             images_style_data.append(goods_image_data)
 
@@ -187,15 +188,17 @@ class GoodsWxaStyle:
         size = (self.width, self.center_h)
 
         # 商品标题
-        goods_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Title, font_size=38,
-                                            font_family=None, align='left', text_color='#333333', x=60, y=40, z_index=0)
+        goods_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Title,
+                                            font_size=38, font_family=None, align='left', text_color='#333333',
+                                            x=60, y=40, spacing=None, z_index=0)
 
         # 商品价格
         default_text = {
             'sale_price': '￥%s' % self.data.get('sale_price'),
         }
-        goods_price_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalePrice, font_size=38,
-                                            font_family=None, align='left', text_color='#DD3C3C', x=60, y=164, z_index=1)
+        goods_price_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalePrice,
+                                            font_size=38, font_family=None, align='left', text_color='#DD3C3C',
+                                            x=60, y=164, spacing=None, z_index=1)
 
         return {
             'size': size,
@@ -216,19 +219,21 @@ class GoodsWxaStyle:
             'hint_text': '长按识别小程序码'
         }
         hint_text_data = format_text_data(post_data=default_text, text=None, text_type=TextType.Hint, font_size=28,
-                                          font_family=None, align='left', text_color='#999999', x=60, y=56, z_index=0)
+                                          font_family=None, align='left', text_color='#999999', x=60, y=56,
+                                          spacing=None, z_index=0)
 
         # 品牌名称
         brand_name_data = format_text_data(post_data=self.data, text=None, text_type=TextType.BrandName, font_size=32,
-                                           font_family=None, align='left', text_color='#666666', x=170, y=144, z_index=1)
+                                           font_family=None, align='left', text_color='#666666', x=170, y=144,
+                                           spacing=None, z_index=1)
 
         # 二维码
         qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode, width=180,
-                                               height=180, x=510, y=40, z_index=0)
+                                               height=180, radius=0, x=510, y=40, z_index=0)
 
         # 品牌logo
         logo_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Logo, width=80,
-                                            height=80, x=60, y=126, z_index=1)
+                                            height=80, radius=0, x=60, y=126, z_index=1)
 
         # 分割线，图形元素
         draw_line_data = format_shape_data(shape_type=DrawShapeType.Line, position=[(60, 1), (690, 1)],
@@ -316,29 +321,29 @@ class GoodsSalesStyle:
 
         sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=42,
                                             font_family=None, align='center', text_color=text_color,
-                                            x=194, y=123, z_index=0)
+                                            x=194, y=123, spacing=None, z_index=0)
 
         sales_pct_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesPCT, font_size=190,
                                           font_family='PingFang Bold', align='center', text_color=text_color,
-                                          x=225, y=146, z_index=1)
+                                          x=225, y=146, spacing=None, z_index=1)
 
         sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=90,
                                            font_family=None, align='center', text_color=text_color,
-                                           x=196, y=357, z_index=2)
+                                           x=196, y=357, spacing=None, z_index=2)
 
         sales_brand_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesBrand, font_size=30,
                                             font_family=None, align='center', text_color='#333333',
-                                            x=215, y=564, z_index=3)
+                                            x=215, y=564, spacing=None, z_index=3)
 
         time_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Time, font_size=30,
                                      font_family=None, align='center', text_color=text_color,
-                                     x=283, y=473, z_index=4)
+                                     x=283, y=473, spacing=None, z_index=4)
 
         texts = [sales_title_data, sales_pct_data, sales_info_data, sales_brand_data, time_data]
 
         # 图片
         background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
-                                                  width=750, height=750, x=0, y=0, z_index=0)
+                                                  width=750, height=750, radius=0, x=0, y=0, z_index=0)
 
         images = [background_image_data]
 
@@ -367,36 +372,36 @@ class GoodsSalesStyle:
 
         sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=42,
                                             font_family=None, align='center', text_color=text_color,
-                                            x=194, y=123, z_index=0)
+                                            x=194, y=123, spacing=None, z_index=0)
 
         sales_pct_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesPCT, font_size=190,
                                           font_family='PingFang Bold', align='center', text_color=text_color,
-                                          x=225, y=146, z_index=1)
+                                          x=225, y=146, spacing=None, z_index=1)
 
         sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=90,
                                            font_family=None, align='center', text_color=text_color,
-                                           x=196, y=357, z_index=2)
+                                           x=196, y=357, spacing=None, z_index=2)
 
         sales_brand_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesBrand, font_size=30,
                                             font_family=None, align='center', text_color='#333333',
-                                            x=215, y=564, z_index=3)
+                                            x=215, y=564, spacing=None, z_index=3)
 
         time_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Time, font_size=30,
                                      font_family=None, align='center', text_color=text_color,
-                                     x=283, y=473, z_index=4)
+                                     x=283, y=473, spacing=None, z_index=4)
 
         hint_text = format_text_data(post_data=self.data, text=None, text_type=TextType.Hint, font_size=24,
                                      font_family='PingFang Light', align='center', text_color='#333333',
-                                     x=260, y=1080, z_index=5)
+                                     x=260, y=1080, spacing=None, z_index=5)
 
         texts = [sales_title_data, sales_pct_data, sales_info_data, sales_brand_data, time_data, hint_text]
 
         # 图片
         background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
-                                                  width=750, height=750, x=0, y=0, z_index=0)
+                                                  width=750, height=750, radius=0, x=0, y=0, z_index=0)
 
         qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode,
-                                               width=250, height=250, x=250, y=810, z_index=1)
+                                               width=250, height=250, radius=0, x=250, y=810, z_index=1)
 
         images = [background_image_data, qr_code_image_data]
 
@@ -426,27 +431,27 @@ class GoodsSalesStyle:
         }
         sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=30,
                                             font_family='PingFang Light', align='center', text_color=text_color,
-                                            x=240, y=415, z_index=0)
+                                            x=240, y=415, spacing=None, z_index=0)
 
         sales_pct_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesPCT, font_size=22,
                                           font_family='PingFang Light', align='center', text_color=text_color,
-                                          x=414, y=690, z_index=1)
+                                          x=414, y=690, spacing=None, z_index=1)
 
         sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=22,
                                            font_family='PingFang Light', align='center', text_color='#FFFFFF',
-                                           x=240, y=690, z_index=2)
+                                           x=240, y=690, spacing=None, z_index=2)
 
         sales_other_1 = format_text_data(post_data=default_text, text=None, text_type=TextType.OtherInfo1, font_size=160,
                                          font_family='PingFang Light', align='center', text_color=text_color,
-                                         x=215, y=207, z_index=3)
+                                         x=215, y=207, spacing=None, z_index=3)
 
         sales_other_2 = format_text_data(post_data=default_text, text=None, text_type=TextType.OtherInfo2, font_size=160,
                                          font_family='PingFang Light', align='center', text_color=text_color,
-                                         x=215, y=441, z_index=4)
+                                         x=215, y=441, spacing=None, z_index=4)
 
         hint_text = format_text_data(post_data=default_text, text=None, text_type=TextType.Hint, font_size=24,
                                      font_family='PingFang Light', align='center', text_color=text_color,
-                                     x=279, y=1143, z_index=5)
+                                     x=279, y=1143, spacing=None, z_index=5)
 
         texts = [sales_title_data, sales_pct_data, sales_info_data, sales_other_1, sales_other_2, hint_text]
 
@@ -456,10 +461,10 @@ class GoodsSalesStyle:
         default_image = {'background_img': background_image}
 
         background_image_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Background,
-                                                  width=750, height=1334, x=0, y=0, z_index=0)
+                                                  width=750, height=1334, radius=0, x=0, y=0, z_index=0)
 
         qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode,
-                                               width=180, height=180, x=285, y=944, z_index=1)
+                                               width=180, height=180, radius=0, x=285, y=944, z_index=1)
 
         images = [background_image_data, qr_code_image_data]
 
@@ -495,31 +500,31 @@ class GoodsSalesStyle:
         }
         sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=30,
                                             font_family='PingFang Light', align='center', text_color=text_color,
-                                            x=240, y=395, z_index=0)
+                                            x=240, y=395, spacing=None, z_index=0)
 
         sales_pct_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesPCT, font_size=360,
                                           font_family='DIN Condensed Bold', align='left', text_color=text_color,
-                                          x=213, y=487, z_index=1)
+                                          x=213, y=487, spacing=None, z_index=1)
 
         sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=24,
                                            font_family='PingFang Light', align='center', text_color=text_color,
-                                           x=203, y=803, z_index=2)
+                                           x=203, y=803, spacing=None, z_index=2)
 
         sales_other_1 = format_text_data(post_data=default_text, text=None, text_type=TextType.OtherInfo1, font_size=70,
                                          font_family='PingFang Light', align='center', text_color=text_color,
-                                         x=183, y=287, z_index=3)
+                                         x=183, y=287, spacing=None, z_index=3)
 
         hint_text = format_text_data(post_data=default_text, text=None, text_type=TextType.Hint, font_size=24,
                                      font_family='PingFang Light', align='center', text_color=text_color,
-                                     x=282, y=1058, z_index=4)
+                                     x=282, y=1058, spacing=None, z_index=4)
 
         symbol_pct = format_text_data(post_data=default_text, text=None, text_type=TextType.SymbolPCT, font_size=120,
                                       font_family='DIN Condensed Bold', align='left', text_color=text_color,
-                                      x=480, y=612, z_index=5)
+                                      x=480, y=612, spacing=None, z_index=5)
 
         symbol_off = format_text_data(post_data=default_text, text=None, text_type=TextType.SymbolOff, font_size=48,
                                       font_family='DIN Condensed Bold', align='left', text_color=text_color,
-                                      x=480, y=712, z_index=6)
+                                      x=480, y=712, spacing=None, z_index=6)
 
         texts = [sales_title_data, sales_pct_data, sales_info_data, sales_other_1, hint_text, symbol_pct, symbol_off]
 
@@ -529,10 +534,10 @@ class GoodsSalesStyle:
         default_image = {'background_img': background_image}
 
         background_image_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Background,
-                                                  width=691, height=1200, x=30, y=87, z_index=0)
+                                                  width=691, height=1200, radius=0, x=30, y=87, z_index=0)
 
         qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode,
-                                               width=140, height=140, x=305, y=882, z_index=1)
+                                               width=140, height=140, radius=0, x=305, y=882, z_index=1)
 
         images = [background_image_data, qr_code_image_data]
 
@@ -560,27 +565,27 @@ class GoodsSalesStyle:
         }
         sales_title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesTitle, font_size=200,
                                             font_family='DIN Condensed Bold', align='left', text_color=text_color,
-                                            x=139, y=160, z_index=0)
+                                            x=139, y=160, spacing=None, z_index=0)
 
         sales_other_1 = format_text_data(post_data=default_text, text=None, text_type=TextType.OtherInfo1, font_size=90,
                                          font_family='PingFang Regular', align='center', text_color=text_color,
-                                         x=150, y=350, z_index=1)
+                                         x=150, y=350, spacing=None, z_index=1)
 
         sales_pct_data = format_text_data(post_data=default_text, text=None, text_type=TextType.SalesPCT, font_size=90,
                                           font_family='PingFang Regular', align='center', text_color=text_color,
-                                          x=153, y=490, z_index=2)
+                                          x=153, y=490, spacing=None, z_index=2)
 
         time_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Time, font_size=40,
                                      font_family='DIN Condensed Bold', align='center', text_color='#FFFFFF',
-                                     x=233, y=690, z_index=3)
+                                     x=233, y=690, spacing=None, z_index=3)
 
         sales_info_data = format_text_data(post_data=self.data, text=None, text_type=TextType.SalesInfo, font_size=24,
                                            font_family='PingFang Regular', align='center', text_color=text_color,
-                                           x=203, y=962, z_index=4)
+                                           x=203, y=962, spacing=None, z_index=4)
 
         hint_text = format_text_data(post_data=default_text, text=None, text_type=TextType.Hint, font_size=24,
                                      font_family='PingFang Light', align='center', text_color='#000000',
-                                     x=291, y=1241, z_index=5)
+                                     x=291, y=1241, spacing=None, z_index=5)
 
         texts = [sales_title_data, sales_other_1, sales_pct_data, time_data, sales_info_data, hint_text]
 
@@ -590,10 +595,10 @@ class GoodsSalesStyle:
         default_image = {'background_img': background_image}
 
         background_image_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Background,
-                                                  width=750, height=750, x=0, y=0, z_index=0)
+                                                  width=750, height=750, radius=0, x=0, y=0, z_index=0)
 
         qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode,
-                                               width=200, height=200, x=275, y=1031, z_index=1)
+                                               width=200, height=200, radius=0, x=275, y=1031, z_index=1)
 
         images = [background_image_data, qr_code_image_data]
 
@@ -659,23 +664,23 @@ class SayingStyle:
         # 文字
         content_data = format_text_data(post_data=self.data, text=self.content, text_type=TextType.Info, font_size=28,
                                         font_family='PingFang Regular', align='center', text_color='#333333',
-                                        x=100, y=700, z_index=0)
+                                        x=100, y=700, spacing=None, z_index=0)
 
         time_data = format_text_data(post_data=self.data, text='2018.05.11', text_type=TextType.Time, font_size=24,
                                      font_family='PingFang Bold', align='center', text_color='#666666',
-                                     x=313, y=920, z_index=1)
+                                     x=313, y=920, spacing=None, z_index=1)
 
         texts = [content_data, time_data]
 
         # 图片素材
         background_image_data = format_image_data(post_data=self.data, url=self.back_img, image_type=ImageType.Background,
-                                                  width=750, height=480, x=0, y=0, z_index=0)
+                                                  width=750, height=480, radius=0, x=0, y=0, z_index=0)
 
         avatar_image_data = format_image_data(post_data=self.data, url=self.avatar, image_type=ImageType.Avatar,
-                                              width=160, height=160, x=296, y=400, z_index=1)
+                                              width=160, height=160, radius=0, x=296, y=400, z_index=1)
 
         qr_code_image_data = format_image_data(post_data=self.data, url=self.qr_code, image_type=ImageType.QRCode,
-                                               width=160, height=160, x=296, y=1114, z_index=2)
+                                               width=160, height=160, radius=0, x=296, y=1114, z_index=2)
 
         images = [background_image_data, avatar_image_data, qr_code_image_data]
 

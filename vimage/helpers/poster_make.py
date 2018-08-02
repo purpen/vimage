@@ -5,7 +5,7 @@ from vimage.helpers.qiniu_cloud import QiniuCloud
 from vimage.helpers.switch import Switch
 from config import *
 from vimage.exceptions import *
-from vimage.helpers.poster_style import *
+from vimage.poster_style.poster_style import *
 from vimage.helpers.image_tools import load_url_image
 
 
@@ -28,6 +28,7 @@ class TextObject:
         self.content = data.get('content')                  # 内容
         self.position = data.get('position')                # 位置
         self.z_index = data.get('z_index')                  # 层级（文字叠加）
+        self.width = data.get('width')                      # 文本在图片中的宽度
         self.align = style_data.get('align')                # 对齐方式(多行文本)
         self.font_size = style_data.get('font_size')        # 字体大小
         self.font_family = style_data.get('font_family')    # 字体样式
@@ -50,17 +51,85 @@ class TextObject:
         # 海报的宽度
         poster_w = canvas.size[0]
 
+        # 文本的尺寸
+        text_size = draw_font.getsize(self.content)
+
         # 重新计算文字内容，保持居中
         if self.align is 'center':
-            text_size = draw_font.getsize(self.content)
+            self.draw_center_text(text_size, poster_w)
 
-            if text_size[0] < poster_w:
-                position_x = (poster_w - text_size[0]) / 2
-                self.position = (position_x, self.position[1])
+        # 是否限定宽度
+        if self.width is not None:
+            self.draw_cut_content(text_size)
 
         # 文字的样式配置
-        ImageDraw.Draw(canvas).text(xy=self.position, text=self.content, fill=self.text_color, font=draw_font,
-                                    align=self.align)
+        if self.line_spacing is None:
+            ImageDraw.Draw(canvas).text(xy=self.position, text=self.content, fill=self.text_color, font=draw_font,
+                                        align=self.align)
+        else:
+            text_spacing = self.line_spacing - self.font_size
+            ImageDraw.Draw(canvas).multiline_text(xy=self.position, text=self.content, fill=self.text_color,
+                                                  font=draw_font, spacing=text_spacing, align=self.align)
+
+    def draw_center_text(self, text_size, poster_w):
+        """
+        文字居中
+
+        :param text_size: 绘制文字的尺寸
+        :param poster_w: 海报的宽度
+        :return: 文本刷新位置
+        """
+
+        if text_size[0] < poster_w:
+            position_x = (poster_w - text_size[0]) / 2
+            self.position = (position_x, self.position[1])
+            return self.position
+
+        return self.position
+
+    def draw_cut_content(self, text_size):
+        """
+        根据限定宽度，切割内容文本
+
+        :param text_size: 绘制文字的尺寸
+        :return 格式化后的文字
+        """
+
+        if text_size[0] > self.width:
+            text_w = text_size[0] / len(self.content)  # 单个字符的宽度
+            line_text_count = int(self.width / text_w)  # 每排显示字符数量
+            line_count = int(len(self.content) / line_text_count) + 1  # 行数
+
+            content_text = ''
+            for i in range(line_count):
+                start_index = line_text_count * i  # 截取的文字起始位置
+                line_text = self.content[start_index: line_text_count + start_index] + '\n'  # 每行的文字，末尾添加换行
+                content_text += line_text  # 结果拼接的文字
+
+            # 最终的内容文字
+            self.content = content_text.strip()
+
+            # 格式化过长的内容
+            self.format_more_text(line_text_count, line_count)
+
+        return self.content
+
+    def format_more_text(self, text_count, line_count):
+        """
+        格式化过长的文字，末尾添加'...'
+
+        :param text_count: 显示文字数量
+        :param line_count: 总行数
+        :return: 格式化后的文字
+        """
+
+        # 最后一行文字的长度
+        end_text_len = len(self.content) - text_count * int(line_count - 2)
+
+        if end_text_len > text_count:
+            self.content = self.content[:len(self.content) - 1] + '...'
+
+        return self.content
 
 
 class ImageObject:
@@ -80,6 +149,7 @@ class ImageObject:
         self.type = data.get('type')           # 类型
         self.size = data.get('size')           # 尺寸
         self.position = data.get('position')   # 位置
+        self.radius = data.get('radius')       # 圆角半径
         self.url = data.get('url')             # 网络Url
         self.z_index = data.get('z_index')     # 层级（叠加顺序）
 
@@ -95,8 +165,13 @@ class ImageObject:
         load_image = load_url_image(self.url, is_create=True)
         resize_image = load_image.resize(self.size)
 
+        # 圆形头像
         if self.type is ImageType.Avatar:
             resize_image = circle_image(resize_image)
+
+        # 圆角半径
+        if self.radius > 0:
+            resize_image = circular_bead_image(resize_image, self.radius)
 
         # 对图片合成
         canvas.paste(resize_image, self.position, resize_image)
