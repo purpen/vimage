@@ -6,6 +6,7 @@ celery==4.1.0
 certifi==2018.1.18
 chardet==3.0.4
 click==6.7
+decorator==4.2.1
 dominate==2.3.1
 Flask==0.12.2
 Flask-Assets==0.12
@@ -26,6 +27,8 @@ gevent==1.2.2
 greenlet==0.4.13
 gunicorn==19.7.1
 idna==2.6
+ImageHash==4.0
+imageio==2.3.0
 ipython==6.2.1
 ipython-genutils==0.2.0
 itsdangerous==0.24
@@ -34,6 +37,8 @@ Jinja2==2.10
 kombu==4.1.0
 Mako==1.0.7
 MarkupSafe==1.0
+moviepy==0.2.3.5
+numpy==1.15.0
 parso==0.1.1
 pep8==1.7.1
 pexpect==4.4.0
@@ -47,12 +52,16 @@ pytesseract==0.2.0
 python-dateutil==2.6.1
 python-editor==1.0.3
 pytz==2018.3
+PyWavelets==0.5.2
 qiniu==7.2.0
+qrcode==6.0
 redis==2.10.6
 requests==2.18.4
+scipy==1.1.0
 simplegeneric==0.8.1
 six==1.11.0
 SQLAlchemy==1.2.4
+tqdm==4.24.0
 traitlets==4.3.2
 urllib3==1.22
 vine==1.1.4
@@ -62,8 +71,3 @@ wcwidth==0.1.7
 webassets==0.12.1
 Werkzeug==0.14.1
 WTForms==2.1
-pytesseract==0.2.0
-moviepy==0.2.3.2
-opencv-python==3.4.0.12
-scipy==1.0.1
-qrcode==6.0
