@@ -708,3 +708,68 @@ class SayingStyle:
         style_data = self.styles.get(style_id)
 
         return style_data
+
+
+class BlurryPictureStyle:
+    """
+        模糊图片的样式
+    """
+
+    def __init__(self, post_data):
+        """
+        初始化海报样式
+
+        :param post_data: 内容数据
+        """
+
+        self.data = post_data or {}
+
+        self.img_url = self.data.get('image_url')  # 图片 URL
+        self.img_w = self.data.get('image_width', '525')  # 前端图片宽度
+        self.img_h = self.data.get('image_height', '360')  # 前端图片高度
+        self.w = self.data.get('width')  # 模糊区域宽度
+        self.h = self.data.get('height')  # 模糊区域高度
+        self.x = self.data.get('left')  # 模糊区域左边距
+        self.y = self.data.get('top')  # 模糊区域顶部边距
+
+        # 图片默认信息
+        self.scale = 2
+        self.size = (int(self.img_w) * self.scale, int(self.img_h) * self.scale)
+        self.color = (255, 255, 255)
+
+    def get_default_style(self):
+        """
+            默认样式
+        """
+
+        # 主图片
+        main_image_data = format_image_data(post_data=self.data, url=self.img_url, image_type=ImageType.Background,
+                                            width=int(self.img_w) * self.scale, height=int(self.img_h) * self.scale,
+                                            radius=0, x=0, y=0, z_index=0)
+
+        # 模糊贴图素材
+        modify_image_data = format_image_data(post_data=self.data, url=get_random_modify_images(),
+                                              image_type=ImageType.Modify,
+                                              width=int(self.w) * self.scale, height=int(self.h) * self.scale,
+                                              radius=0, x=int(self.x) * self.scale, y=int(self.y) * self.scale, z_index=1)
+
+        images = [main_image_data, modify_image_data]
+
+        # 格式化数据
+        return format_style_data('1', self.size, self.color, [], images, [])
+
+
+def get_random_modify_images():
+    """
+        随机获取修饰图片素材
+    """
+
+    images = ['http://abali.ru/wp-content/uploads/2014/01/krov_na_stene.png',
+              'http://pic.90sjimg.com/design/00/77/32/90/58da1e7d710b0.png',
+              'http://pic.90sjimg.com/design/00/59/79/86/590692c73531f.png',
+              'http://pic16.nipic.com/20110810/8131234_121231612148_2.png',
+              'http://pic30.nipic.com/20130615/11171147_053116480199_2.png',
+              'http://pic36.nipic.com/20131123/6608733_190033435000_2.png']
+
+    # return random.choice(images)
+    return images[-1]

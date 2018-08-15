@@ -3,7 +3,7 @@ import requests as req
 from PIL import Image, ImageSequence
 from io import BytesIO
 from vimage.helpers.utils import *
-
+from vimage.helpers.image_tools import *
 from flask import current_app
 from vimage.helpers import QiniuCloud, QiniuError
 from vimage.constant import *
@@ -93,7 +93,7 @@ class GifTool:
         """
         初始化 GIF 图类别
 
-        :param type: 类型 1：图片合成GIF、2：视频制作GIF、3：GIF 提取帧图片、4：GIF 倒放 | (默认为 1)
+        :param type: 类型 1：图片合成GIF、2：视频制作GIF、3：GIF 提取帧图片、4：GIF 倒放 | (默认为 1)、5：猜图游戏
         :param images: 每帧图片的集合
         :param video: 视频地址
         :param gif: GIF 图地址
@@ -111,7 +111,8 @@ class GifTool:
         self.tools = {
             '1': self.create_images_gif(),
             '3': self.create_resolve_gif(),
-            '4': self.create_reverse_gif()
+            '4': self.create_reverse_gif(),
+            '5': self.create_guess_goods()
         }
 
     def create_images_gif(self):
@@ -245,6 +246,30 @@ class GifTool:
 
         return {
             'gif_poster': result
+        }
+
+    def create_guess_goods(self):
+        """
+            猜图答题游戏，模糊图片（电视雪花动态效果）
+        """
+
+        images = []
+
+        # 默认商品图片
+        goods_img_url = self.images[0]
+
+        for i in range(5):
+            img = noisy_image(goods_img_url)
+            images.append(img)
+
+        # GIF 图的二进制流
+        gif_content = BytesIO()
+        images[0].save(gif_content, 'gif', save_all=True, append_images=images[1:], duration=100, loop=0)
+
+        result = _qiniu_upload(gif_content.getvalue(), 'gif', QiniuCloud.gen_path_key('.gif'))
+
+        return {
+            'gif_image_url': result
         }
 
     def resize_image(self, image, default_size=None):
