@@ -40,6 +40,6 @@ flower - 针对Celery的基于网页的实时管理工具, 启动命令：
     celery flower -A celery_runner --loglevel=info
     
     # 启动work
-    celery worker -A celery_runner -f /var/log/celery.log -D
+    celery worker -A celery_runner -f /var/log/fxaim/celery.log -D
     # 启动beat
-    celery beat -A celery_runner -f /var/log/celery.log --detach
+    celery beat -A celery_runner -f /var/log/fxaim/celery.log --detach
