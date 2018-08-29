@@ -102,21 +102,6 @@ class QRCodeObject:
 
         return qr_code_img
 
-    def hex_to_rgb(self):
-        """
-            hex 色值转换成 RGB
-        """
-
-        hex_color = self.fill_color
-
-        opt = re.findall(r'(.{2})', hex_color[1:] if hex_color[0] is '#' else hex_color)
-
-        rgb = []
-        for i in range(0, len(opt)):
-            rgb.append(int(opt[i], 16))
-
-        return rgb
-
     def transparent_qr_code(self, qr_code_img):
         """
             透明化二维码
@@ -124,7 +109,7 @@ class QRCodeObject:
 
         new_item = []
 
-        back_color_rgb = self.hex_to_rgb()
+        back_color_rgb = hex_to_rgb(self.fill_color)
         r = back_color_rgb[0]
         g = back_color_rgb[1]
         b = back_color_rgb[2]

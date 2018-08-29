@@ -3,7 +3,7 @@ import requests as req
 from PIL import Image, ImageDraw
 from io import BytesIO
 import imagehash
-
+import random
 from vimage.constant import *
 from vimage.helpers.utils import *
 
@@ -33,6 +33,51 @@ def load_url_image(image_url, is_create=False):
         return image if is_create else custom_response('图片链接获取失败', 400, False)
 
     return image
+
+
+def hex_to_rgb(hex_color):
+    """
+        HEX 色值转换成 RGB
+    """
+
+    opt = re.findall(r'(.{2})', hex_color[1:] if hex_color[0] is '#' else hex_color)
+
+    rgb = []
+    for i in range(0, len(opt)):
+        rgb.append(int(opt[i], 16))
+
+    return rgb
+
+
+def rgb_to_hex(rgb_color):
+    """
+        RGB 色值转换成 HEX
+    """
+
+    rgb = rgb_color.split(",")
+    hex = "#"
+
+    for i in range(0, len(rgb)):
+        num = int(rgb[i])
+        # 每次转换之后只取0x7b的后两位，拼接到 hex
+        print ('======== %d' % num)
+        hex += hex(num)[-2:]
+
+    print("转换后的16进制值为：", hex)
+    return hex
+
+
+def random_color():
+    """
+        生成随机的颜色
+    """
+    # 随机的颜色
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    color = (r, g, b)
+
+    return color
 
 
 def linear_colour(color_1, color_2, t):
@@ -201,3 +246,32 @@ def similar_images(input_image_url, data_image_urls):
         'original_img': input_image_url,
         'result': result
     }
+
+
+def noisy_image(image_url, alpha=0.7, default_size=(500, 500)):
+    """
+    图片添加噪点
+
+    :param image_url: 背景图片url
+    :param alpha: 透明度
+    :param default_size: 默认尺寸
+    :return: 结果图片
+    """
+
+    main_image = load_url_image(image_url).resize(default_size).convert('RGBA')
+
+    # 获取图片的尺寸
+    w, h = main_image.size
+
+    # 初始化图片
+    noisy_img = Image.new("RGBA", (w, h))
+
+    # 填充像素颜色
+    for x in list(range(w)):
+        for y in list(range(h)):
+            xy = (x, y)
+            noisy_img.putpixel(xy, random_color())
+
+    main_image = Image.blend(noisy_img, main_image, 1 - alpha)
+
+    return main_image
