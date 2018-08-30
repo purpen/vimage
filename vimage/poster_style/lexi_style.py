@@ -520,12 +520,14 @@ class WxaGoodsPosterStyle:
                                             text_color='#333333', x=63, y=170, spacing=None, z_index=4)
 
         # 商品推荐语
-        describe_data = {'describe': self.data.get('describe')[:40]}
+        describe_content = self.data.get('describe')[:40]
+        describe_data = {'describe': describe_content}
         goods_describe_data = format_text_data(post_data=describe_data, text=None, text_type=TextType.Describe,
                                                font_size=26, font_family=None, align='left', text_color='#333333',
                                                x=63, y=230, spacing=38, z_index=5, width=565)
 
-        not_describe_origin_y = 96 if len(self.data.get('describe')) == 0 else 0  # 没有商品推荐语时的顶部边距
+        price_origin_y = 0 if len(describe_content) > 24 else 38
+        not_describe_origin_y = 96 if len(self.data.get('describe')) == 0 else price_origin_y  # 没有商品推荐语时的顶部边距
 
         # 商品价格
         default_price = {'sale_price': ('￥%s' % self.data.get('sale_price'))}
@@ -567,12 +569,21 @@ class WxaGoodsPosterStyle:
                                                   width=self.width, height=self.footer_h - 10, radius=0, x=0, y=10,
                                                   z_index=0)
 
+        images_data = [default_logo_data, user_Avatar_image_data, wxa_code_image_data, background_image_data]
+
+        texts_data = [default_name_data, default_slogan_data, user_nickname_data, hint_text_data, goods_title_data,
+                      goods_describe_data, goods_price_data]
+
+        if int(self.data.get('coupon_amount')) > 0:
+            images_data.append(coupon_image_data)
+            texts_data.append(coupon_hint_data)
+            texts_data.append(coupon_amount_data)
+            texts_data.append(coupon_days_data)
+
         return {
             'size': size,
-            'texts': [default_name_data, default_slogan_data, user_nickname_data, hint_text_data, goods_title_data,
-                      goods_describe_data, goods_price_data, coupon_hint_data, coupon_amount_data, coupon_days_data],
-            'images': [default_logo_data, user_Avatar_image_data, wxa_code_image_data, coupon_image_data,
-                       background_image_data],
+            'texts': texts_data,
+            'images': images_data,
             'shapes': []
         }
 
@@ -772,12 +783,14 @@ class PaaSGoodsPosterStyle:
                                             text_color='#333333', x=50, y=37 + default_origin_y, spacing=None, z_index=4)
 
         # 商品推荐语
-        describe_data = {'describe': self.data.get('describe')[:50]}
+        describe_content = self.data.get('describe')[:50]
+        describe_data = {'describe': describe_content}
         goods_describe_data = format_text_data(post_data=describe_data, text=None, text_type=TextType.Describe,
                                                font_size=26, font_family=None, align='left', text_color='#333333',
                                                x=50, y=90 + default_origin_y, spacing=38, z_index=5, width=650)
 
-        not_describe_origin_y = 96 if len(self.data.get('describe')) == 0 else 0  # 没有商品推荐语时的顶部边距
+        price_origin_y = 0 if len(describe_content) > 24 else 38
+        not_describe_origin_y = 96 if len(self.data.get('describe')) == 0 else price_origin_y  # 没有商品推荐语时的顶部边距
 
         # 商品价格
         default_price = {'sale_price': ('￥%s' % self.data.get('sale_price'))}
@@ -817,15 +830,21 @@ class PaaSGoodsPosterStyle:
         background_image_data = format_image_data(post_data=background_image, url=None, image_type=ImageType.Background,
                                                   width=self.width, height=self.footer_h, radius=0, x=0, y=0, z_index=0)
 
-        images_data = [default_logo_data, wxa_code_image_data, coupon_image_data]
+        images_data = [default_logo_data, wxa_code_image_data]
 
         texts_data = [default_name_data, default_slogan_data, hint_text_data, goods_title_data,
-                      goods_describe_data, goods_price_data, coupon_hint_data, coupon_amount_data, coupon_days_data]
+                      goods_describe_data, goods_price_data]
 
         if self.footer_h == 714:
             images_data.append(user_Avatar_image_data)
             images_data.append(background_image_data)
             texts_data.append(user_nickname_data)
+
+        if int(self.data.get('coupon_amount')) > 0:
+            images_data.append(coupon_image_data)
+            texts_data.append(coupon_hint_data)
+            texts_data.append(coupon_amount_data)
+            texts_data.append(coupon_days_data)
 
         return {
             'size': size,
