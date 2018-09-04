@@ -184,7 +184,7 @@ class ProductionConfig(Config):
     CDN_HTTPS = True
 
     SQLALCHEMY_ECHO = False
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://fxadmin:fxdb@1801?!@10.10.39.2/fximage?charset=utf8'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Mix@MySQL#1808!@10.16.0.4/fximage?charset=utf8'
 
     ERROR_LOG = '/var/log/vimage/vimage-error.log'
 
