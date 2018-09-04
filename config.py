@@ -171,22 +171,42 @@ class ProductionConfig(Config):
     DEBUG_LOG = False
     DEBUG = False
 
-    # 缓存类型 redis
+    # 七牛存储（生产环境使用云存储）
+    QINIU_UPLOAD = 'https://up.qbox.me'
+    QINIU_ACCESS_KEY = 'onRo-YLhNKbhiH1gg6YMPiNzU-LWtr4LZjBEOwOf'
+    QINIU_ACCESS_SECRET = 'mcSwe6w2yartkExTYFlhPtJihSq3GEM74tZVX_VG'
+    QINIU_BUCKET_NAME = 'beast-s3'
+
+    # 缓存类型
+    # CACHE_REDIS_URL 连接到Redis服务器的URL。
+    # 例如：redis://user:password@localhost:6379/2。 仅用于RedisCache。
     CACHE_TYPE = 'redis'
-    CACHE_REDIS_HOST = 'localhost'
-    CACHE_REDIS_PORT = 6379
+    CACHE_KEY_PREFIX = 'mix_'
+    CACHE_REDIS_HOST = '10.16.0.5'
+    CACHE_REDIS_PORT = '6379'
+    CACHE_REDIS_PASSWORD = 'Mix@Red#0801!'
     CACHE_REDIS_DB = '0'
-    CACHE_REDIS_PASSWORD = ''
+
+    # Redis 配置，默认KEY
+    CACHE_REDIS_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/0'
+    REDIS_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/0'
+
+    # 异步任务
+    CELERY_BROKER_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/5'
+    CELERY_RESULT_BACKEND = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/6'
 
     # 静态文件
     ASSETS_DEBUG = False
     CDN_DEBUG = False
     CDN_HTTPS = True
+    CDN_ENDPOINTS = ['static']
+    CDN_DOMAIN = 'static.moebeast.com'
+    THUMB_CDN_DOMAIN = 'static.moebeast.com'
 
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Mix@MySQL#1808!@10.16.0.4/fximage?charset=utf8'
 
-    ERROR_LOG = '/var/log/vimage/vimage-error.log'
+    ERROR_LOG = '/var/log/vimage/aim-error.log'
 
     UPLOADED_PHOTOS_DEST = '/opt/project/vimage/uploads'
 
