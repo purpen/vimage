@@ -136,11 +136,7 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Urk426#Db10@localhost/vimage_test'
-
-
-class ProductionConfig(Config):
-    MODE = 'prod'
+    MODE = 'test'
     DOMAIN_URL = 'https://aim.taihuoniao.com'
 
     DEBUG_LOG = False
@@ -162,6 +158,35 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://fxadmin:fxdb@1801?!@10.10.39.2/fximage?charset=utf8'
 
     ERROR_LOG = '/var/log/fxaim/vimage-error.log'
+
+    UPLOADED_PHOTOS_DEST = '/opt/project/vimage/uploads'
+
+    MAKE_IMAGE_FONTS_PATH = '/opt/project/vimage/public/fonts/'
+
+
+class ProductionConfig(Config):
+    MODE = 'prod'
+    DOMAIN_URL = 'http://vimage.moebeast.com'
+
+    DEBUG_LOG = False
+    DEBUG = False
+
+    # 缓存类型 redis
+    CACHE_TYPE = 'redis'
+    CACHE_REDIS_HOST = 'localhost'
+    CACHE_REDIS_PORT = 6379
+    CACHE_REDIS_DB = '0'
+    CACHE_REDIS_PASSWORD = ''
+
+    # 静态文件
+    ASSETS_DEBUG = False
+    CDN_DEBUG = False
+    CDN_HTTPS = True
+
+    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://fxadmin:fxdb@1801?!@10.10.39.2/fximage?charset=utf8'
+
+    ERROR_LOG = '/var/log/vimage/vimage-error.log'
 
     UPLOADED_PHOTOS_DEST = '/opt/project/vimage/uploads'
 
