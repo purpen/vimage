@@ -218,6 +218,16 @@ class ShapeObject:
 
         ImageDraw.Draw(image).rectangle(self.position, self.color, self.out_color)
 
+    def draw_circle(self, image):
+        """
+        图片上绘制圆形
+
+        :param image: 图片
+        :return: 绘制完成的图片
+        """
+
+        ImageDraw.Draw(image).ellipse(self.position, self.color, self.out_color)
+
     def draw_shapes(self, canvas):
         """
         在图片上绘制图形
@@ -235,6 +245,10 @@ class ShapeObject:
 
             if case(DrawShapeType.Rectangle):
                 self.draw_rectangle(canvas)
+                break
+
+            if case(DrawShapeType.Circle):
+                self.draw_circle(canvas)
                 break
 
 

@@ -52,6 +52,7 @@ class TextType(Enum):
     BrandSlogan = 17    # 品牌标语
     Describe = 18       # 描述
     Nickname = 19       # 用户昵称
+    City = 20           # 城市
 
 
 @unique
@@ -60,3 +61,4 @@ class DrawShapeType(Enum):
 
     Line = 0        # 直线
     Rectangle = 1   # 矩形
+    Circle = 2      # 圆形
