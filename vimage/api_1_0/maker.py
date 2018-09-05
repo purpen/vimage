@@ -135,6 +135,9 @@ def make_lexi_poster():
         'nickname': post_data.get('nickname'),
         'title': post_data.get('title'),
         'sale_price': post_data.get('sale_price'),
+        'background_img': post_data.get('background_img'),
+        'city': post_data.get('city'),
+        'people_count': int(post_data.get('people_count', 16341))
     }
 
     folder = 'lexi'

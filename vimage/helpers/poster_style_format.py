@@ -31,6 +31,7 @@ def get_text_content(text_type, data):
         TextType.BrandSlogan: data.get('brand_slogan'),
         TextType.Describe: data.get('describe'),
         TextType.Nickname: data.get('nickname'),
+        TextType.City: data.get('city'),
     }
 
     content = text_content_data.get(text_type)
