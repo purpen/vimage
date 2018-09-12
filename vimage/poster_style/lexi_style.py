@@ -46,6 +46,8 @@ class LexiPosterStyle:
                 return LifeCardStyle(self.data).get_style_data()
             if case(9):
                 return PlatformCardStyle(self.data).get_style_data()
+            if case(10):
+                return CouponsCartStyle(self.data).get_style_data()
 
 
 class BrandPosterStyle:
@@ -85,7 +87,7 @@ class BrandPosterStyle:
 
         if 1 <= img_count < 4:
             # 只展示一张图片
-            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
+            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
                                              width=a_img_w, height=a_img_w, radius=8, x=50, y=0, z_index=0)
 
             images_style_data.append(a_image_data)
@@ -97,7 +99,7 @@ class BrandPosterStyle:
 
                 image_x = 50 if index % 2 != 0 else m_img_w + 60  # 图片的x间隔
                 image_y = 0 if index < 2 else m_img_w + 10  # 图片的y间隔
-                goods_image_data = format_image_data(post_data=self.data, url=img_url, image_type=ImageType.Goods,
+                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
                                                      width=m_img_w, height=m_img_w, radius=8, x=image_x, y=image_y,
                                                      z_index=index + 1)
 
@@ -121,12 +123,12 @@ class BrandPosterStyle:
         size = (self.width, self.top_h)
 
         # 品牌logo
-        brand_logo_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.BrandLogo,
+        brand_logo_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.BrandLogo,
                                                   width=70, height=70, radius=8, x=50, y=50, z_index=0)
 
         # 描述文字背景
-        background_image = {'background_img': 'https://static.moebeast.com/vimage/background_1.png'}
-        default_background_data = format_image_data(post_data=background_image, url=None, image_type=ImageType.Background,
+        background_image = '../vimage/vimage/resource/background/background_1.png'
+        default_background_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
                                                     width=650, height=164, radius=0, x=50, y=150, z_index=1)
 
         # 提示文字
@@ -160,12 +162,12 @@ class BrandPosterStyle:
         size = (self.width, self.footer_h)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.WxaCode, width=180,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=180,
                                                 height=180, radius=0, x=520, y=45, z_index=0)
 
         # 默认logo
-        default_image = {'logo_img': 'https://static.moebeast.com/vimage/lexi_logo.png'}
-        default_logo_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Logo, width=71,
+        logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
                                               height=79, radius=0,  x=50, y=190, z_index=1)
 
         # 默认名称
@@ -265,7 +267,7 @@ class LifePosterStyle:
             image_w = f_img_w if index == 0 else m_img_w  # 图片的宽度
             image_h = f_img_h if index == 0 else m_img_w  # 图片的高度
 
-            goods_image_data = format_image_data(post_data=self.data, url=img_url, image_type=ImageType.Goods,
+            goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
                                                  width=image_w, height=image_h, radius=8, x=image_x, y=image_y,
                                                  z_index=index + 1)
 
@@ -289,21 +291,21 @@ class LifePosterStyle:
         size = (self.width, self.top_h)
 
         # 品牌logo
-        brand_logo_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.BrandLogo,
+        brand_logo_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.BrandLogo,
                                                   width=70, height=70, radius=8, x=50, y=50, z_index=0)
 
         # 描述文字素材
-        modify_image = {'modify_img': 'https://static.moebeast.com/vimage/material_2.png'}
-        default_modify_data = format_image_data(post_data=modify_image, url=None, image_type=ImageType.Modify,
+        modify_image = '../vimage/vimage/resource/material/material_2.png'
+        default_modify_data = format_image_data(post_data=None, url=None, path=modify_image, image_type=ImageType.Modify,
                                                 width=30, height=25, radius=0, x=50, y=160, z_index=1)
 
         # 描述文字素材
-        modify_image_1 = {'modify_img': 'https://static.moebeast.com/vimage/material_3.png'}
-        default_modify_data_1 = format_image_data(post_data=modify_image_1, url=None, image_type=ImageType.Modify,
+        modify_image_1 = '../vimage/vimage/resource/material/material_3.png'
+        default_modify_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
                                                   width=30, height=25, radius=0, x=490, y=257, z_index=2)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.WxaCode, width=180,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=180,
                                                 height=180, radius=0, x=520, y=50, z_index=3)
 
         # 提示文字
@@ -337,8 +339,8 @@ class LifePosterStyle:
         size = (self.width, self.footer_h)
 
         # 默认logo
-        default_image = {'logo_img': 'https://static.moebeast.com/vimage/lexi_logo.png'}
-        default_logo_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Logo, width=71,
+        logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
                                               height=79, radius=0,  x=50, y=50, z_index=0)
 
         # 默认名称
@@ -435,7 +437,7 @@ class WxaGoodsPosterStyle:
 
         if 1 <= img_count < 3:
             # 只展示一张图片
-            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
+            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
                                              width=a_img_w, height=a_img_h, radius=0, x=0, y=0, z_index=0)
 
             images_style_data.append(a_image_data)
@@ -449,7 +451,7 @@ class WxaGoodsPosterStyle:
                 image_y = 0 if index < 2 else m_img_w + 3  # 图片的y间隔
                 image_w = f_img_w if index == 0 else m_img_w  # 图片的宽度
 
-                goods_image_data = format_image_data(post_data=self.data, url=img_url, image_type=ImageType.Goods,
+                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
                                                      width=image_w, height=image_w, radius=0, x=image_x, y=image_y,
                                                      z_index=index + 1)
 
@@ -489,8 +491,8 @@ class WxaGoodsPosterStyle:
         default_origin_y = 0 if self.footer_h == 834 else 150
 
         # 默认logo
-        default_image = {'logo_img': 'https://static.moebeast.com/vimage/lexi_logo.png'}
-        default_logo_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Logo, width=71,
+        logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
                                               height=79, radius=0,  x=60, y=664 - default_origin_y, z_index=1)
 
         # 默认名称
@@ -504,7 +506,7 @@ class WxaGoodsPosterStyle:
                                                text_color='#666666', x=150, y=720 - default_origin_y, spacing=None, z_index=1)
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Avatar,
+        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
                                                    width=70, height=70, radius=0, x=60, y=45, z_index=2)
 
         # 用户昵称
@@ -514,7 +516,7 @@ class WxaGoodsPosterStyle:
                                               text_color='#FFFFFF', x=150, y=60, spacing=None, z_index=2)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.WxaCode, width=180,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=180,
                                                 height=180, radius=0, x=504, y=522 - default_origin_y, z_index=3)
 
         # 提示文字
@@ -566,15 +568,15 @@ class WxaGoodsPosterStyle:
                                             spacing=None, z_index=9)
 
         # 优惠红包背景
-        coupon_image = {'modify_img': 'https://static.moebeast.com/vimage/ticket_background.png'}
-        coupon_image_data = format_image_data(post_data=coupon_image, url=None, image_type=ImageType.Modify,
+        coupon_image = '../vimage/vimage/resource/material/ticket_background.png'
+        coupon_image_data = format_image_data(post_data=None, url=None, path=coupon_image, image_type=ImageType.Modify,
                                               width=150, height=80, radius=0, x=64, y=408 - not_describe_origin_y,
                                               z_index=4)
 
         # 背景
         image_url_id = 2 if self.footer_h == 834 else 3
-        background_image = {'background_img': ('https://static.moebeast.com/vimage/background_%d.png' % image_url_id)}
-        background_image_data = format_image_data(post_data=background_image, url=None, image_type=ImageType.Background,
+        background_image = ('../vimage/vimage/resource/background/background_%d.png' % image_url_id)
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
                                                   width=self.width, height=self.footer_h - 10, radius=0, x=0, y=10,
                                                   z_index=0)
 
@@ -680,7 +682,7 @@ class PaaSGoodsPosterStyle:
 
         if 1 <= img_count < 3:
             # 只展示一张图片
-            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
+            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
                                              width=self.width, height=a_img_h, radius=0, x=0, y=0, z_index=0)
 
             images_style_data.append(a_image_data)
@@ -695,7 +697,7 @@ class PaaSGoodsPosterStyle:
                 image_w = f_img_w if index == 0 else m_img_w  # 图片的宽度
                 image_h = f_img_h if index == 0 else m_img_w  # 图片的高度
 
-                goods_image_data = format_image_data(post_data=self.data, url=img_url, image_type=ImageType.Goods,
+                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
                                                      width=image_w, height=image_h, radius=8, x=image_x, y=image_y,
                                                      z_index=index + 1)
 
@@ -719,12 +721,12 @@ class PaaSGoodsPosterStyle:
         size = (self.width, self.top_h)
 
         # 默认
-        default_title_image = {'modify_img': 'https://static.moebeast.com/vimage/material_1.png'}
-        default_title_data = format_image_data(post_data=default_title_image, url=None, image_type=ImageType.Modify,
+        default_title_image = '../vimage/vimage/resource/material/material_1.png'
+        default_title_data = format_image_data(post_data=None, url=None, path=default_title_image, image_type=ImageType.Modify,
                                                width=375, height=61, radius=0, x=50, y=50, z_index=0)
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Avatar,
+        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
                                                    width=70, height=70, radius=0, x=50, y=160, z_index=1)
 
         # 用户昵称
@@ -752,8 +754,8 @@ class PaaSGoodsPosterStyle:
         default_origin_y = 0 if self.footer_h == 570 else 144
 
         # 默认logo
-        default_image = {'logo_img': 'https://static.moebeast.com/vimage/lexi_logo.png'}
-        default_logo_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Logo, width=71,
+        logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
                                               height=79, radius=0,  x=50, y=434 + default_origin_y, z_index=1)
 
         # 默认名称
@@ -767,7 +769,7 @@ class PaaSGoodsPosterStyle:
                                                text_color='#666666', x=140, y=490 + default_origin_y, spacing=None, z_index=1)
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Avatar,
+        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
                                                    width=70, height=70, radius=0, x=70, y=45, z_index=2)
 
         # 用户昵称
@@ -777,7 +779,7 @@ class PaaSGoodsPosterStyle:
                                               text_color='#333333', x=160, y=60, spacing=None, z_index=2)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.WxaCode, width=180,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=180,
                                                 height=180, radius=0, x=514, y=289 + default_origin_y, z_index=3)
 
         # 提示文字
@@ -829,14 +831,14 @@ class PaaSGoodsPosterStyle:
                                             spacing=None, z_index=9)
 
         # 优惠红包背景
-        coupon_image = {'modify_img': 'https://static.moebeast.com/vimage/ticket_background.png'}
-        coupon_image_data = format_image_data(post_data=coupon_image, url=None, image_type=ImageType.Modify,
+        coupon_image = '../vimage/vimage/resource/material/ticket_background.png'
+        coupon_image_data = format_image_data(post_data=None, url=None, path=coupon_image, image_type=ImageType.Modify,
                                               width=150, height=80, radius=0, x=50, y=275 + default_origin_y - not_describe_origin_y,
                                               z_index=4)
 
         # 背景
-        background_image = {'background_img': 'https://static.moebeast.com/vimage/background_4.png'}
-        background_image_data = format_image_data(post_data=background_image, url=None, image_type=ImageType.Background,
+        background_image = '../vimage/vimage/resource/background/background_4.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
                                                   width=self.width, height=self.footer_h, radius=0, x=0, y=0, z_index=0)
 
         images_data = [default_logo_data, wxa_code_image_data]
@@ -919,7 +921,7 @@ class InviteFriendsPosterStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Avatar,
+        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
                                                    width=192, height=192, radius=98, x=279, y=183, z_index=6)
 
         # 用户昵称
@@ -954,7 +956,7 @@ class InviteFriendsPosterStyle:
                                             text_color='#FFFFFF', x=260, y=706, spacing=None, z_index=7)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.WxaCode, width=200,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=200,
                                                 height=200, radius=0, x=277, y=814, z_index=6)
 
         # 提示文字
@@ -963,37 +965,38 @@ class InviteFriendsPosterStyle:
                                           x=230, y=1034, spacing=None, z_index=8)
 
         # 背景
-        background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
+        background_image = '../vimage/vimage/resource/background/invite_poster_background_0.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
-        background_image_1 = 'https://static.moebeast.com/vimage/background_5.png'
-        background_image_data_1 = format_image_data(post_data=None, url=background_image_1, image_type=ImageType.Background,
+        background_image_1 = '../vimage/vimage/resource/background/background_5.png'
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
                                                     width=710, height=916, radius=0, x=20, y=258, z_index=1)
 
         # 素材 1
-        modify_image_1 = 'https://static.moebeast.com/vimage/material_8.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=modify_image_1, image_type=ImageType.Modify,
+        modify_image_1 = '../vimage/vimage/resource/material/material_8.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
                                                 width=365, height=47, radius=0, x=181, y=309, z_index=2)
 
         # 素材 2
-        modify_image_2 = 'https://static.moebeast.com/vimage/material_9.png'
-        modify_image_data_2 = format_image_data(post_data=None, url=modify_image_2, image_type=ImageType.Modify,
+        modify_image_2 = '../vimage/vimage/resource/material/material_9.png'
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2, image_type=ImageType.Modify,
                                                 width=585, height=2, radius=0, x=83, y=775, z_index=3)
 
         # 素材 3
-        modify_image_3 = 'https://static.moebeast.com/vimage/material_7.png'
-        modify_image_data_3 = format_image_data(post_data=None, url=modify_image_3, image_type=ImageType.Modify,
+        modify_image_3 = '../vimage/vimage/resource/material/material_7.png'
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3, image_type=ImageType.Modify,
                                                 width=268, height=36, radius=0, x=240, y=704, z_index=4)
 
         # 素材 4
-        modify_image_4 = 'https://static.moebeast.com/vimage/material_16.png'
-        modify_image_data_4 = format_image_data(post_data=None, url=modify_image_4, image_type=ImageType.Modify,
+        modify_image_4 = '../vimage/vimage/resource/material/material_16.png'
+        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4, image_type=ImageType.Modify,
                                                 width=200, height=200, radius=0, x=275, y=179, z_index=5)
 
         # 默认logo
-        default_image = {'logo_img': 'https://kg.erp.taihuoniao.com/banmen/static/lexi_logo.png'}
-        default_logo_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Logo, width=71,
+        logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
                                               height=79, radius=0, x=619, y=1177, z_index=3)
 
         # 默认名称
@@ -1076,7 +1079,7 @@ class InviteFriendsCardStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Avatar,
+        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
                                                    width=80, height=80, radius=40, x=173, y=17, z_index=6)
 
         # 默认邀请提示语
@@ -1100,32 +1103,33 @@ class InviteFriendsCardStyle:
                                           text_color='#FFFFFF', x=140, y=245, spacing=None, z_index=6)
 
         # 背景
-        background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
+        background_image = '../vimage/vimage/resource/background/invite_card_background_0.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
-        background_image_1 = 'https://static.moebeast.com/vimage/background_6.png'
-        background_image_data_1 = format_image_data(post_data=None, url=background_image_1, image_type=ImageType.Background,
+        background_image_1 = '../vimage/vimage/resource/background/background_6.png'
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
                                                     width=380, height=209, radius=0, x=20, y=57, z_index=1)
 
         # 素材 1
-        modify_image_1 = 'https://static.moebeast.com/vimage/material_5.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=modify_image_1, image_type=ImageType.Modify,
+        modify_image_1 = '../vimage/vimage/resource/material/material_5.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
                                                 width=188, height=60, radius=0, x=113, y=236, z_index=2)
 
         # 素材 2
-        modify_image_2 = 'https://static.moebeast.com/vimage/material_4.png'
-        modify_image_data_2 = format_image_data(post_data=None, url=modify_image_2, image_type=ImageType.Modify,
+        modify_image_2 = '../vimage/vimage/resource/material/material_4.png'
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2, image_type=ImageType.Modify,
                                                 width=24, height=24, radius=0, x=262, y=254, z_index=3)
 
         # 素材 3
-        modify_image_3 = 'https://static.moebeast.com/vimage/material_12.png'
-        modify_image_data_3 = format_image_data(post_data=None, url=modify_image_3, image_type=ImageType.Modify,
+        modify_image_3 = '../vimage/vimage/resource/material/material_12.png'
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3, image_type=ImageType.Modify,
                                                 width=27, height=4, radius=0, x=65, y=213, z_index=4)
 
         # 素材 4
-        modify_image_4 = 'https://static.moebeast.com/vimage/material_13.png'
-        modify_image_data_4 = format_image_data(post_data=None, url=modify_image_4, image_type=ImageType.Modify,
+        modify_image_4 = '../vimage/vimage/resource/material/material_13.png'
+        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4, image_type=ImageType.Modify,
                                                 width=27, height=4, radius=0, x=325, y=213, z_index=5)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
@@ -1195,7 +1199,7 @@ class BrandCardStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Avatar,
+        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
                                                    width=86, height=86, radius=2, x=165, y=44, z_index=4)
 
         # 昵称
@@ -1216,22 +1220,22 @@ class BrandCardStyle:
                                           text_color='#FFFFFF', x=155, y=273, spacing=None, z_index=2)
 
         # 背景
-        background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Background,
                                                   width=self.width, height=160, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
-        background_image_1 = 'https://static.moebeast.com/vimage/background_9.png'
-        background_image_data_1 = format_image_data(post_data=None, url=background_image_1, image_type=ImageType.Background,
+        background_image_1 = '../vimage/vimage/resource/background/background_9.png'
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
                                                     width=400, height=248, radius=0, x=10, y=88, z_index=1)
 
         # 素材
-        modify_image = 'https://static.moebeast.com/vimage/material_4.png'
-        modify_image_data = format_image_data(post_data=None, url=modify_image, image_type=ImageType.Modify,
+        modify_image = '../vimage/vimage/resource/material/material_4.png'
+        modify_image_data = format_image_data(post_data=None, url=None, path=modify_image, image_type=ImageType.Modify,
                                               width=24, height=24, radius=0, x=256, y=280, z_index=2)
 
         # 素材1
-        modify_image_1 = 'https://static.moebeast.com/vimage/material_15.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=modify_image_1, image_type=ImageType.Modify,
+        modify_image_1 = '../vimage/vimage/resource/material/material_15.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
                                                 width=94, height=94, radius=0, x=161, y=40, z_index=3)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data, modify_image_data_1, user_Avatar_image_data]
@@ -1300,7 +1304,7 @@ class LifeCardStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Avatar,
+        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
                                                    width=86, height=86, radius=4, x=165, y=44, z_index=5)
 
         # 用户昵称
@@ -1320,27 +1324,28 @@ class LifeCardStyle:
                                           text_color='#FFFFFF', x=150, y=257, spacing=None, z_index=2)
 
         # 背景
-        background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
+        background_image = '../vimage/vimage/resource/background/life_card_background_0.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
-        background_image_1 = 'https://static.moebeast.com/vimage/background_7.png'
-        background_image_data_1 = format_image_data(post_data=None, url=background_image_1, image_type=ImageType.Background,
+        background_image_1 = '../vimage/vimage/resource/background/background_7.png'
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
                                                     width=380, height=187, radius=0, x=20, y=89, z_index=1)
 
         # 素材 1
-        modify_image_1 = 'https://static.moebeast.com/vimage/material_5.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=modify_image_1, image_type=ImageType.Modify,
+        modify_image_1 = '../vimage/vimage/resource/material/material_5.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
                                                 width=188, height=60, radius=0, x=113, y=246, z_index=2)
 
         # 素材 2
-        modify_image_2 = 'https://static.moebeast.com/vimage/material_4.png'
-        modify_image_data_2 = format_image_data(post_data=None, url=modify_image_2, image_type=ImageType.Modify,
+        modify_image_2 = '../vimage/vimage/resource/material/material_4.png'
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2, image_type=ImageType.Modify,
                                                 width=24, height=24, radius=0, x=250, y=265, z_index=3)
 
         # 素材3
-        modify_image_3 = 'https://static.moebeast.com/vimage/material_15.png'
-        modify_image_data_3 = format_image_data(post_data=None, url=modify_image_3, image_type=ImageType.Modify,
+        modify_image_3 = '../vimage/vimage/resource/material/material_15.png'
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3, image_type=ImageType.Modify,
                                                 width=94, height=94, radius=0, x=161, y=40, z_index=4)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
@@ -1430,43 +1435,143 @@ class PlatformCardStyle:
                                           text_color='#FFFFFF', x=145, y=237, spacing=None, z_index=2)
 
         # 背景
-        background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
+        background_image = '../vimage/vimage/resource/background/lexi_card_background_0.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
-        background_image_1 = 'https://static.moebeast.com/vimage/background_8.png'
-        background_image_data_1 = format_image_data(post_data=None, url=background_image_1, image_type=ImageType.Background,
+        background_image_1 = '../vimage/vimage/resource/background/background_8.png'
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
                                                     width=380, height=212, radius=0, x=20, y=50, z_index=1)
 
         # 素材 1
-        modify_image_1 = 'https://static.moebeast.com/vimage/material_5.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=modify_image_1, image_type=ImageType.Modify,
+        modify_image_1 = '../vimage/vimage/resource/material/material_5.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
                                                 width=188, height=60, radius=0, x=110, y=227, z_index=2)
 
         # 素材 2
-        modify_image_2 = 'https://static.moebeast.com/vimage/material_4.png'
-        modify_image_data_2 = format_image_data(post_data=None, url=modify_image_2, image_type=ImageType.Modify,
+        modify_image_2 = '../vimage/vimage/resource/material/material_4.png'
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2, image_type=ImageType.Modify,
                                                 width=24, height=24, radius=0, x=245, y=244, z_index=3)
 
         # 素材3
-        modify_image_3 = 'https://static.moebeast.com/vimage/material_11.png'
-        modify_image_data_3 = format_image_data(post_data=None, url=modify_image_3, image_type=ImageType.Modify,
+        modify_image_3 = '../vimage/vimage/resource/material/material_11.png'
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3, image_type=ImageType.Modify,
                                                 width=59, height=70, radius=0, x=20, y=160, z_index=4)
 
         # 素材4
-        modify_image_4 = 'https://static.moebeast.com/vimage/material_10.png'
-        modify_image_data_4 = format_image_data(post_data=None, url=modify_image_4, image_type=ImageType.Modify,
+        modify_image_4 = '../vimage/vimage/resource/material/material_10.png'
+        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4, image_type=ImageType.Modify,
                                                 width=90, height=73, radius=0, x=279, y=50, z_index=5)
 
         # 素材5
-        modify_image_5 = 'https://static.moebeast.com/vimage/material_6.png'
-        modify_image_data_5 = format_image_data(post_data=None, url=modify_image_5, image_type=ImageType.Modify,
+        modify_image_5 = '../vimage/vimage/resource/material/material_6.png'
+        modify_image_data_5 = format_image_data(post_data=None, url=None, path=modify_image_5, image_type=ImageType.Modify,
                                                 width=215, height=35, radius=0, x=100, y=175, z_index=6)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
                        modify_image_data_3, modify_image_data_4, modify_image_data_5]
 
         texts_data = [default_Invite_data, invite_slogan_data, coupon_data, sure_info_data]
+
+        return {
+            'size': self.size,
+            'texts': texts_data,
+            'images': images_data,
+            'shapes': []
+        }
+
+    def get_style_one(self):
+        """
+           样式一
+        """
+
+        # 视图数据
+        info_view = self.info_view
+
+        # 视图集合
+        views = [info_view]
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': views
+        }
+
+    def get_style_data(self):
+        """
+        获取海报样式数据
+
+        :return: 样式数据
+        """
+
+        style_data = self.get_style_one()
+
+        return style_data
+
+
+class CouponsCartStyle:
+    """
+        优惠券分享卡片样式
+    """
+
+    def __init__(self, post_data):
+        """
+        初始化样式
+
+        :param post_data: 海报数据
+        """
+
+        self.data = post_data or {}
+
+        self.color = (255, 255, 255)
+        self.width = 420
+        self.height = 336
+        self.size = (self.width, self.height)
+
+    @property
+    def info_view(self):
+        """
+            信息视图
+        """
+
+        # 用户头像
+        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+                                                   width=66, height=66, radius=33, x=178, y=12, z_index=2)
+
+        # 用户昵称
+        user_nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                              font_size=28, font_family='PingFang Bold', align='center',
+                                              text_color='#FFFFFF', x=50, y=88, spacing=None, z_index=0)
+
+        # 默认邀请提示语
+        default_Invite_data = format_text_data(post_data=None, text='让你来领1个乐喜红包', text_type=TextType.Info,
+                                               font_size=24, font_family=None, align='center',
+                                               text_color='#FFFFFF', x=50, y=126, spacing=None, z_index=1)
+
+        # 新人领券金额
+        coupon_data = format_text_data(post_data=None, text='50-800', text_type=TextType.Info,
+                                       font_size=56, font_family='PingFang Bold', align=None,
+                                       text_color='#FFFFFF', x=88, y=260, spacing=None, z_index=2)
+
+        coupon_hint_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
+                                            font_size=30, font_family='PingFang Bold', align=None,
+                                            text_color='#FFFFFF', x=300, y=284, spacing=None, z_index=3)
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/background_10.jpg'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background, width=self.width, height=self.height,
+                                                  radius=0, x=0, y=0, z_index=0)
+
+        # 素材 1
+        modify_image_1 = '../vimage/vimage/resource/material/material_16.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
+                                                width=71, height=71, radius=0, x=176, y=10, z_index=1)
+
+        images_data = [background_image_data, modify_image_data_1, user_Avatar_image_data]
+
+        texts_data = [user_nickname_data, default_Invite_data, coupon_data, coupon_hint_data]
 
         return {
             'size': self.size,

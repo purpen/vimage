@@ -103,14 +103,14 @@ class GoodsWxaStyle:
 
         if img_count == 1:
             # 全屏状态的图片，第一张
-            full_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
+            full_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
                                                 width=f_img_w, height=f_img_w, radius=0, x=0, y=0, z_index=0)
 
             images_style_data.append(full_image_data)
 
         else:
             # 有间隔状态的图片，第一张
-            interval_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
+            interval_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
                                                     width=i_img_w, height=i_img_w, radius=0, x=40, y=40, z_index=0)
 
             images_style_data.append(interval_image_data)
@@ -120,7 +120,7 @@ class GoodsWxaStyle:
             for index in range(len(self.goods_images[1:])):
                 img_url = self.goods_images[1:][index]  # 图片地址
                 image_x = 40 + (width + 20) * index  # 附加图片的x间隔
-                goods_image_data = format_image_data(post_data=self.data, url=img_url, image_type=ImageType.Goods,
+                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
                                                      width=width, height=width, radius=0, x=image_x, y=i_img_w + 60,
                                                      z_index=index + 1)
 
@@ -150,7 +150,7 @@ class GoodsWxaStyle:
         images_style_data = []
 
         # 有间隔状态的图片，第一张
-        interval_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], image_type=ImageType.Goods,
+        interval_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
                                                 width=img_w, height=img_h, radius=0, x=40, y=40, z_index=0)
 
         images_style_data.append(interval_image_data)
@@ -163,7 +163,7 @@ class GoodsWxaStyle:
             image_x = 40 if index != 1 else 60 + min_w  # 图片的x间隔
             image_y = 80 + image_h + img_h if index == 2 else 60 + img_h  # 图片的y间隔
 
-            goods_image_data = format_image_data(post_data=self.data, url=img_url, image_type=ImageType.Goods,
+            goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
                                                  width=width if len(self.goods_images) > 2 else img_w,
                                                  height=height if len(self.goods_images) > 2 else img_h,
                                                  radius=0, x=image_x, y=image_y, z_index=index + 1)
@@ -228,11 +228,11 @@ class GoodsWxaStyle:
                                            spacing=None, z_index=1)
 
         # 二维码
-        qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode, width=180,
+        qr_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.QRCode, width=180,
                                                height=180, radius=0, x=510, y=40, z_index=0)
 
         # 品牌logo
-        logo_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Logo, width=80,
+        logo_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Logo, width=80,
                                             height=80, radius=0, x=60, y=126, z_index=1)
 
         # 分割线，图形元素
@@ -342,7 +342,7 @@ class GoodsSalesStyle:
         texts = [sales_title_data, sales_pct_data, sales_info_data, sales_brand_data, time_data]
 
         # 图片
-        background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Background,
                                                   width=750, height=750, radius=0, x=0, y=0, z_index=0)
 
         images = [background_image_data]
@@ -397,10 +397,10 @@ class GoodsSalesStyle:
         texts = [sales_title_data, sales_pct_data, sales_info_data, sales_brand_data, time_data, hint_text]
 
         # 图片
-        background_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Background,
                                                   width=750, height=750, radius=0, x=0, y=0, z_index=0)
 
-        qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode,
+        qr_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.QRCode,
                                                width=250, height=250, radius=0, x=250, y=810, z_index=1)
 
         images = [background_image_data, qr_code_image_data]
@@ -460,10 +460,10 @@ class GoodsSalesStyle:
         background_image = 'https://kg.erp.taihuoniao.com/image_background/20180329/cJtBGmvIrKeiqCHoQuRF.png'
         default_image = {'background_img': background_image}
 
-        background_image_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=default_image, url=None, path=None, image_type=ImageType.Background,
                                                   width=750, height=1334, radius=0, x=0, y=0, z_index=0)
 
-        qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode,
+        qr_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.QRCode,
                                                width=180, height=180, radius=0, x=285, y=944, z_index=1)
 
         images = [background_image_data, qr_code_image_data]
@@ -533,10 +533,10 @@ class GoodsSalesStyle:
         background_image = 'https://kg.erp.taihuoniao.com/image_background/20180329/JlyhMHvKNgpeRaDULocC.png'
         default_image = {'background_img': background_image}
 
-        background_image_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=default_image, url=None, path=None, image_type=ImageType.Background,
                                                   width=691, height=1200, radius=0, x=30, y=87, z_index=0)
 
-        qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode,
+        qr_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.QRCode,
                                                width=140, height=140, radius=0, x=305, y=882, z_index=1)
 
         images = [background_image_data, qr_code_image_data]
@@ -594,10 +594,10 @@ class GoodsSalesStyle:
         background_image = 'https://kg.erp.taihuoniao.com/image_background/20180329/tZdUMRjGCHlhbrSeAWiE.png'
         default_image = {'background_img': background_image}
 
-        background_image_data = format_image_data(post_data=default_image, url=None, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=default_image, url=None, path=None, image_type=ImageType.Background,
                                                   width=750, height=750, radius=0, x=0, y=0, z_index=0)
 
-        qr_code_image_data = format_image_data(post_data=self.data, url=None, image_type=ImageType.QRCode,
+        qr_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.QRCode,
                                                width=200, height=200, radius=0, x=275, y=1031, z_index=1)
 
         images = [background_image_data, qr_code_image_data]
@@ -673,13 +673,13 @@ class SayingStyle:
         texts = [content_data, time_data]
 
         # 图片素材
-        background_image_data = format_image_data(post_data=self.data, url=self.back_img, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=self.data, url=self.back_img, path=None, image_type=ImageType.Background,
                                                   width=750, height=480, radius=0, x=0, y=0, z_index=0)
 
-        avatar_image_data = format_image_data(post_data=self.data, url=self.avatar, image_type=ImageType.Avatar,
+        avatar_image_data = format_image_data(post_data=self.data, url=self.avatar, path=None, image_type=ImageType.Avatar,
                                               width=160, height=160, radius=0, x=296, y=400, z_index=1)
 
-        qr_code_image_data = format_image_data(post_data=self.data, url=self.qr_code, image_type=ImageType.QRCode,
+        qr_code_image_data = format_image_data(post_data=self.data, url=self.qr_code, path=None, image_type=ImageType.QRCode,
                                                width=160, height=160, radius=0, x=296, y=1114, z_index=2)
 
         images = [background_image_data, avatar_image_data, qr_code_image_data]
@@ -743,12 +743,12 @@ class BlurryPictureStyle:
         """
 
         # 主图片
-        main_image_data = format_image_data(post_data=self.data, url=self.img_url, image_type=ImageType.Background,
+        main_image_data = format_image_data(post_data=self.data, url=self.img_url, path=None, image_type=ImageType.Background,
                                             width=int(self.img_w) * self.scale, height=int(self.img_h) * self.scale,
                                             radius=0, x=0, y=0, z_index=0)
 
         # 模糊贴图素材
-        modify_image_data = format_image_data(post_data=self.data, url=get_random_modify_images(),
+        modify_image_data = format_image_data(post_data=self.data, url=get_random_modify_images(), path=None,
                                               image_type=ImageType.Modify,
                                               width=int(self.w) * self.scale, height=int(self.h) * self.scale,
                                               radius=0, x=int(self.x) * self.scale, y=int(self.y) * self.scale, z_index=1)
