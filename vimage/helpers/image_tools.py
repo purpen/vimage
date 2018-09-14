@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 from io import BytesIO
 import imagehash
 import random
+from pathlib import Path
 from vimage.constant import *
 from vimage.helpers.utils import *
 
@@ -33,6 +34,21 @@ def load_url_image(image_url, is_create=False):
         return image if is_create else custom_response('图片链接获取失败', 400, False)
 
     return image
+
+
+def load_static_image(image_path):
+    """
+    加载本地图片
+
+    :param image_path: 路径
+    :return: 图片
+    """
+
+    if image_path is not None:
+        if Path(image_path).exists():
+            return Image.open(image_path).copy().convert('RGBA')
+
+    return Image.new('RGBA', Size.DEFAULT_IMAGE_SIZE['square'], Colors.DEFAULT_BACKGROUND_COLOR['white']).copy()
 
 
 def hex_to_rgb(hex_color):
