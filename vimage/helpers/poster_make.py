@@ -151,6 +151,7 @@ class ImageObject:
         self.position = data.get('position')   # 位置
         self.radius = data.get('radius')       # 圆角半径
         self.url = data.get('url')             # 网络Url
+        self.path = data.get('path')           # 本地图片路径
         self.z_index = data.get('z_index')     # 层级（叠加顺序）
 
     def paste_image(self, canvas):
@@ -161,8 +162,14 @@ class ImageObject:
         :return: 拼贴后的结果图片
         """
 
+        print ('---------------------- %s' % self.url)
+        print ('---------------------- %s' % self.path)
         # 加载图片
-        load_image = load_url_image(self.url, is_create=True)
+        if self.url is None:
+            load_image = load_static_image(self.path)
+        else:
+            load_image = load_url_image(self.url, is_create=True)
+
         resize_image = load_image.resize(self.size)
 
         # 圆形头像
