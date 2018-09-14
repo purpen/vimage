@@ -192,8 +192,8 @@ class ProductionConfig(Config):
     REDIS_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/0'
 
     # 异步任务
-    CELERY_BROKER_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/5'
-    CELERY_RESULT_BACKEND = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/6'
+    CELERY_BROKER_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/3'
+    CELERY_RESULT_BACKEND = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/4'
 
     # 静态文件
     ASSETS_DEBUG = False
