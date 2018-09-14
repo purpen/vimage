@@ -36,7 +36,7 @@ class GoodsGifStyle:
         texts = [sales_info_data]
 
         # 图片
-        qr_code_image_data = format_image_data(self.data, None, ImageType.QRCode, 190, 190, 0, 520, 1052, 0)
+        qr_code_image_data = format_image_data(self.data, None, None, ImageType.QRCode, 190, 190, 0, 520, 1052, 0)
 
         images = [qr_code_image_data]
 

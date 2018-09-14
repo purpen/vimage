@@ -121,12 +121,13 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
     return text_data
 
 
-def format_image_data(post_data, url, image_type, width, height, radius, x, y, z_index):
+def format_image_data(post_data, url, path, image_type, width, height, radius, x, y, z_index):
     """
     格式化图片数据
 
     :param post_data: 样式展示数据
     :param url: 图片地址
+    :param path: 本地路径
     :param image_type: 图片类型
     :param width: 宽度
     :param height: 高度
@@ -142,6 +143,9 @@ def format_image_data(post_data, url, image_type, width, height, radius, x, y, z
     # 图片 URL
     img_url = get_image_url(image_type, data) if not url else url
 
+    # 路径
+    img_path = None if not path else path
+
     # 尺寸
     size = (int(width), int(height))
 
@@ -154,6 +158,7 @@ def format_image_data(post_data, url, image_type, width, height, radius, x, y, z
         'position': position,
         'radius': radius,
         'url': img_url,
+        'path': img_path,
         'z_index': z_index
     }
 
