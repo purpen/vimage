@@ -201,7 +201,7 @@ class ProductionConfig(Config):
     CDN_HTTPS = True
     CDN_ENDPOINTS = ['static']
     CDN_DOMAIN = 'static.moebeast.com'
-    THUMB_CDN_DOMAIN = 'static.moebeast.com'
+    THUMB_CDN_DOMAIN = 's3.moebeast.com'
 
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Mix@MySQL#1808!@10.16.0.4/fximage?charset=utf8'
