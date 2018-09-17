@@ -24,7 +24,7 @@ def qiniu_upload(content, folder, file_suffix):
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key(file_suffix))
 
     # 保存的地址
-    result_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+    result_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     qiniu_cloud = QiniuCloud(current_app.config['QINIU_ACCESS_KEY'], current_app.config['QINIU_ACCESS_SECRET'],
                              current_app.config['QINIU_BUCKET_NAME'])
