@@ -162,8 +162,6 @@ class ImageObject:
         :return: 拼贴后的结果图片
         """
 
-        print ('---------------------- %s' % self.url)
-        print ('---------------------- %s' % self.path)
         # 加载图片
         if self.url is None:
             load_image = load_static_image(self.path)
