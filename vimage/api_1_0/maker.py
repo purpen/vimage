@@ -58,7 +58,7 @@ def make_blurry_picture():
     folder = 'blurry'
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
     # 生成图片地址
-    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+    image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
     poster_style = BlurryPictureStyle(data)
@@ -143,7 +143,7 @@ def make_lexi_poster():
     folder = 'lexi'
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
     # 生成图片地址
-    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+    image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
     poster_style = LexiPosterStyle(data)
@@ -216,7 +216,7 @@ def make_wxa_poster():
     folder = 'wxacode'
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
     # 生成图片地址
-    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+    image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
     poster_style = GoodsWxaStyle(data)
@@ -284,7 +284,7 @@ def make_sales_poster():
     folder = 'promotion'
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
     # 生成图片地址
-    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+    image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
     poster_style = GoodsSalesStyle(data, style_id)
@@ -340,7 +340,7 @@ def make_saying_poster():
     folder = 'saying'
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
     # 生成图片地址
-    image_url = 'https://%s/%s' % (current_app.config['CDN_DOMAIN'], path_key)
+    image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
     poster_style = SayingStyle(post_data)
