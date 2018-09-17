@@ -200,7 +200,7 @@ class ProductionConfig(Config):
     CDN_DEBUG = False
     CDN_HTTPS = True
     CDN_ENDPOINTS = ['static']
-    CDN_DOMAIN = 'static.moebeast.com'
+    CDN_DOMAIN = 's3.moebeast.com'
     THUMB_CDN_DOMAIN = 's3.moebeast.com'
 
     SQLALCHEMY_ECHO = False
