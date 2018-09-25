@@ -27,6 +27,7 @@ class ImageType(Enum):
     WxaCode = 8         # 小程序码
     Avatar = 9          # 头像
     BrandLogo = 10      # 品牌logo
+    Guess = 11          # 猜图
 
 
 @unique
