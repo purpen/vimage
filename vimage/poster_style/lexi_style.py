@@ -48,6 +48,10 @@ class LexiPosterStyle:
                 return PlatformCardStyle(self.data).get_style_data()
             if case(10):
                 return CouponsCartStyle(self.data).get_style_data()
+            if case(11):
+                return GuessGamePosterStyle(self.data).get_style_one()
+            if case(12):
+                return GuessGamePosterStyle(self.data).get_style_two()
 
 
 class BrandPosterStyle:
@@ -87,7 +91,8 @@ class BrandPosterStyle:
 
         if 1 <= img_count < 4:
             # 只展示一张图片
-            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
+            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None,
+                                             image_type=ImageType.Goods,
                                              width=a_img_w, height=a_img_w, radius=8, x=50, y=0, z_index=0)
 
             images_style_data.append(a_image_data)
@@ -99,7 +104,8 @@ class BrandPosterStyle:
 
                 image_x = 50 if index % 2 != 0 else m_img_w + 60  # 图片的x间隔
                 image_y = 0 if index < 2 else m_img_w + 10  # 图片的y间隔
-                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
+                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                     image_type=ImageType.Goods,
                                                      width=m_img_w, height=m_img_w, radius=8, x=image_x, y=image_y,
                                                      z_index=index + 1)
 
@@ -123,12 +129,14 @@ class BrandPosterStyle:
         size = (self.width, self.top_h)
 
         # 品牌logo
-        brand_logo_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.BrandLogo,
+        brand_logo_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                  image_type=ImageType.BrandLogo,
                                                   width=70, height=70, radius=8, x=50, y=50, z_index=0)
 
         # 描述文字背景
         background_image = '../vimage/vimage/resource/background/background_1.png'
-        default_background_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
+        default_background_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                    image_type=ImageType.Background,
                                                     width=650, height=164, radius=0, x=50, y=150, z_index=1)
 
         # 提示文字
@@ -162,13 +170,15 @@ class BrandPosterStyle:
         size = (self.width, self.footer_h)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=180,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=180,
                                                 height=180, radius=0, x=520, y=45, z_index=0)
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
-        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
-                                              height=79, radius=0,  x=50, y=190, z_index=1)
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
+                                              width=71,
+                                              height=79, radius=0, x=50, y=190, z_index=1)
 
         # 默认名称
         default_name_data = format_text_data(post_data=self.data, text='乐喜', text_type=TextType.Info,
@@ -262,12 +272,13 @@ class LifePosterStyle:
         for index in range(len(self.goods_images[:3])):
             img_url = self.goods_images[index]  # 图片地址
 
-            image_x = 50 if index < 2 else m_img_w + 60   # 图片的x间隔
-            image_y = 0 if index == 0 else f_img_h + 10   # 图片的y间隔
+            image_x = 50 if index < 2 else m_img_w + 60  # 图片的x间隔
+            image_y = 0 if index == 0 else f_img_h + 10  # 图片的y间隔
             image_w = f_img_w if index == 0 else m_img_w  # 图片的宽度
             image_h = f_img_h if index == 0 else m_img_w  # 图片的高度
 
-            goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
+            goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                 image_type=ImageType.Goods,
                                                  width=image_w, height=image_h, radius=8, x=image_x, y=image_y,
                                                  z_index=index + 1)
 
@@ -291,21 +302,25 @@ class LifePosterStyle:
         size = (self.width, self.top_h)
 
         # 品牌logo
-        brand_logo_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.BrandLogo,
+        brand_logo_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                  image_type=ImageType.BrandLogo,
                                                   width=70, height=70, radius=8, x=50, y=50, z_index=0)
 
         # 描述文字素材
         modify_image = '../vimage/vimage/resource/material/material_2.png'
-        default_modify_data = format_image_data(post_data=None, url=None, path=modify_image, image_type=ImageType.Modify,
+        default_modify_data = format_image_data(post_data=None, url=None, path=modify_image,
+                                                image_type=ImageType.Modify,
                                                 width=30, height=25, radius=0, x=50, y=160, z_index=1)
 
         # 描述文字素材
         modify_image_1 = '../vimage/vimage/resource/material/material_3.png'
-        default_modify_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
+        default_modify_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                  image_type=ImageType.Modify,
                                                   width=30, height=25, radius=0, x=490, y=257, z_index=2)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=180,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=180,
                                                 height=180, radius=0, x=520, y=50, z_index=3)
 
         # 提示文字
@@ -340,8 +355,9 @@ class LifePosterStyle:
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
-        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
-                                              height=79, radius=0,  x=50, y=50, z_index=0)
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
+                                              width=71,
+                                              height=79, radius=0, x=50, y=50, z_index=0)
 
         # 默认名称
         default_name_data = format_text_data(post_data=self.data, text='乐喜', text_type=TextType.Info,
@@ -437,7 +453,8 @@ class WxaGoodsPosterStyle:
 
         if 1 <= img_count < 3:
             # 只展示一张图片
-            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
+            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None,
+                                             image_type=ImageType.Goods,
                                              width=a_img_w, height=a_img_h, radius=0, x=0, y=0, z_index=0)
 
             images_style_data.append(a_image_data)
@@ -451,7 +468,8 @@ class WxaGoodsPosterStyle:
                 image_y = 0 if index < 2 else m_img_w + 3  # 图片的y间隔
                 image_w = f_img_w if index == 0 else m_img_w  # 图片的宽度
 
-                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
+                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                     image_type=ImageType.Goods,
                                                      width=image_w, height=image_w, radius=0, x=image_x, y=image_y,
                                                      z_index=index + 1)
 
@@ -492,21 +510,25 @@ class WxaGoodsPosterStyle:
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
-        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
-                                              height=79, radius=0,  x=60, y=664 - default_origin_y, z_index=1)
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
+                                              width=71,
+                                              height=79, radius=0, x=60, y=664 - default_origin_y, z_index=1)
 
         # 默认名称
         default_name_data = format_text_data(post_data=self.data, text='乐喜', text_type=TextType.Info,
                                              font_size=36, font_family='PingFang Bold', align='left',
-                                             text_color='#666666', x=150, y=669 - default_origin_y, spacing=None, z_index=0)
+                                             text_color='#666666', x=150, y=669 - default_origin_y, spacing=None,
+                                             z_index=0)
 
         # 默认标语
         default_slogan_data = format_text_data(post_data=self.data, text='全球原创设计品位购物平台', text_type=TextType.Info,
                                                font_size=20, font_family='PingFang Bold', align='left',
-                                               text_color='#666666', x=150, y=720 - default_origin_y, spacing=None, z_index=1)
+                                               text_color='#666666', x=150, y=720 - default_origin_y, spacing=None,
+                                               z_index=1)
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
                                                    width=70, height=70, radius=0, x=60, y=45, z_index=2)
 
         # 用户昵称
@@ -516,7 +538,8 @@ class WxaGoodsPosterStyle:
                                               text_color='#FFFFFF', x=150, y=60, spacing=None, z_index=2)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=180,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=180,
                                                 height=180, radius=0, x=504, y=522 - default_origin_y, z_index=3)
 
         # 提示文字
@@ -576,11 +599,12 @@ class WxaGoodsPosterStyle:
         # 背景
         image_url_id = 2 if self.footer_h == 834 else 3
         background_image = ('../vimage/vimage/resource/background/background_%d.png' % image_url_id)
-        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
                                                   width=self.width, height=self.footer_h - 10, radius=0, x=0, y=10,
                                                   z_index=0)
 
-        images_data = [default_logo_data, user_Avatar_image_data, wxa_code_image_data, background_image_data]
+        images_data = [default_logo_data, user_avatar_image_data, wxa_code_image_data, background_image_data]
 
         texts_data = [default_name_data, default_slogan_data, user_nickname_data, hint_text_data, goods_title_data,
                       goods_describe_data, goods_price_data]
@@ -682,7 +706,8 @@ class PaaSGoodsPosterStyle:
 
         if 1 <= img_count < 3:
             # 只展示一张图片
-            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None, image_type=ImageType.Goods,
+            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None,
+                                             image_type=ImageType.Goods,
                                              width=self.width, height=a_img_h, radius=0, x=0, y=0, z_index=0)
 
             images_style_data.append(a_image_data)
@@ -697,7 +722,8 @@ class PaaSGoodsPosterStyle:
                 image_w = f_img_w if index == 0 else m_img_w  # 图片的宽度
                 image_h = f_img_h if index == 0 else m_img_w  # 图片的高度
 
-                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None, image_type=ImageType.Goods,
+                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                     image_type=ImageType.Goods,
                                                      width=image_w, height=image_h, radius=8, x=image_x, y=image_y,
                                                      z_index=index + 1)
 
@@ -722,11 +748,13 @@ class PaaSGoodsPosterStyle:
 
         # 默认
         default_title_image = '../vimage/vimage/resource/material/material_1.png'
-        default_title_data = format_image_data(post_data=None, url=None, path=default_title_image, image_type=ImageType.Modify,
+        default_title_data = format_image_data(post_data=None, url=None, path=default_title_image,
+                                               image_type=ImageType.Modify,
                                                width=375, height=61, radius=0, x=50, y=50, z_index=0)
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
                                                    width=70, height=70, radius=0, x=50, y=160, z_index=1)
 
         # 用户昵称
@@ -740,7 +768,7 @@ class PaaSGoodsPosterStyle:
         return {
             'size': size,
             'texts': [] if image_count < 3 else [user_nickname_data],
-            'images': [] if image_count < 3 else [default_title_data, user_Avatar_image_data],
+            'images': [] if image_count < 3 else [default_title_data, user_avatar_image_data],
             'shapes': []
         }
 
@@ -755,21 +783,25 @@ class PaaSGoodsPosterStyle:
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
-        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
-                                              height=79, radius=0,  x=50, y=434 + default_origin_y, z_index=1)
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
+                                              width=71,
+                                              height=79, radius=0, x=50, y=434 + default_origin_y, z_index=1)
 
         # 默认名称
         default_name_data = format_text_data(post_data=self.data, text='乐喜', text_type=TextType.Info,
                                              font_size=36, font_family='PingFang Bold', align='left',
-                                             text_color='#666666', x=140, y=439 + default_origin_y, spacing=None, z_index=0)
+                                             text_color='#666666', x=140, y=439 + default_origin_y, spacing=None,
+                                             z_index=0)
 
         # 默认标语
         default_slogan_data = format_text_data(post_data=self.data, text='全球原创设计品位购物平台', text_type=TextType.Info,
                                                font_size=20, font_family='PingFang Bold', align='left',
-                                               text_color='#666666', x=140, y=490 + default_origin_y, spacing=None, z_index=1)
+                                               text_color='#666666', x=140, y=490 + default_origin_y, spacing=None,
+                                               z_index=1)
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
                                                    width=70, height=70, radius=0, x=70, y=45, z_index=2)
 
         # 用户昵称
@@ -779,7 +811,8 @@ class PaaSGoodsPosterStyle:
                                               text_color='#333333', x=160, y=60, spacing=None, z_index=2)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=180,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=180,
                                                 height=180, radius=0, x=514, y=289 + default_origin_y, z_index=3)
 
         # 提示文字
@@ -791,7 +824,8 @@ class PaaSGoodsPosterStyle:
         title_data = {'title': self.data.get('title')[:20]}
         goods_title_data = format_text_data(post_data=title_data, text=None, text_type=TextType.Title,
                                             font_size=32, font_family='PingFang Bold', align='left',
-                                            text_color='#333333', x=50, y=37 + default_origin_y, spacing=None, z_index=4)
+                                            text_color='#333333', x=50, y=37 + default_origin_y, spacing=None,
+                                            z_index=4)
 
         # 商品推荐语
         describe_content = self.data.get('describe')[:50]
@@ -807,38 +841,44 @@ class PaaSGoodsPosterStyle:
         default_price = {'sale_price': ('￥%s' % self.data.get('sale_price'))}
         goods_price_data = format_text_data(post_data=default_price, text=None, text_type=TextType.SalePrice,
                                             font_size=28, font_family='PingFang Bold', align='left',
-                                            text_color='#333333', x=50, y=183 + default_origin_y - not_describe_origin_y,
+                                            text_color='#333333', x=50,
+                                            y=183 + default_origin_y - not_describe_origin_y,
                                             spacing=None, z_index=6)
 
         # 优惠红包提示
         coupon_hint_data = format_text_data(post_data=default_price, text='最高优惠红包可领', text_type=TextType.Info,
                                             font_size=24, font_family='PingFang Bold', align='left',
-                                            text_color='#999999', x=50, y=231 + default_origin_y - not_describe_origin_y,
+                                            text_color='#999999', x=50,
+                                            y=231 + default_origin_y - not_describe_origin_y,
                                             spacing=None, z_index=7)
 
         # 优惠红包金额
         coupon_amount = ('￥%s' % self.data.get('coupon_amount'))
         coupon_amount_data = format_text_data(post_data=self.data, text=coupon_amount, text_type=TextType.Info,
                                               font_size=32, font_family='PingFang Bold', align='left',
-                                              text_color='#FFFFFF', x=90, y=282 + default_origin_y - not_describe_origin_y,
+                                              text_color='#FFFFFF', x=90,
+                                              y=282 + default_origin_y - not_describe_origin_y,
                                               spacing=None, z_index=8)
 
         # 优惠红包天数
         coupon_days = ('%s天有效期' % self.data.get('coupon_days'))
         coupon_days_data = format_text_data(post_data=default_price, text=coupon_days, text_type=TextType.Info,
                                             font_size=20, font_family='PingFang Bold', align='left',
-                                            text_color='#FFFFFF', x=78, y=322 + default_origin_y - not_describe_origin_y,
+                                            text_color='#FFFFFF', x=78,
+                                            y=322 + default_origin_y - not_describe_origin_y,
                                             spacing=None, z_index=9)
 
         # 优惠红包背景
         coupon_image = '../vimage/vimage/resource/material/ticket_background.png'
         coupon_image_data = format_image_data(post_data=None, url=None, path=coupon_image, image_type=ImageType.Modify,
-                                              width=150, height=80, radius=0, x=50, y=275 + default_origin_y - not_describe_origin_y,
+                                              width=150, height=80, radius=0, x=50,
+                                              y=275 + default_origin_y - not_describe_origin_y,
                                               z_index=4)
 
         # 背景
         background_image = '../vimage/vimage/resource/background/background_4.png'
-        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
                                                   width=self.width, height=self.footer_h, radius=0, x=0, y=0, z_index=0)
 
         images_data = [default_logo_data, wxa_code_image_data]
@@ -847,7 +887,7 @@ class PaaSGoodsPosterStyle:
                       goods_describe_data, goods_price_data]
 
         if self.footer_h == 714:
-            images_data.append(user_Avatar_image_data)
+            images_data.append(user_avatar_image_data)
             images_data.append(background_image_data)
             texts_data.append(user_nickname_data)
 
@@ -921,7 +961,8 @@ class InviteFriendsPosterStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
                                                    width=192, height=192, radius=98, x=279, y=183, z_index=6)
 
         # 用户昵称
@@ -930,7 +971,7 @@ class InviteFriendsPosterStyle:
                                               text_color='#333333', x=100, y=407, spacing=None, z_index=1)
 
         # 默认邀请提示语
-        default_Invite_data = format_text_data(post_data=None, text='邀请你一起来乐喜', text_type=TextType.Info,
+        default_invite_data = format_text_data(post_data=None, text='邀请你一起来乐喜', text_type=TextType.Info,
                                                font_size=28, font_family=None, align='center',
                                                text_color='#999999', x=100, y=473, spacing=None, z_index=2)
 
@@ -956,47 +997,56 @@ class InviteFriendsPosterStyle:
                                             text_color='#FFFFFF', x=260, y=706, spacing=None, z_index=7)
 
         # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode, width=200,
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=200,
                                                 height=200, radius=0, x=277, y=814, z_index=6)
 
         # 提示文字
         hint_text_data = format_text_data(post_data=self.data, text='长按识别小程序码立即开通', text_type=TextType.Hint,
-                                          font_size=24, font_family='PingFang Bold', align='center', text_color='#333333',
+                                          font_size=24, font_family='PingFang Bold', align='center',
+                                          text_color='#333333',
                                           x=230, y=1034, spacing=None, z_index=8)
 
         # 背景
         background_image = '../vimage/vimage/resource/background/invite_poster_background_0.png'
-        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
         background_image_1 = '../vimage/vimage/resource/background/background_5.png'
-        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
+                                                    image_type=ImageType.Background,
                                                     width=710, height=916, radius=0, x=20, y=258, z_index=1)
 
         # 素材 1
         modify_image_1 = '../vimage/vimage/resource/material/material_8.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
                                                 width=365, height=47, radius=0, x=181, y=309, z_index=2)
 
         # 素材 2
         modify_image_2 = '../vimage/vimage/resource/material/material_9.png'
-        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2, image_type=ImageType.Modify,
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2,
+                                                image_type=ImageType.Modify,
                                                 width=585, height=2, radius=0, x=83, y=775, z_index=3)
 
         # 素材 3
         modify_image_3 = '../vimage/vimage/resource/material/material_7.png'
-        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3, image_type=ImageType.Modify,
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3,
+                                                image_type=ImageType.Modify,
                                                 width=268, height=36, radius=0, x=240, y=704, z_index=4)
 
         # 素材 4
         modify_image_4 = '../vimage/vimage/resource/material/material_16.png'
-        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4, image_type=ImageType.Modify,
+        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4,
+                                                image_type=ImageType.Modify,
                                                 width=200, height=200, radius=0, x=275, y=179, z_index=5)
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
-        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo, width=71,
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
+                                              width=71,
                                               height=79, radius=0, x=619, y=1177, z_index=3)
 
         # 默认名称
@@ -1011,10 +1061,11 @@ class InviteFriendsPosterStyle:
                                                z_index=10)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
-                       modify_image_data_3, modify_image_data_4, user_Avatar_image_data, wxa_code_image_data,
+                       modify_image_data_3, modify_image_data_4, user_avatar_image_data, wxa_code_image_data,
                        default_logo_data]
 
-        texts_data = [user_nickname_data, default_Invite_data, invite_title_data, invite_content_data, invite_slogan_data,
+        texts_data = [user_nickname_data, default_invite_data, invite_title_data, invite_content_data,
+                      invite_slogan_data,
                       open_number_data, hint_text_data, default_name_data, default_slogan_data]
 
         return {
@@ -1079,11 +1130,12 @@ class InviteFriendsCardStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
                                                    width=80, height=80, radius=40, x=173, y=17, z_index=6)
 
         # 默认邀请提示语
-        default_Invite_data = format_text_data(post_data=None, text='来乐喜开一个', text_type=TextType.Info,
+        default_invite_data = format_text_data(post_data=None, text='来乐喜开一个', text_type=TextType.Info,
                                                font_size=24, font_family=None, align='center',
                                                text_color='#333333', x=50, y=109, spacing=None, z_index=0)
 
@@ -1104,38 +1156,44 @@ class InviteFriendsCardStyle:
 
         # 背景
         background_image = '../vimage/vimage/resource/background/invite_card_background_0.png'
-        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
         background_image_1 = '../vimage/vimage/resource/background/background_6.png'
-        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
+                                                    image_type=ImageType.Background,
                                                     width=380, height=209, radius=0, x=20, y=57, z_index=1)
 
         # 素材 1
         modify_image_1 = '../vimage/vimage/resource/material/material_5.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
                                                 width=188, height=60, radius=0, x=113, y=236, z_index=2)
 
         # 素材 2
         modify_image_2 = '../vimage/vimage/resource/material/material_4.png'
-        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2, image_type=ImageType.Modify,
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2,
+                                                image_type=ImageType.Modify,
                                                 width=24, height=24, radius=0, x=262, y=254, z_index=3)
 
         # 素材 3
         modify_image_3 = '../vimage/vimage/resource/material/material_12.png'
-        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3, image_type=ImageType.Modify,
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3,
+                                                image_type=ImageType.Modify,
                                                 width=27, height=4, radius=0, x=65, y=213, z_index=4)
 
         # 素材 4
         modify_image_4 = '../vimage/vimage/resource/material/material_13.png'
-        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4, image_type=ImageType.Modify,
+        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4,
+                                                image_type=ImageType.Modify,
                                                 width=27, height=4, radius=0, x=325, y=213, z_index=5)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
-                       modify_image_data_3, modify_image_data_4, user_Avatar_image_data]
+                       modify_image_data_3, modify_image_data_4, user_avatar_image_data]
 
-        texts_data = [default_Invite_data, invite_title_data, invite_content_data, sure_info_data]
+        texts_data = [default_invite_data, invite_title_data, invite_content_data, sure_info_data]
 
         return {
             'size': self.size,
@@ -1199,11 +1257,13 @@ class BrandCardStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
                                                    width=86, height=86, radius=2, x=165, y=44, z_index=4)
 
         # 昵称
-        nickname = ('%s...' % self.data.get('nickname')[:9]) if len(set(self.data.get('nickname'))) > 9 else self.data.get('nickname')
+        nickname = ('%s...' % self.data.get('nickname')[:9]) if len(
+            set(self.data.get('nickname'))) > 9 else self.data.get('nickname')
         nickname_data = {'nickname': nickname}
         name_data = format_text_data(post_data=nickname_data, text=None, text_type=TextType.Nickname,
                                      font_size=28, font_family='PingFang Bold', align='center',
@@ -1220,12 +1280,14 @@ class BrandCardStyle:
                                           text_color='#FFFFFF', x=155, y=273, spacing=None, z_index=2)
 
         # 背景
-        background_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                  image_type=ImageType.Background,
                                                   width=self.width, height=160, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
         background_image_1 = '../vimage/vimage/resource/background/background_9.png'
-        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
+                                                    image_type=ImageType.Background,
                                                     width=400, height=248, radius=0, x=10, y=88, z_index=1)
 
         # 素材
@@ -1235,10 +1297,12 @@ class BrandCardStyle:
 
         # 素材1
         modify_image_1 = '../vimage/vimage/resource/material/material_15.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
                                                 width=94, height=94, radius=0, x=161, y=40, z_index=3)
 
-        images_data = [background_image_data, background_image_data_1, modify_image_data, modify_image_data_1, user_Avatar_image_data]
+        images_data = [background_image_data, background_image_data_1, modify_image_data, modify_image_data_1,
+                       user_avatar_image_data]
 
         texts_data = [name_data, city_data, sure_info_data]
 
@@ -1304,7 +1368,8 @@ class LifeCardStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
                                                    width=86, height=86, radius=4, x=165, y=44, z_index=5)
 
         # 用户昵称
@@ -1314,7 +1379,7 @@ class LifeCardStyle:
                                               text_color='#333333', x=50, y=154, spacing=None, z_index=0)
 
         # 默认邀请提示语
-        default_Invite_data = format_text_data(post_data=None, text='我在乐喜开了一家原创手作精品店', text_type=TextType.Info,
+        default_invite_data = format_text_data(post_data=None, text='我在乐喜开了一家原创手作精品店', text_type=TextType.Info,
                                                font_size=22, font_family=None, align='center',
                                                text_color='#666666', x=40, y=195, spacing=None, z_index=1)
 
@@ -1325,33 +1390,38 @@ class LifeCardStyle:
 
         # 背景
         background_image = '../vimage/vimage/resource/background/life_card_background_0.png'
-        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
         background_image_1 = '../vimage/vimage/resource/background/background_7.png'
-        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
+                                                    image_type=ImageType.Background,
                                                     width=380, height=187, radius=0, x=20, y=89, z_index=1)
 
         # 素材 1
         modify_image_1 = '../vimage/vimage/resource/material/material_5.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
                                                 width=188, height=60, radius=0, x=113, y=246, z_index=2)
 
         # 素材 2
         modify_image_2 = '../vimage/vimage/resource/material/material_4.png'
-        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2, image_type=ImageType.Modify,
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2,
+                                                image_type=ImageType.Modify,
                                                 width=24, height=24, radius=0, x=250, y=265, z_index=3)
 
         # 素材3
         modify_image_3 = '../vimage/vimage/resource/material/material_15.png'
-        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3, image_type=ImageType.Modify,
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3,
+                                                image_type=ImageType.Modify,
                                                 width=94, height=94, radius=0, x=161, y=40, z_index=4)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
-                       modify_image_data_3, user_Avatar_image_data]
+                       modify_image_data_3, user_avatar_image_data]
 
-        texts_data = [user_nickname_data, default_Invite_data, sure_info_data]
+        texts_data = [user_nickname_data, default_invite_data, sure_info_data]
 
         return {
             'size': self.size,
@@ -1415,7 +1485,7 @@ class PlatformCardStyle:
         """
 
         # 默认邀请提示语
-        default_Invite_data = format_text_data(post_data=None, text='品味设计 美感生活', text_type=TextType.Info,
+        default_invite_data = format_text_data(post_data=None, text='品味设计 美感生活', text_type=TextType.Info,
                                                font_size=42, font_family='PingFang Bold', align='center',
                                                text_color='#333333', x=45, y=80, spacing=None, z_index=0)
 
@@ -1436,43 +1506,50 @@ class PlatformCardStyle:
 
         # 背景
         background_image = '../vimage/vimage/resource/background/lexi_card_background_0.png'
-        background_image_data = format_image_data(post_data=None, url=None, path=background_image, image_type=ImageType.Background,
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
         # 背景 1
         background_image_1 = '../vimage/vimage/resource/background/background_8.png'
-        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1, image_type=ImageType.Background,
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
+                                                    image_type=ImageType.Background,
                                                     width=380, height=212, radius=0, x=20, y=50, z_index=1)
 
         # 素材 1
         modify_image_1 = '../vimage/vimage/resource/material/material_5.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
                                                 width=188, height=60, radius=0, x=110, y=227, z_index=2)
 
         # 素材 2
         modify_image_2 = '../vimage/vimage/resource/material/material_4.png'
-        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2, image_type=ImageType.Modify,
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2,
+                                                image_type=ImageType.Modify,
                                                 width=24, height=24, radius=0, x=245, y=244, z_index=3)
 
         # 素材3
         modify_image_3 = '../vimage/vimage/resource/material/material_11.png'
-        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3, image_type=ImageType.Modify,
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3,
+                                                image_type=ImageType.Modify,
                                                 width=59, height=70, radius=0, x=20, y=160, z_index=4)
 
         # 素材4
         modify_image_4 = '../vimage/vimage/resource/material/material_10.png'
-        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4, image_type=ImageType.Modify,
+        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4,
+                                                image_type=ImageType.Modify,
                                                 width=90, height=73, radius=0, x=279, y=50, z_index=5)
 
         # 素材5
         modify_image_5 = '../vimage/vimage/resource/material/material_6.png'
-        modify_image_data_5 = format_image_data(post_data=None, url=None, path=modify_image_5, image_type=ImageType.Modify,
+        modify_image_data_5 = format_image_data(post_data=None, url=None, path=modify_image_5,
+                                                image_type=ImageType.Modify,
                                                 width=215, height=35, radius=0, x=100, y=175, z_index=6)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
                        modify_image_data_3, modify_image_data_4, modify_image_data_5]
 
-        texts_data = [default_Invite_data, invite_slogan_data, coupon_data, sure_info_data]
+        texts_data = [default_invite_data, invite_slogan_data, coupon_data, sure_info_data]
 
         return {
             'size': self.size,
@@ -1536,7 +1613,8 @@ class CouponsCartStyle:
         """
 
         # 用户头像
-        user_Avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
                                                    width=66, height=66, radius=33, x=178, y=12, z_index=2)
 
         # 用户昵称
@@ -1545,7 +1623,7 @@ class CouponsCartStyle:
                                               text_color='#FFFFFF', x=50, y=88, spacing=None, z_index=0)
 
         # 默认邀请提示语
-        default_Invite_data = format_text_data(post_data=None, text='让你来领1个乐喜红包', text_type=TextType.Info,
+        default_invite_data = format_text_data(post_data=None, text='让你来领1个乐喜红包', text_type=TextType.Info,
                                                font_size=24, font_family=None, align='center',
                                                text_color='#FFFFFF', x=50, y=126, spacing=None, z_index=1)
 
@@ -1566,12 +1644,13 @@ class CouponsCartStyle:
 
         # 素材 1
         modify_image_1 = '../vimage/vimage/resource/material/material_16.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1, image_type=ImageType.Modify,
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
                                                 width=71, height=71, radius=0, x=176, y=10, z_index=1)
 
-        images_data = [background_image_data, modify_image_data_1, user_Avatar_image_data]
+        images_data = [background_image_data, modify_image_data_1, user_avatar_image_data]
 
-        texts_data = [user_nickname_data, default_Invite_data, coupon_data, coupon_hint_data]
+        texts_data = [user_nickname_data, default_invite_data, coupon_data, coupon_hint_data]
 
         return {
             'size': self.size,
@@ -1590,6 +1669,498 @@ class CouponsCartStyle:
 
         # 视图集合
         views = [info_view]
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': views
+        }
+
+    def get_style_data(self):
+        """
+        获取海报样式数据
+
+        :return: 样式数据
+        """
+
+        style_data = self.get_style_one()
+
+        return style_data
+
+
+class GuessGamePosterStyle:
+    """
+        '猜图赢现金'分享海报样式
+    """
+
+    def __init__(self, post_data):
+        """
+        初始化样式
+
+        :param post_data: 海报数据
+        """
+
+        self.data = post_data or {}
+
+        self.color = (255, 255, 255)
+        self.width = Size.POSTER_IMAGE_SIZE['width']
+        self.height = Size.POSTER_IMAGE_SIZE['height']
+        self.size = (self.width, self.height)
+
+    @property
+    def text_content_data(self):
+        """
+            文字内容
+        """
+
+        # 用户昵称
+        nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                         font_size=40, font_family='PingFang Bold', align='center',
+                                         text_color='#333333', x=100, y=280, spacing=None, z_index=1)
+
+        # 默认邀请提示语
+        invite_text_data = format_text_data(post_data=None, text='邀请你一起来玩', text_type=TextType.Info,
+                                            font_size=30, font_family=None, align='left',
+                                            text_color='#666666', x=195, y=350, spacing=None, z_index=2)
+
+        # 默认邀请标语
+        invite_title_data = format_text_data(post_data=None, text='猜图赢现金', text_type=TextType.Info,
+                                             font_size=30, font_family='PingFang Bold', align='left',
+                                             text_color='#FF4069', x=408, y=350, spacing=None, z_index=3)
+
+        # 奖金池内容
+        bonus_hint_data = format_text_data(post_data=None, text='奖金池剩余', text_type=TextType.Info,
+                                           font_size=26, font_family='PingFang Bold', align='center',
+                                           text_color='#F5EAFF', x=200, y=442, spacing=None, z_index=4)
+
+        # 奖金池金额
+        bonus_total_amount_text = '%s元' % str(self.data.get('bonus_total_amount'))
+        bonus_money_data = format_text_data(post_data=None, text=bonus_total_amount_text, text_type=TextType.Info,
+                                            font_size=56, font_family='PingFang Bold', align='center',
+                                            text_color='#F5EAFF', x=100, y=483, spacing=None, z_index=5)
+
+        # 红包、优惠券金额
+        red_envelope_value = str(self.data.get('bonus_amount'))
+        coupon_count = str(self.data.get('coupon_count'))
+        red_envelope_text = '获得现金红包 %s 元，获得乐喜优惠券 %s 张' % (red_envelope_value, coupon_count)
+        red_envelope_data = format_text_data(post_data=None, text=red_envelope_text, text_type=TextType.Info,
+                                             font_size=22, font_family=None, align='center',
+                                             text_color='#666666', x=100, y=611, spacing=None, z_index=6)
+
+        # 省钱金额提示
+        coupon_hint_text = '购物最高可省 %s 元' % str(self.data.get('save_money_amount'))
+        coupon_hint_data = format_text_data(post_data=None, text=coupon_hint_text, text_type=TextType.Info,
+                                            font_size=22, font_family=None, align='center',
+                                            text_color='#666666', x=100, y=645, spacing=None, z_index=7)
+
+        # 猜图提示
+        guess_text_data = format_text_data(post_data=None, text='你也来猜猜这是个什么？', text_type=TextType.Info,
+                                           font_size=30, font_family='PingFang Bold', align='left',
+                                           text_color='#333333', x=113, y=740, spacing=None, z_index=8)
+
+        # 猜图提示文字
+        guess_hint_data = format_text_data(post_data=None, text='(猜对拿现金)', text_type=TextType.Info,
+                                           font_size=24, font_family='PingFang Bold', align='left',
+                                           text_color='#FF6666', x=442, y=744, spacing=None, z_index=9)
+
+        # 猜图答案 1
+        answer_text_1 = str(self.data.get('first_answer'))[:8]
+        answer_origin_x_1 = len(answer_text_1) * 15
+        answer_data_1 = format_text_data(post_data=None, text=answer_text_1, text_type=TextType.Info,
+                                         font_size=30, font_family='PingFang Bold', align='left',
+                                         text_color='#773B02', x=480 - answer_origin_x_1, y=829, spacing=None,
+                                         z_index=9)
+
+        # 猜图答案 2
+        answer_text_2 = str(self.data.get('second_answer'))[:8]
+        answer_origin_x_2 = len(answer_text_2) * 15
+        answer_data_2 = format_text_data(post_data=None, text=answer_text_2, text_type=TextType.Info,
+                                         font_size=30, font_family='PingFang Bold', align='left',
+                                         text_color='#773B02', x=480 - answer_origin_x_2, y=929, spacing=None,
+                                         z_index=9)
+
+        # 扫码提示文字
+        scan_hint_data = format_text_data(post_data=self.data, text='长按扫码立即猜图', text_type=TextType.Hint,
+                                          font_size=24, font_family='PingFang Bold', align='left',
+                                          text_color='#D1ACFF', x=504, y=1255, spacing=None, z_index=10)
+
+        # 默认名称
+        default_name_data = format_text_data(post_data=self.data, text='乐喜', text_type=TextType.Info,
+                                             font_size=30, font_family='PingFang Bold', align='left',
+                                             text_color='#FFFFFF', x=126, y=44, spacing=None, z_index=11)
+
+        # 默认标语
+        default_slogan_data = format_text_data(post_data=self.data, text='全球原创设计品位购物平台', text_type=TextType.Info,
+                                               font_size=22, font_family=None, align='left',
+                                               text_color='#B7B7B7', x=126, y=87, spacing=None, z_index=12)
+
+        return [nickname_data, invite_text_data, invite_title_data, bonus_hint_data, bonus_money_data,
+                red_envelope_data, coupon_hint_data, guess_text_data, guess_hint_data, answer_data_1,
+                answer_data_2, scan_hint_data, default_name_data, default_slogan_data]
+
+    @property
+    def image_content_data(self):
+        """
+            图片素材内容
+        """
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/background_11.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
+
+        # 头像背景
+        modify_image_7 = '../vimage/vimage/resource/material/material_16.png'
+        modify_image_data_7 = format_image_data(post_data=None, url=None, path=modify_image_7,
+                                                image_type=ImageType.Avatar,
+                                                width=138, height=138, radius=0, x=306, y=126, z_index=1)
+
+        # 背景 1
+        background_image_1 = '../vimage/vimage/resource/background/background_12.png'
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
+                                                    image_type=ImageType.Background,
+                                                    width=650, height=840, radius=0, x=50, y=195, z_index=2)
+
+        # 素材 1
+        modify_image_1 = '../vimage/vimage/resource/material/material_19.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
+                                                width=650, height=248, radius=0, x=50, y=400, z_index=3)
+
+        # 素材 2
+        modify_image_2 = '../vimage/vimage/resource/material/material_18.png'
+        modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2,
+                                                image_type=ImageType.Modify,
+                                                width=580, height=6, radius=0, x=83, y=703, z_index=4)
+
+        # 素材 3
+        modify_image_3 = '../vimage/vimage/resource/material/material_20.png'
+        modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3,
+                                                image_type=ImageType.Modify,
+                                                width=294, height=80, radius=0, x=338, y=810, z_index=5)
+
+        # 素材 4
+        modify_image_4 = '../vimage/vimage/resource/material/material_20.png'
+        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4,
+                                                image_type=ImageType.Modify,
+                                                width=294, height=80, radius=0, x=338, y=910, z_index=6)
+
+        # 素材 5
+        modify_image_5 = '../vimage/vimage/resource/material/material_22.png'
+        modify_image_data_5 = format_image_data(post_data=None, url=None, path=modify_image_5,
+                                                image_type=ImageType.Modify,
+                                                width=62, height=62, radius=0, x=404, y=99, z_index=7)
+
+        # 素材 6
+        modify_image_6 = '../vimage/vimage/resource/material/material_17.png'
+        modify_image_data_6 = format_image_data(post_data=None, url=None, path=modify_image_6,
+                                                image_type=ImageType.Modify,
+                                                width=140, height=140, radius=0, x=530, y=1082, z_index=8)
+
+        # 默认logo
+        logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
+                                              width=58, height=64, radius=0, x=48, y=45, z_index=9)
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=130, height=130, radius=65, x=310, y=130, z_index=10)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=200, height=200, radius=100, x=60, y=1082, z_index=11)
+
+        # 题目图片
+        guess_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Guess,
+                                             width=196, height=196, radius=20, x=112, y=802, z_index=12)
+
+        return [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
+                modify_image_data_3, modify_image_data_4, modify_image_data_5, modify_image_data_6, modify_image_data_7,
+                user_avatar_image_data, wxa_code_image_data, default_logo_data, guess_image_data]
+
+    def get_style_one(self):
+        """
+           样式一
+        """
+
+        # 视图数据
+        info_content_data = {
+            'size': self.size,
+            'texts': self.text_content_data,
+            'images': self.image_content_data,
+            'shapes': []
+        }
+
+        # 视图集合
+        views = [info_content_data]
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': views
+        }
+
+    def get_friends_avatar(self):
+        """
+            获取好友头像
+        """
+
+        if not self.data.get('friends'):
+            return []
+
+        friends = self.data.get('friends')
+        friend_avatar = []
+
+        for idx, val in enumerate(friends[:4]):
+            avatar_image_data = format_image_data(post_data=val, url=None, path=None, image_type=ImageType.Avatar,
+                                                  width=40, height=40, radius=20, x=80, y=710 + 60 * idx,
+                                                  z_index=12 + idx)
+            friend_avatar.append(avatar_image_data)
+
+        return friend_avatar
+
+    def get_friends_name(self):
+        """
+            获取好友昵称
+        """
+
+        if not self.data.get('friends'):
+            return []
+
+        friends = self.data.get('friends')
+        friend_name = []
+
+        for idx, val in enumerate(friends[:4]):
+            name = val.get('nickname')
+            cut_name = name[1:-1]
+            name = name.replace(cut_name, '*' * len(cut_name))
+
+            if len(name) == 2:
+                name = name.replace(name[1:], '*')
+
+            name_data = '%s   已获得' % name
+            nickname_data = format_text_data(post_data=None, text=name_data, text_type=TextType.Nickname,
+                                             font_size=22, font_family=None, align='left',
+                                             text_color='#333333', x=140, y=716 + 59 * idx, spacing=None, z_index=17 + idx)
+            friend_name.append(nickname_data)
+
+        return friend_name
+
+    def get_friends_bonus(self):
+        """
+            好友获取的奖金
+        """
+
+        if not self.data.get('friends'):
+            return []
+
+        friends = self.data.get('friends')
+        friend_bonus = []
+
+        for idx, val in enumerate(friends[:4]):
+            name = '%s已获得' % val.get('nickname')
+            bonus_amount_data = '%s元' % str(val.get('bonus_amount'))
+            origin_x = len(name) * 22 + 15
+            bonus_data = format_text_data(post_data=None, text=bonus_amount_data, text_type=TextType.Info,
+                                          font_size=24, font_family='PingFang Bold', align='left',
+                                          text_color='#FF3F69', x=origin_x + 140, y=714 + 59 * idx, spacing=None, z_index=17 + idx)
+            friend_bonus.append(bonus_data)
+
+        return friend_bonus
+
+    @property
+    def text_content_data_2(self):
+        """
+            文字内容
+        """
+
+        # 用户昵称
+        nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                         font_size=40, font_family='PingFang Bold', align='center',
+                                         text_color='#333333', x=100, y=280, spacing=None, z_index=1)
+
+        # 默认邀请提示语
+        invite_text_data = format_text_data(post_data=None, text='在乐喜               活动中', text_type=TextType.Info,
+                                            font_size=30, font_family=None, align='left',
+                                            text_color='#666666', x=220, y=350, spacing=None, z_index=2)
+
+        # 默认邀请标语
+        invite_title_data = format_text_data(post_data=None, text='猜图赢现金', text_type=TextType.Info,
+                                             font_size=30, font_family='PingFang Bold', align='left',
+                                             text_color='#FF4069', x=311, y=349.6, spacing=None, z_index=3)
+
+        # 奖金内容
+        bonus_hint_data = format_text_data(post_data=None, text='总计获得现金红包', text_type=TextType.Info,
+                                           font_size=24, font_family=None, align='left',
+                                           text_color='#333333', x=127, y=436, spacing=None, z_index=4)
+
+        # 奖金金额
+        bonus_amount_text = str(self.data.get('bonus_amount'))
+        bonus_money_data = format_text_data(post_data=None, text=bonus_amount_text, text_type=TextType.Info,
+                                            font_size=65, font_family='PingFang Bold', align='left',
+                                            text_color='#FF4069', x=140, y=477, spacing=None, z_index=5)
+
+        bonus_yuan_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
+                                           font_size=30, font_family='PingFang Bold', align='left',
+                                           text_color='#FF4069', x=283, y=512, spacing=None, z_index=6)
+
+        # 优惠券内容
+        coupon_hint_data = format_text_data(post_data=None, text='总计获得乐喜优惠券金额', text_type=TextType.Info,
+                                            font_size=24, font_family=None, align='left',
+                                            text_color='#333333', x=388, y=435, spacing=None, z_index=7)
+
+        coupon_money_text = str(self.data.get('coupon_amount'))
+        coupon_money_data = format_text_data(post_data=None, text=coupon_money_text, text_type=TextType.Info,
+                                             font_size=65, font_family=None, align='left',
+                                             text_color='#FF4069', x=454, y=477, spacing=None, z_index=8)
+
+        coupon_yuan_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
+                                            font_size=30, font_family='PingFang Bold', align='left',
+                                            text_color='#FF4069', x=575, y=512, spacing=None, z_index=9)
+
+        # 正确数量
+        right_count_text = '答对 %s 题' % str(self.data.get('right_count'))
+        right_count_data = format_text_data(post_data=None, text=right_count_text, text_type=TextType.Info,
+                                            font_size=30, font_family=None, align='left',
+                                            text_color='#666666', x=200, y=595, spacing=None, z_index=10)
+
+        # 排名
+        ranking_text = '好友榜 第%s名' % str(self.data.get('ranking'))
+        ranking_data = format_text_data(post_data=None, text=ranking_text, text_type=TextType.Info,
+                                        font_size=30, font_family=None, align='left',
+                                        text_color='#666666', x=385, y=595, spacing=None, z_index=11)
+
+        # 猜图提示
+        guess_text_data = format_text_data(post_data=None, text='其他好友的好运气', text_type=TextType.Info,
+                                           font_size=22, font_family='PingFang Bold', align='left',
+                                           text_color='#333333', x=288, y=660, spacing=None, z_index=12)
+
+        # 扫码提示文字
+        scan_hint_data = format_text_data(post_data=self.data, text='长按扫码立即猜图', text_type=TextType.Hint,
+                                          font_size=24, font_family='PingFang Bold', align='left',
+                                          text_color='#D1ACFF', x=504, y=1205, spacing=None, z_index=13)
+
+        # 默认名称
+        default_name_data = format_text_data(post_data=self.data, text='乐喜', text_type=TextType.Info,
+                                             font_size=30, font_family='PingFang Bold', align='left',
+                                             text_color='#FFFFFF', x=126, y=44, spacing=None, z_index=14)
+
+        # 默认标语
+        default_slogan_data = format_text_data(post_data=self.data, text='全球原创设计品位购物平台', text_type=TextType.Info,
+                                               font_size=22, font_family=None, align='left',
+                                               text_color='#B7B7B7', x=126, y=87, spacing=None, z_index=15)
+
+        # 默认标语2
+        default_slogan_data_2 = format_text_data(post_data=self.data, text='◆ 全球原创设计新零售服务社区 ◆', text_type=TextType.Info,
+                                                 font_size=24, font_family=None, align='center',
+                                                 text_color='#B7B7B7', x=50, y=1286, spacing=None, z_index=16)
+
+        texts_data = [nickname_data, invite_text_data, invite_title_data, bonus_hint_data, coupon_hint_data, bonus_money_data,
+                      bonus_yuan_data, coupon_money_data, coupon_yuan_data, right_count_data, ranking_data, guess_text_data,
+                      scan_hint_data, default_name_data, default_slogan_data, default_slogan_data_2]
+
+        texts_data.extend(self.get_friends_name())
+        texts_data.extend(self.get_friends_bonus())
+
+        return texts_data
+
+    @property
+    def image_content_data_2(self):
+        """
+            图片素材内容
+        """
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/background_11.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
+
+        # 头像背景
+        modify_image_7 = '../vimage/vimage/resource/material/material_16.png'
+        modify_image_data_7 = format_image_data(post_data=None, url=None, path=modify_image_7,
+                                                image_type=ImageType.Avatar,
+                                                width=138, height=138, radius=0, x=306, y=126, z_index=1)
+
+        # 背景 1
+        background_image_1 = '../vimage/vimage/resource/background/background_13.png'
+        background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
+                                                    image_type=ImageType.Background,
+                                                    width=650, height=763, radius=0, x=50, y=195, z_index=2)
+
+        # 素材 1
+        modify_image_1 = '../vimage/vimage/resource/material/material_21.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
+                                                width=670, height=232, radius=0, x=40, y=400, z_index=3)
+
+        # 素材 5
+        modify_image_5 = '../vimage/vimage/resource/material/material_22.png'
+        modify_image_data_5 = format_image_data(post_data=None, url=None, path=modify_image_5,
+                                                image_type=ImageType.Modify,
+                                                width=62, height=62, radius=0, x=404, y=99, z_index=7)
+
+        # 素材 6
+        modify_image_6 = '../vimage/vimage/resource/material/material_17.png'
+        modify_image_data_6 = format_image_data(post_data=None, url=None, path=modify_image_6,
+                                                image_type=ImageType.Modify,
+                                                width=140, height=140, radius=0, x=530, y=1022, z_index=8)
+
+        # 默认logo
+        logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
+                                              width=58, height=64, radius=0, x=48, y=45, z_index=9)
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
+                                                   width=130, height=130, radius=65, x=310, y=130, z_index=10)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=200, height=200, radius=100, x=60, y=1022, z_index=11)
+
+        images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_5,
+                       modify_image_data_6, modify_image_data_7,
+                       user_avatar_image_data, wxa_code_image_data, default_logo_data]
+
+        images_data.extend(self.get_friends_avatar())
+
+        return images_data
+
+    def shape_count_data_2(self):
+        """
+            图形元素
+        """
+
+        # 分割线，图形元素
+        draw_line_data = format_shape_data(shape_type=DrawShapeType.Line, position=[(80, 675), (280, 675)],
+                                           width=1, color='#EEEEEE', out_color=None, z_index=0)
+
+        draw_line_data_1 = format_shape_data(shape_type=DrawShapeType.Line, position=[(470, 675), (670, 675)],
+                                             width=1, color='#EEEEEE', out_color=None, z_index=1)
+
+        draw_line_data_2 = format_shape_data(shape_type=DrawShapeType.Line, position=[(374, 450), (374, 543)],
+                                             width=1, color='#FFC0CD', out_color=None, z_index=2)
+
+        return [draw_line_data, draw_line_data_1, draw_line_data_2]
+
+    def get_style_two(self):
+        """
+            样式二
+        """
+
+        # 视图数据
+        info_content_data = {
+            'size': self.size,
+            'texts': self.text_content_data_2,
+            'images': self.image_content_data_2,
+            'shapes': self.shape_count_data_2()
+        }
+
+        # 视图集合
+        views = [info_content_data]
 
         return {
             'size': self.size,
