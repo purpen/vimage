@@ -2,6 +2,7 @@
 from vimage.helpers.poster_style_format import *
 from vimage.constant import *
 from vimage.helpers.switch import *
+import random
 
 
 class LexiPosterStyle:
@@ -1706,6 +1707,7 @@ class GuessGamePosterStyle:
         self.width = Size.POSTER_IMAGE_SIZE['width']
         self.height = Size.POSTER_IMAGE_SIZE['height']
         self.size = (self.width, self.height)
+        self.randomIndex = random.randint(0, 3)
 
     @property
     def text_content_data(self):
@@ -1764,7 +1766,11 @@ class GuessGamePosterStyle:
                                            text_color='#FF6666', x=442, y=744, spacing=None, z_index=9)
 
         # 猜图答案 1
-        answer_text_1 = str(self.data.get('first_answer'))[:8]
+        answer_text_data_1 = {'0': '手账本',
+                              '1': '牛皮单肩包',
+                              '2': '头层牛皮手提包',
+                              '3': '笔记本'}
+        answer_text_1 = answer_text_data_1.get(str(self.randomIndex))
         answer_origin_x_1 = len(answer_text_1) * 15
         answer_data_1 = format_text_data(post_data=None, text=answer_text_1, text_type=TextType.Info,
                                          font_size=30, font_family='PingFang Bold', align='left',
@@ -1772,7 +1778,11 @@ class GuessGamePosterStyle:
                                          z_index=9)
 
         # 猜图答案 2
-        answer_text_2 = str(self.data.get('second_answer'))[:8]
+        answer_text_data_2 = {'0': '手表',
+                              '1': '双肩包',
+                              '2': '原创设计衬衣',
+                              '3': '手工钢笔'}
+        answer_text_2 = answer_text_data_2.get(str(self.randomIndex))
         answer_origin_x_2 = len(answer_text_2) * 15
         answer_data_2 = format_text_data(post_data=None, text=answer_text_2, text_type=TextType.Info,
                                          font_size=30, font_family='PingFang Bold', align='left',
@@ -1873,7 +1883,8 @@ class GuessGamePosterStyle:
                                                 width=200, height=200, radius=100, x=60, y=1082, z_index=11)
 
         # 题目图片
-        guess_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Guess,
+        guess_image = '../vimage/vimage/resource/material/guess_material_%d.jpg' % self.randomIndex
+        guess_image_data = format_image_data(post_data=None, url=None, path=guess_image, image_type=ImageType.Guess,
                                              width=196, height=196, radius=20, x=112, y=802, z_index=12)
 
         return [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
