@@ -168,6 +168,7 @@ class ImageObject:
         else:
             load_image = load_url_image(self.url, is_create=True)
 
+        load_image = self.crop_image(load_image)
         resize_image = load_image.resize(self.size)
 
         # 圆形头像
@@ -180,6 +181,27 @@ class ImageObject:
 
         # 对图片合成
         canvas.paste(resize_image, self.position, resize_image)
+
+    def crop_image(self, image):
+        """
+        裁剪图片，防止变形
+
+        :param image: 原图片
+        :return: 裁剪后的图片
+        """
+
+        image_scale = image.size[0] / image.size[1]
+        size_scale = self.size[0] / self.size[1]
+
+        if image_scale != size_scale and self.type == ImageType.Goods:
+            image_scale_w = image.size[1] / self.size[1] * self.size[0]
+            crop_w = (image.size[0] - image_scale_w) / 2
+            # (左、上、右、下)
+            result_img = image.crop([crop_w, 0, image.size[0] - crop_w, image.size[1]])
+        else:
+            result_img = image
+
+        return result_img
 
 
 class ShapeObject:
