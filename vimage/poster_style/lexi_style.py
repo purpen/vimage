@@ -50,9 +50,13 @@ class LexiPosterStyle:
             if case(10):
                 return CouponsCartStyle(self.data).get_style_data()
             if case(11):
-                return GuessGamePosterStyle(self.data).get_style_one()
+                return GuessGamePosterStyle(self.data).get_style_first()
             if case(12):
-                return GuessGamePosterStyle(self.data).get_style_two()
+                return GuessGamePosterStyle(self.data).get_style_second()
+            if case(13):
+                return GuessGamePosterStyle(self.data).get_style_third()
+            if case(14):
+                return GuessGamePosterStyle(self.data).get_style_fourth()
 
 
 class BrandPosterStyle:
@@ -1891,7 +1895,7 @@ class GuessGamePosterStyle:
                 modify_image_data_3, modify_image_data_4, modify_image_data_5, modify_image_data_6, modify_image_data_7,
                 user_avatar_image_data, wxa_code_image_data, default_logo_data, guess_image_data]
 
-    def get_style_one(self):
+    def get_style_first(self):
         """
            样式一
         """
@@ -2157,7 +2161,7 @@ class GuessGamePosterStyle:
 
         return [draw_line_data, draw_line_data_1, draw_line_data_2]
 
-    def get_style_two(self):
+    def get_style_second(self):
         """
             样式二
         """
@@ -2168,6 +2172,190 @@ class GuessGamePosterStyle:
             'texts': self.text_content_data_2,
             'images': self.image_content_data_2,
             'shapes': self.shape_count_data_2()
+        }
+
+        # 视图集合
+        views = [info_content_data]
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': views
+        }
+
+    @property
+    def text_content_data_3(self):
+        """
+            文字内容
+        """
+
+        # 用户昵称
+        nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                         font_size=32, font_family='PingFang Bold', align='center',
+                                         text_color='#F6E0FF', x=100, y=247, spacing=None, z_index=0)
+
+        # 参与人数
+        join_count = str(self.data.get('join_user_count'))
+        join_user_data = format_text_data(post_data=None, text=join_count, text_type=TextType.Info,
+                                          font_size=40, font_family='PingFang Bold', align='left',
+                                          text_color='#FFE700', x=205, y=565, spacing=None, z_index=1)
+
+        # 猜图答案 1
+        answer_text_data_1 = {'0': '手账本',
+                              '1': '牛皮单肩包',
+                              '2': '牛皮手提包',
+                              '3': '笔记本'}
+        answer_text_1 = answer_text_data_1.get(str(self.randomIndex))
+        answer_origin_x_1 = len(answer_text_1) * 15
+        answer_data_1 = format_text_data(post_data=None, text=answer_text_1, text_type=TextType.Info,
+                                         font_size=32, font_family='PingFang Bold', align='left',
+                                         text_color='#7B0B35', x=490 - answer_origin_x_1, y=808, spacing=None,
+                                         z_index=2)
+
+        # 猜图答案 2
+        answer_text_data_2 = {'0': '手表',
+                              '1': '双肩包',
+                              '2': '原创衬衣',
+                              '3': '手工钢笔'}
+        answer_text_2 = answer_text_data_2.get(str(self.randomIndex))
+        answer_origin_x_2 = len(answer_text_2) * 15
+        answer_data_2 = format_text_data(post_data=None, text=answer_text_2, text_type=TextType.Info,
+                                         font_size=32, font_family='PingFang Bold', align='left',
+                                         text_color='#7B0B35', x=490 - answer_origin_x_2, y=915, spacing=None,
+                                         z_index=3)
+
+        texts_data = [nickname_data, join_user_data, answer_data_1, answer_data_2]
+
+        return texts_data
+
+    @property
+    def image_content_data_3(self):
+        """
+            图片素材内容
+        """
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/guess_game_background_2.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=106, height=106, radius=53, x=324, y=129, z_index=1)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=156, height=156, radius=78, x=84, y=1140, z_index=2)
+
+        # 题目图片
+        guess_image = '../vimage/vimage/resource/material/guess_material_%d.jpg' % self.randomIndex
+        guess_image_data = format_image_data(post_data=None, url=None, path=guess_image, image_type=ImageType.Guess,
+                                             width=210, height=210, radius=0, x=144, y=787, z_index=3)
+
+        images_data = [background_image_data, user_avatar_image_data, wxa_code_image_data, guess_image_data]
+
+        return images_data
+
+    def get_style_third(self):
+        """
+            样式三
+        """
+
+        # 视图数据
+        info_content_data = {
+            'size': self.size,
+            'texts': self.text_content_data_3,
+            'images': self.image_content_data_3,
+            'shapes': []
+        }
+
+        # 视图集合
+        views = [info_content_data]
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': views
+        }
+
+    @property
+    def text_content_data_4(self):
+        """
+            文字内容
+        """
+
+        # 设计馆默认名称
+        nickname_hint_data = format_text_data(post_data=self.data, text='乐喜原创品牌设计馆', text_type=TextType.Info,
+                                              font_size=24, font_family=None, align='left',
+                                              text_color='#999999', x=230, y=540, spacing=None, z_index=0)
+
+        # 设计馆名称
+        nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.BrandName,
+                                         font_size=34, font_family='PingFang Bold', align='left',
+                                         text_color='#5D5047', x=230, y=577, spacing=None, z_index=1)
+
+        # 设计馆描述
+        describe_text = ('%s...' % str(self.data.get('describe'))[:15])
+        describe_data = format_text_data(post_data=None, text=describe_text, text_type=TextType.Info,
+                                         font_size=24, font_family=None, align='left',
+                                         text_color='#472F20', x=230, y=632, spacing=None, z_index=2)
+
+        # 参与人数
+        join_count = str(self.data.get('join_user_count'))
+        join_user_data = format_text_data(post_data=None, text=join_count, text_type=TextType.Info,
+                                          font_size=40, font_family='PingFang Bold', align='left',
+                                          text_color='#FFE700', x=203, y=417, spacing=None, z_index=3)
+
+        texts_data = [nickname_hint_data, nickname_data, describe_data, join_user_data]
+
+        return texts_data
+
+    @property
+    def image_content_data_4(self):
+        """
+            图片素材内容
+        """
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/guess_game_background_3.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
+
+        # 设计馆logo
+        brand_logo_data = format_image_data(post_data=self.data, url=None, path=None,
+                                            image_type=ImageType.BrandLogo,
+                                            width=120, height=120, radius=0, x=90, y=540, z_index=1)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
+                                                width=156, height=156, radius=78, x=80, y=1070, z_index=2)
+
+        images_data = [background_image_data, brand_logo_data, wxa_code_image_data]
+
+        # 商品图片
+        goods_origin_x = 90
+        for images_url in self.data.get('goods_images')[:3]:
+            goods_image_data = format_image_data(post_data=None, url=images_url, path=None, image_type=ImageType.Goods,
+                                                 width=176, height=176, radius=0, x=goods_origin_x, y=698, z_index=3)
+            images_data.append(goods_image_data)
+            goods_origin_x += 196
+
+        return images_data
+
+    def get_style_fourth(self):
+        """
+            样式四
+        """
+
+        # 视图数据
+        info_content_data = {
+            'size': self.size,
+            'texts': self.text_content_data_4,
+            'images': self.image_content_data_4,
+            'shapes': []
         }
 
         # 视图集合
