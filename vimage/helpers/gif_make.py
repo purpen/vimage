@@ -258,9 +258,11 @@ class GifTool:
         # 默认商品图片
         goods_img_url = self.images[0]
 
-        for i in range(5):
+        count = 1
+        while count <= 3:
             img = noisy_image(goods_img_url)
             images.append(img)
+            count += 1
 
         # GIF 图的二进制流
         gif_content = BytesIO()
