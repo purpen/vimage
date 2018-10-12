@@ -264,7 +264,7 @@ def similar_images(input_image_url, data_image_urls):
     }
 
 
-def noisy_image(image_url, alpha=0.65, default_size=(400, 400)):
+def noisy_image(image_url, alpha=0.65, default_size=(300, 300)):
     """
     图片添加噪点
 
