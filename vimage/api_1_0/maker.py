@@ -26,7 +26,7 @@ def make_test():
     }
 
     gif_tool = GifTool(type=5, images=data.get('image_url'))
-    result_gif = gif_tool.create_guess_goods()
+    result_gif = gif_tool.get_result_gif()
 
     return full_response(R200_OK, result_gif)
 
