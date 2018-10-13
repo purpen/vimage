@@ -2286,21 +2286,27 @@ class GuessGamePosterStyle:
             文字内容
         """
 
+        # 商品图片数量
+        images_count = len(self.data.get('goods_images'))
+
+        # 根据商品数量调整 y 偏移量
+        origin_y = 0 if images_count > 0 else 50
+
         # 设计馆默认名称
         nickname_hint_data = format_text_data(post_data=self.data, text='乐喜原创品牌设计馆', text_type=TextType.Info,
                                               font_size=24, font_family=None, align='left',
-                                              text_color='#999999', x=230, y=540, spacing=None, z_index=0)
+                                              text_color='#999999', x=230, y=540 + origin_y, spacing=None, z_index=0)
 
         # 设计馆名称
         nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.BrandName,
                                          font_size=34, font_family='PingFang Bold', align='left',
-                                         text_color='#5D5047', x=230, y=577, spacing=None, z_index=1)
+                                         text_color='#5D5047', x=230, y=577 + origin_y, spacing=None, z_index=1)
 
         # 设计馆描述
         describe_text = ('%s...' % str(self.data.get('describe'))[:15])
         describe_data = format_text_data(post_data=None, text=describe_text, text_type=TextType.Info,
                                          font_size=24, font_family=None, align='left',
-                                         text_color='#472F20', x=230, y=632, spacing=None, z_index=2)
+                                         text_color='#472F20', x=230, y=632 + origin_y, spacing=None, z_index=2)
 
         # 参与人数
         join_count = str(self.data.get('join_user_count'))
@@ -2318,8 +2324,15 @@ class GuessGamePosterStyle:
             图片素材内容
         """
 
+        # 商品图片数量
+        images_count = len(self.data.get('goods_images'))
+
+        # 根据商品数量调整 y 偏移量
+        origin_y = 0 if images_count > 0 else 50
+
         # 背景
-        background_image = '../vimage/vimage/resource/background/guess_game_background_3.png'
+        background_index = 3 if images_count > 0 else 4
+        background_image = '../vimage/vimage/resource/background/guess_game_background_%d.png' % background_index
         background_image_data = format_image_data(post_data=None, url=None, path=background_image,
                                                   image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
@@ -2327,11 +2340,14 @@ class GuessGamePosterStyle:
         # 设计馆logo
         brand_logo_data = format_image_data(post_data=self.data, url=None, path=None,
                                             image_type=ImageType.BrandLogo,
-                                            width=120, height=120, radius=0, x=90, y=540, z_index=1)
+                                            width=120, height=120, radius=0, x=90, y=540 + origin_y, z_index=1)
+
+        # 根据商品数量调整 y 偏移量
+        wxa_code_origin_y = 0 if images_count > 0 else 90
 
         # 小程序码
         wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
-                                                width=156, height=156, radius=78, x=80, y=1070, z_index=2)
+                                                width=156, height=156, radius=78, x=80, y=1070 - wxa_code_origin_y, z_index=2)
 
         images_data = [background_image_data, brand_logo_data, wxa_code_image_data]
 
