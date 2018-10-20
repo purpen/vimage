@@ -168,19 +168,32 @@ class ImageObject:
         else:
             load_image = load_url_image(self.url, is_create=True)
 
-        load_image = self.crop_image(load_image)
-        resize_image = load_image.resize(self.size)
+        # resize_image = self.resize_image(load_image)
+        result_image = self.crop_image(load_image)
 
         # 圆形头像
         if self.type is ImageType.Avatar:
-            resize_image = circle_image(resize_image)
+            result_image = circle_image(result_image)
 
         # 圆角半径
         if self.radius > 0:
-            resize_image = circular_bead_image(resize_image, self.radius)
+            result_image = circular_bead_image(result_image, self.radius)
 
         # 对图片合成
-        canvas.paste(resize_image, self.position, resize_image)
+        canvas.paste(result_image, self.position, result_image)
+
+    def resize_image(self, image):
+        """
+        缩放图片
+
+        :param image: 原图片
+        :return: 缩放后的图片
+        """
+
+        new_image_w = self.size[0]
+        new_image_h = image.size[1] * (self.size[0] / image.size[0])
+
+        return image.resize((int(new_image_w), int(new_image_h)))
 
     def crop_image(self, image):
         """
@@ -190,18 +203,30 @@ class ImageObject:
         :return: 裁剪后的图片
         """
 
-        image_scale = image.size[0] / image.size[1]
-        size_scale = self.size[0] / self.size[1]
+        image_scale = self.size[0] if self.size[0] >= self.size[1] else self.size[1]
 
-        if image_scale != size_scale and self.type == ImageType.Goods:
+        if self.size[0] >= self.size[1]:
+            new_image_h = image.size[1] * (self.size[0] / image.size[0])
+            image = image.resize((int(self.size[0]), int(new_image_h)))
+
+        elif self.size[0] < self.size[1]:
+            new_image_w = image.size[0] * (self.size[1] / image.size[1])
+            image = image.resize((int(new_image_w), int(self.size[1])))
+
+        if image.size[0] > self.size[0]:
             image_scale_w = image.size[1] / self.size[1] * self.size[0]
-            crop_w = (image.size[0] - image_scale_w) / 2
-            # (左、上、右、下)
-            result_img = image.crop([crop_w, 0, image.size[0] - crop_w, image.size[1]])
-        else:
-            result_img = image
+            crop_w = image.size[0] - image_scale_w
 
-        return result_img
+            # (左、上、右、下)
+            image = image.crop([0, 0, image.size[0] - crop_w, image.size[1]])
+
+        if image.size[1] > self.size[1]:
+            crop_h = image.size[1] - self.size[1]
+
+            # (左、上、右、下)
+            image = image.crop([0, 0, image.size[0], image.size[1] - crop_h])
+
+        return image
 
 
 class ShapeObject:
@@ -329,15 +354,15 @@ class Poster(object):
         # 容器视图
         container_canvas = create_canvas(size=size, color=self.color)
 
-        # 1:图片素材合成到画布上
-        image_list = _sort_list_layer(images, 'z_index')
-        for image_data in image_list:
-            ImageObject(image_data).paste_image(container_canvas)
-
-        # 2:绘制图形（分割线，文字背景色等）
+        # 1:绘制图形（分割线，文字背景色等）
         shape_list = _sort_list_layer(shapes, 'z_index')
         for shape_data in shape_list:
             ShapeObject(shape_data).draw_shapes(container_canvas)
+
+        # 2:图片素材合成到画布上
+        image_list = _sort_list_layer(images, 'z_index')
+        for image_data in image_list:
+            ImageObject(image_data).paste_image(container_canvas)
 
         # 3:文字内容绘制到画布上
         text_list = _sort_list_layer(texts, 'z_index')

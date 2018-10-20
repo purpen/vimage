@@ -57,6 +57,8 @@ class LexiPosterStyle:
                 return GuessGamePosterStyle(self.data).get_style_third()
             if case(14):
                 return GuessGamePosterStyle(self.data).get_style_fourth()
+            if case(15):
+                return ShopWindowPosterStyle(self.data).get_style_data()
 
 
 class BrandPosterStyle:
@@ -2013,13 +2015,15 @@ class GuessGamePosterStyle:
 
         # 奖金金额
         bonus_amount_text = str(self.data.get('bonus_amount'))
+        bonus_amount_text_w = int(len(bonus_amount_text) * 33)
+        bonus_amount_text_x = 210 - (bonus_amount_text_w / 2)
         bonus_money_data = format_text_data(post_data=None, text=bonus_amount_text, text_type=TextType.Info,
                                             font_size=65, font_family='PingFang Bold', align='left',
-                                            text_color='#FF4069', x=140, y=477, spacing=None, z_index=5)
+                                            text_color='#FF4069', x=bonus_amount_text_x, y=477, spacing=None, z_index=5)
 
         bonus_yuan_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
                                            font_size=30, font_family='PingFang Bold', align='left',
-                                           text_color='#FF4069', x=283, y=512, spacing=None, z_index=6)
+                                           text_color='#FF4069', x=330, y=512, spacing=None, z_index=6)
 
         # 优惠券内容
         coupon_hint_data = format_text_data(post_data=None, text='总计获得乐喜优惠券金额', text_type=TextType.Info,
@@ -2027,13 +2031,15 @@ class GuessGamePosterStyle:
                                             text_color='#333333', x=388, y=435, spacing=None, z_index=7)
 
         coupon_money_text = str(self.data.get('coupon_amount'))
+        coupon_money_text_w = int(len(coupon_money_text) * 33)
+        coupon_money_text_x = 500 - (coupon_money_text_w / 2)
         coupon_money_data = format_text_data(post_data=None, text=coupon_money_text, text_type=TextType.Info,
                                              font_size=65, font_family=None, align='left',
-                                             text_color='#FF4069', x=454, y=477, spacing=None, z_index=8)
+                                             text_color='#FF4069', x=coupon_money_text_x, y=477, spacing=None, z_index=8)
 
         coupon_yuan_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
                                             font_size=30, font_family='PingFang Bold', align='left',
-                                            text_color='#FF4069', x=575, y=512, spacing=None, z_index=9)
+                                            text_color='#FF4069', x=620, y=512, spacing=None, z_index=9)
 
         # 正确数量
         right_count_text = '答对 %s 题' % str(self.data.get('right_count'))
@@ -2379,6 +2385,256 @@ class GuessGamePosterStyle:
 
         return {
             'size': self.size,
+            'color': self.color,
+            'views': views
+        }
+
+    def get_style_data(self):
+        """
+        获取海报样式数据
+
+        :return: 样式数据
+        """
+
+        style_data = self.get_style_one()
+
+        return style_data
+
+
+class ShopWindowPosterStyle:
+    """
+        橱窗海报分享样式
+    """
+
+    def __init__(self, post_data):
+        """
+        初始化样式
+
+        :param post_data: 海报数据
+        """
+
+        self.data = post_data or {}
+
+        self.goods_images = self.data.get('goods_images')
+        self.width = Size.POSTER_IMAGE_SIZE['width']
+        self.height = Size.POSTER_IMAGE_SIZE['height']
+        self.color = (255, 255, 255)
+        self.footer_h = 180
+        self.top_h = 260
+        self.goods_h = 0
+        self.goods_images_style = []    # 图片样式集合
+
+    def images_view_style_1(self):
+        """
+            三张图的样式
+        """
+
+        f_img_w = 498  # 首图宽度
+        m_img_w = 248  # 多图宽度
+
+        # 多张图片 只展示3张
+        for index in range(len(self.goods_images[:3])):
+            img_url = self.goods_images[index]  # 图片地址
+
+            image_x = 0 if index == 0 else f_img_w + 4  # 图片的x间隔
+            image_y = 0 if index < 2 else m_img_w + 4  # 图片的y间隔
+            image_w = f_img_w if index == 0 else m_img_w  # 图片的宽度
+            image_h = f_img_w if index == 0 else m_img_w  # 图片的高度
+
+            goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                 image_type=ImageType.Goods,
+                                                 width=image_w, height=image_h, radius=0, x=image_x, y=image_y,
+                                                 z_index=index + 1)
+
+            self.goods_images_style.append(goods_image_data)
+
+        return self.goods_images_style
+
+    def images_view_style_2(self):
+        """
+            五张图的样式
+        """
+
+        goods_image_w = [460, 286, 286, 430, 315]
+        goods_image_h = [460, 228, 228, 322, 322]
+        goods_image_x = [0, 464, 464, 0, 434]
+        goods_image_y = [0, 0, 232, 464, 464]
+
+        # 多张图片 只展示5张
+        for index in range(len(self.goods_images[:5])):
+            img_url = self.goods_images[index]  # 图片地址
+
+            goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                 image_type=ImageType.Goods,
+                                                 width=goods_image_w[index], height=goods_image_h[index], radius=0,
+                                                 x=goods_image_x[index], y=goods_image_y[index], z_index=index + 1)
+
+            self.goods_images_style.append(goods_image_data)
+
+        return self.goods_images_style
+
+    def images_view_style_3(self):
+        """
+            七张图的样式
+        """
+
+        goods_image_w = [157, 157, 432, 316, 254, 246, 246]
+        goods_image_h = [157, 157, 435, 276, 246, 246, 246]
+        goods_image_x = [0, 159, 318, 0, 0, 256, 504]
+        goods_image_y = [0, 0, 0, 159, 437, 437, 437]
+
+        # 多张图片 只展示7张
+        for index in range(len(self.goods_images[:7])):
+            img_url = self.goods_images[index]  # 图片地址
+
+            goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                 image_type=ImageType.Goods,
+                                                 width=goods_image_w[index], height=goods_image_h[index], radius=0,
+                                                 x=goods_image_x[index], y=goods_image_y[index], z_index=index + 1)
+
+            self.goods_images_style.append(goods_image_data)
+
+        return self.goods_images_style
+
+    @property
+    def goods_images_view(self):
+        """
+            图片内容视图
+        """
+
+        images_count = len(self.goods_images)
+
+        if images_count == 3:
+            self.goods_h = 498
+            self.images_view_style_1()
+
+        elif images_count == 5:
+            self.goods_h = 787
+            self.images_view_style_2()
+
+        elif images_count == 7:
+            self.goods_h = 683
+            self.images_view_style_3()
+
+        # 标题
+        title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Title,
+                                      font_size=30, font_family='PingFang Bold', align='left',
+                                      text_color='#25211E', x=40, y=self.goods_h + 40, spacing=None, z_index=0)
+        title_h = 30
+
+        # 内容
+        describe_data = {'describe': self.data.get('describe')[:69]}
+        describe_text_data = format_text_data(post_data=describe_data, text=None, text_type=TextType.Describe,
+                                              font_size=28, font_family=None, align='left',
+                                              text_color='#333333', x=40, y=self.goods_h + 90, spacing=36, z_index=1,
+                                              width=self.width - 80)
+
+        # 内容的高度
+        describe_text = self.data.get('describe')
+        describe_line_number = int(len(describe_text) * 28 / (self.width - 60)) + 1
+        describe_line_number = 3 if describe_line_number > 3 else describe_line_number
+        describe_h = describe_line_number * 36
+
+        # 标签
+        tag_text = "#%s" % self.data.get('tag')
+        tag_data = format_text_data(post_data=None, text=tag_text, text_type=TextType.Info,
+                                    font_size=24, font_family=None, align='left',
+                                    text_color='#5FE4B1', x=40, y=self.goods_h + describe_h + 120, spacing=None, z_index=0)
+        tag_h = 25
+
+        # 视图尺寸
+        goods_view_h = self.goods_h + describe_h + title_h + tag_h + 120
+        size = (self.width, goods_view_h)
+
+        # 海报的高度
+        self.height = self.top_h + self.footer_h + goods_view_h
+
+        return {
+            'size': size,
+            'texts': [title_data, describe_text_data, tag_data],
+            'images': self.goods_images_style,
+            'shapes': []
+        }
+
+    def top_view(self):
+        """
+            顶部内容视图数据
+        """
+
+        size = (self.width, self.top_h)
+
+        # 用户昵称
+        nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                         font_size=32, font_family=None, align='left',
+                                         text_color='#333333', x=120, y=175, spacing=None, z_index=0)
+
+        # 用户头像
+        avatar_url = self.data.get('avatar_img')
+        user_avatar_image_data = format_image_data(post_data=None, url=avatar_url, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=70, height=70, radius=8, x=30, y=160, z_index=0)
+
+        # slogan 素材
+        modify_image_1 = '../vimage/vimage/resource/material/material_23.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
+                                                width=720, height=146, radius=0, x=30, y=34, z_index=1)
+
+        return {
+            'size': size,
+            'texts': [nickname_data],
+            'images': [user_avatar_image_data, modify_image_data_1],
+            'shapes': []
+        }
+
+    def footer_view(self):
+        """
+            底部内容视图数据
+        """
+
+        size = (self.width, self.footer_h)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                image_type=ImageType.WxaCode,
+                                                width=140, height=140, radius=70, x=30, y=20, z_index=2)
+
+        # 扫码提示
+        wxa_hint_data = format_text_data(post_data=None, text='长按识别小程序码加入乐喜', text_type=TextType.Info,
+                                         font_size=24, font_family=None, align='left',
+                                         text_color='#666666', x=190, y=55, spacing=None, z_index=1)
+
+        # 默认标语
+        default_slogan_data = format_text_data(post_data=None, text='全球原创设计品位购物平台', text_type=TextType.Info,
+                                               font_size=28, font_family='PingFang Bold', align='left',
+                                               text_color='#333333', x=190, y=95, spacing=None, z_index=2)
+
+        # 背景
+        draw_background_data = format_shape_data(shape_type=DrawShapeType.Rectangle, position=[(0, 0), (self.width, self.footer_h)],
+                                                 width=1, color='#F7F9FB', out_color=None, z_index=0)
+
+        return {
+            'size': size,
+            'texts': [wxa_hint_data, default_slogan_data],
+            'images': [wxa_code_image_data],
+            'shapes': [draw_background_data]
+        }
+
+    def get_style_one(self):
+        """
+           样式一
+        """
+
+        # 视图数据
+        goods_image_view = self.goods_images_view
+        top_view = self.top_view()
+        footer_view = self.footer_view()
+
+        # 视图集合
+        views = [top_view, goods_image_view, footer_view]
+
+        return {
+            'size': (self.width, self.height),
             'color': self.color,
             'views': views
         }

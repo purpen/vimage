@@ -76,7 +76,6 @@ def rgb_to_hex(rgb_color):
     for i in range(0, len(rgb)):
         num = int(rgb[i])
         # 每次转换之后只取0x7b的后两位，拼接到 hex
-        print ('======== %d' % num)
         hex += hex(num)[-2:]
 
     print("转换后的16进制值为：", hex)
