@@ -22,5 +22,11 @@ git reset --hard
 # 先拉取，再合并
 git pull origin master
 
+# 切换环境
+source venv/bin/activate
+
+# 安装依赖包
+pip3 install -r requirements.txt
+
 
 echo "=========================== ok ===================="  >> $LOG_FILE 2>&1
