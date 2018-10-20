@@ -2420,7 +2420,7 @@ class ShopWindowPosterStyle:
         self.height = Size.POSTER_IMAGE_SIZE['height']
         self.color = (255, 255, 255)
         self.footer_h = 180
-        self.top_h = 260
+        self.top_h = 280
         self.goods_h = 0
         self.goods_images_style = []    # 图片样式集合
 
@@ -2518,32 +2518,18 @@ class ShopWindowPosterStyle:
 
         # 标题
         title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Title,
-                                      font_size=30, font_family='PingFang Bold', align='left',
-                                      text_color='#25211E', x=40, y=self.goods_h + 40, spacing=None, z_index=0)
-        title_h = 30
-
-        # 内容
-        describe_data = {'describe': self.data.get('describe')[:69]}
-        describe_text_data = format_text_data(post_data=describe_data, text=None, text_type=TextType.Describe,
-                                              font_size=28, font_family=None, align='left',
-                                              text_color='#333333', x=40, y=self.goods_h + 90, spacing=36, z_index=1,
-                                              width=self.width - 80)
-
-        # 内容的高度
-        describe_text = self.data.get('describe')
-        describe_line_number = int(len(describe_text) * 28 / (self.width - 60)) + 1
-        describe_line_number = 3 if describe_line_number > 3 else describe_line_number
-        describe_h = describe_line_number * 36
+                                      font_size=40, font_family='PingFang Bold', align='left',
+                                      text_color='#25211E', x=40, y=self.goods_h + 30,
+                                      spacing=50, z_index=0, width=self.width - 60)
 
         # 标签
         tag_text = "#%s" % self.data.get('tag')
         tag_data = format_text_data(post_data=None, text=tag_text, text_type=TextType.Info,
                                     font_size=24, font_family=None, align='left',
-                                    text_color='#5FE4B1', x=40, y=self.goods_h + describe_h + 120, spacing=None, z_index=0)
-        tag_h = 25
+                                    text_color='#5FE4B1', x=40, y=self.goods_h + 180, spacing=None, z_index=1)
 
         # 视图尺寸
-        goods_view_h = self.goods_h + describe_h + title_h + tag_h + 120
+        goods_view_h = self.goods_h + 245
         size = (self.width, goods_view_h)
 
         # 海报的高度
@@ -2551,7 +2537,7 @@ class ShopWindowPosterStyle:
 
         return {
             'size': size,
-            'texts': [title_data, describe_text_data, tag_data],
+            'texts': [title_data, tag_data],
             'images': self.goods_images_style,
             'shapes': []
         }
@@ -2566,19 +2552,19 @@ class ShopWindowPosterStyle:
         # 用户昵称
         nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
                                          font_size=32, font_family=None, align='left',
-                                         text_color='#333333', x=120, y=175, spacing=None, z_index=0)
+                                         text_color='#333333', x=120, y=195, spacing=None, z_index=0)
 
         # 用户头像
         avatar_url = self.data.get('avatar_img')
         user_avatar_image_data = format_image_data(post_data=None, url=avatar_url, path=None,
                                                    image_type=ImageType.Avatar,
-                                                   width=70, height=70, radius=8, x=30, y=160, z_index=0)
+                                                   width=70, height=70, radius=8, x=30, y=180, z_index=0)
 
         # slogan 素材
         modify_image_1 = '../vimage/vimage/resource/material/material_23.png'
         modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
                                                 image_type=ImageType.Modify,
-                                                width=720, height=146, radius=0, x=30, y=34, z_index=1)
+                                                width=720, height=146, radius=0, x=30, y=35, z_index=1)
 
         return {
             'size': size,
@@ -2600,7 +2586,7 @@ class ShopWindowPosterStyle:
                                                 width=140, height=140, radius=70, x=30, y=20, z_index=2)
 
         # 扫码提示
-        wxa_hint_data = format_text_data(post_data=None, text='长按识别小程序码加入乐喜', text_type=TextType.Info,
+        wxa_hint_data = format_text_data(post_data=None, text='长按识别查看全部内容', text_type=TextType.Info,
                                          font_size=24, font_family=None, align='left',
                                          text_color='#666666', x=190, y=55, spacing=None, z_index=1)
 
