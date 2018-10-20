@@ -26,7 +26,7 @@ def make_test():
     }
 
     gif_tool = GifTool(type=5, images=data.get('image_url'))
-    result_gif = gif_tool.create_guess_goods()
+    result_gif = gif_tool.get_result_gif()
 
     return full_response(R200_OK, result_gif)
 
@@ -130,14 +130,25 @@ def make_lexi_poster():
         'brand_logo_img': post_data.get('brand_logo_img'),
         'wxa_code_img': post_data.get('wxa_code_img'),
         'avatar_img': post_data.get('avatar_img'),
-        'coupon_amount': post_data.get('coupon_amount', 0),
+        'coupon_amount': post_data.get('coupon_amount', 100),
         'coupon_days': post_data.get('coupon_days', 0),
         'nickname': post_data.get('nickname'),
         'title': post_data.get('title'),
         'sale_price': post_data.get('sale_price'),
         'background_img': post_data.get('background_img'),
         'city': post_data.get('city'),
-        'people_count': int(post_data.get('people_count', 16341))
+        'people_count': int(post_data.get('people_count', 16341)),
+        'guess_img': post_data.get('guess_img'),
+        'bonus_total_amount': post_data.get('bonus_total_amount'),
+        'bonus_amount': post_data.get('bonus_amount'),
+        'coupon_count': post_data.get('coupon_count', 5),
+        'first_answer': post_data.get('first_answer'),
+        'second_answer': post_data.get('second_answer'),
+        'right_count': post_data.get('right_count'),
+        'ranking': post_data.get('ranking'),
+        'friends': post_data.get('friends'),
+        'save_money_amount': post_data.get('save_money_amount'),
+        'join_user_count': post_data.get('join_user_count', 215161),
     }
 
     folder = 'lexi'
