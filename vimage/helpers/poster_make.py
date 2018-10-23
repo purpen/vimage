@@ -171,7 +171,7 @@ class ImageObject:
         result_image = self.crop_image(load_image)
 
         # 圆形头像
-        if self.type is ImageType.Avatar or ImageType.BrandLogo:
+        if self.type is ImageType.Avatar or self.type is ImageType.BrandLogo:
             result_image = square_image(result_image).resize(self.size)
 
         # 圆角半径
