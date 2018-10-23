@@ -158,21 +158,47 @@ def circle_image(image):
     :return: 裁圆后的图片
     """
 
-    image = image.convert("RGBA")
-    size = image.size
+    result_image = image.convert("RGBA")
+
+    if image.size[0] > image.size[1]:
+        result_image = image.crop([0, 0, image.size[1], image.size[1]])
+
+    elif image.size[0] < image.size[1]:
+        result_image = image.crop([0, 0, image.size[0], image.size[0]])
+
+    size = result_image.size
     r2 = min(size[0], size[1])
 
     if size[0] != size[1]:
-        image = image.resize((r2, r2), Image.ANTIALIAS)
+        result_image = result_image.resize((r2, r2), Image.ANTIALIAS)
 
     circle = Image.new('L', (r2, r2), 0)
     draw = ImageDraw.Draw(circle)
     draw.ellipse((0, 0, r2, r2), fill=255)
     alpha = Image.new('L', (r2, r2), 255)
     alpha.paste(circle, (0, 0))
-    image.putalpha(alpha)
+    result_image.putalpha(alpha)
 
-    return image
+    return result_image
+
+
+def square_image(image):
+    """
+    裁剪成正方形
+
+    :param image: 图片
+    :return: 裁圆后的图片
+    """
+
+    result_image = image.convert("RGBA")
+
+    if image.size[0] > image.size[1]:
+        result_image = image.crop([0, 0, image.size[1], image.size[1]])
+
+    elif image.size[0] < image.size[1]:
+        result_image = image.crop([0, 0, image.size[0], image.size[0]])
+
+    return result_image
 
 
 def circular_bead_image(image, radius):

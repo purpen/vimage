@@ -22,17 +22,17 @@ class TextObject:
         """
 
         data = text_data or {}
-        style_data = data.get('style', {})                  # 文字样式信息
+        style_data = data.get('style', {})  # 文字样式信息
 
-        self.type = data.get('type')                        # 类型（标题/内容/附加信息等）
-        self.content = data.get('content')                  # 内容
-        self.position = data.get('position')                # 位置
-        self.z_index = data.get('z_index')                  # 层级（文字叠加）
-        self.width = data.get('width')                      # 文本在图片中的宽度
-        self.align = style_data.get('align')                # 对齐方式(多行文本)
-        self.font_size = style_data.get('font_size')        # 字体大小
-        self.font_family = style_data.get('font_family')    # 字体样式
-        self.text_color = style_data.get('text_color')      # 文字颜色
+        self.type = data.get('type')  # 类型（标题/内容/附加信息等）
+        self.content = data.get('content')  # 内容
+        self.position = data.get('position')  # 位置
+        self.z_index = data.get('z_index')  # 层级（文字叠加）
+        self.width = data.get('width')  # 文本在图片中的宽度
+        self.align = style_data.get('align')  # 对齐方式(多行文本)
+        self.font_size = style_data.get('font_size')  # 字体大小
+        self.font_family = style_data.get('font_family')  # 字体样式
+        self.text_color = style_data.get('text_color')  # 文字颜色
         self.line_spacing = style_data.get('line_spacing')  # 行间距(多行文本)
 
     def draw_text(self, canvas):
@@ -146,13 +146,13 @@ class ImageObject:
 
         data = image_data or {}
 
-        self.type = data.get('type')           # 类型
-        self.size = data.get('size')           # 尺寸
-        self.position = data.get('position')   # 位置
-        self.radius = data.get('radius')       # 圆角半径
-        self.url = data.get('url')             # 网络Url
-        self.path = data.get('path')           # 本地图片路径
-        self.z_index = data.get('z_index')     # 层级（叠加顺序）
+        self.type = data.get('type')  # 类型
+        self.size = data.get('size')  # 尺寸
+        self.position = data.get('position')  # 位置
+        self.radius = data.get('radius')  # 圆角半径
+        self.url = data.get('url')  # 网络Url
+        self.path = data.get('path')  # 本地图片路径
+        self.z_index = data.get('z_index')  # 层级（叠加顺序）
 
     def paste_image(self, canvas):
         """
@@ -168,12 +168,11 @@ class ImageObject:
         else:
             load_image = load_url_image(self.url, is_create=True)
 
-        # resize_image = self.resize_image(load_image)
         result_image = self.crop_image(load_image)
 
         # 圆形头像
-        if self.type is ImageType.Avatar:
-            result_image = circle_image(result_image)
+        if self.type is ImageType.Avatar or ImageType.BrandLogo:
+            result_image = square_image(result_image).resize(self.size)
 
         # 圆角半径
         if self.radius > 0:
@@ -202,8 +201,6 @@ class ImageObject:
         :param image: 原图片
         :return: 裁剪后的图片
         """
-
-        image_scale = self.size[0] if self.size[0] >= self.size[1] else self.size[1]
 
         if self.size[0] >= self.size[1]:
             new_image_h = image.size[1] * (self.size[0] / image.size[0])
@@ -243,12 +240,12 @@ class ShapeObject:
 
         data = shape_data or {}
 
-        self.type = data.get('type')            # 类型
-        self.position = data.get('position')    # 位置
-        self.width = data.get('width')          # 宽度
-        self.color = data.get('color')          # 填充颜色
+        self.type = data.get('type')  # 类型
+        self.position = data.get('position')  # 位置
+        self.width = data.get('width')  # 宽度
+        self.color = data.get('color')  # 填充颜色
         self.out_color = data.get('out_color')  # 边框颜色
-        self.z_index = data.get('z_index')      # 层级（叠加顺序）
+        self.z_index = data.get('z_index')  # 层级（叠加顺序）
 
     def draw_line(self, image):
         """

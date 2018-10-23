@@ -362,9 +362,9 @@ class LifePosterStyle:
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
-        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
-                                              width=71,
-                                              height=79, radius=0, x=50, y=50, z_index=0)
+        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image,
+                                              image_type=ImageType.Logo,
+                                              width=71, height=79, radius=0, x=50, y=50, z_index=0)
 
         # 默认名称
         default_name_data = format_text_data(post_data=self.data, text='乐喜', text_type=TextType.Info,
