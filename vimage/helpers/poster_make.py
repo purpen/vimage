@@ -168,6 +168,9 @@ class ImageObject:
         else:
             load_image = load_url_image(self.url, is_create=True)
 
+        if self.type == ImageType.Goods:
+            load_image = square_image(load_image)
+
         result_image = self.crop_image(load_image)
 
         # 圆形头像
