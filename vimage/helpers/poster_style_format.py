@@ -90,7 +90,6 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
 
     # 文本内容
     content = get_text_content(text_type, data) if not text else text
-    print ('======== %s' % content)
     content.replace('\n', '')
 
     # 字体名称
