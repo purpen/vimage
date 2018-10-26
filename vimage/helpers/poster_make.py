@@ -45,7 +45,7 @@ class TextObject:
 
         # 字体的样式
         font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], self.font_family, '.ttf')
-        current_app.logger.debug('Font path: %s' % font_path)
+        # current_app.logger.debug('Font path: %s' % font_path)
         draw_font = ImageFont.truetype(font=font_path, size=self.font_size)
 
         # 海报的宽度
@@ -168,14 +168,8 @@ class ImageObject:
         else:
             load_image = load_url_image(self.url, is_create=True)
 
-        if self.type == ImageType.Goods:
-            load_image = square_image(load_image)
-
-        result_image = self.crop_image(load_image)
-
-        # 圆形头像
-        if self.type is ImageType.Avatar or self.type is ImageType.BrandLogo:
-            result_image = square_image(result_image).resize(self.size)
+        result_image = self.square_image(load_image)
+        result_image = crop_image(result_image, self.size)
 
         # 圆角半径
         if self.radius > 0:
@@ -184,47 +178,16 @@ class ImageObject:
         # 对图片合成
         canvas.paste(result_image, self.position, result_image)
 
-    def resize_image(self, image):
+    def square_image(self, image):
         """
-        缩放图片
-
-        :param image: 原图片
-        :return: 缩放后的图片
+            原图裁剪为正方形
         """
 
-        new_image_w = self.size[0]
-        new_image_h = image.size[1] * (self.size[0] / image.size[0])
+        square_image_type_list = [ImageType.Goods, ImageType.Avatar, ImageType.BrandLogo,
+                                  ImageType.WxaCode, ImageType.QRCode]
 
-        return image.resize((int(new_image_w), int(new_image_h)))
-
-    def crop_image(self, image):
-        """
-        裁剪图片，防止变形
-
-        :param image: 原图片
-        :return: 裁剪后的图片
-        """
-
-        if self.size[0] >= self.size[1]:
-            new_image_h = image.size[1] * (self.size[0] / image.size[0])
-            image = image.resize((int(self.size[0]), int(new_image_h)))
-
-        elif self.size[0] < self.size[1]:
-            new_image_w = image.size[0] * (self.size[1] / image.size[1])
-            image = image.resize((int(new_image_w), int(self.size[1])))
-
-        if image.size[0] > self.size[0]:
-            image_scale_w = image.size[1] / self.size[1] * self.size[0]
-            crop_w = image.size[0] - image_scale_w
-
-            # (左、上、右、下)
-            image = image.crop([0, 0, image.size[0] - crop_w, image.size[1]])
-
-        if image.size[1] > self.size[1]:
-            crop_h = image.size[1] - self.size[1]
-
-            # (左、上、右、下)
-            image = image.crop([0, 0, image.size[0], image.size[1] - crop_h])
+        if self.type in square_image_type_list:
+            image = square_image(image)
 
         return image
 

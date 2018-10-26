@@ -193,12 +193,51 @@ def square_image(image):
     result_image = image.convert("RGBA")
 
     if image.size[0] > image.size[1]:
-        result_image = image.crop([0, 0, image.size[1], image.size[1]])
+        # (左、上、右、下)
+        crop_left = (image.size[0] - image.size[1]) / 2
+        crop_w = image.size[0] - crop_left
+        result_image = image.crop([int(crop_left), 0, int(crop_w), image.size[1]])
 
     elif image.size[0] < image.size[1]:
-        result_image = image.crop([0, 0, image.size[0], image.size[0]])
+        crop_top = (image.size[1] - image.size[0]) / 2
+        crop_h = image.size[1] - crop_top
+        result_image = image.crop([0, crop_top, image.size[0], crop_h])
+
+    else:
+        pass
 
     return result_image
+
+
+def crop_image(image, size):
+    """
+    裁剪图片，防止变形
+
+    :param image: 图片
+    :param size: 设定尺寸
+    :return: 裁剪图片
+    """
+
+    if size[0] >= size[1]:
+        new_image_h = image.size[1] * (size[0] / image.size[0])
+        image = image.resize((int(size[0]), int(new_image_h)), Image.ANTIALIAS)
+
+    elif size[0] < size[1]:
+        new_image_w = image.size[0] * (size[1] / image.size[1])
+        image = image.resize((int(new_image_w), int(size[1])), Image.ANTIALIAS)
+
+    if image.size[0] > size[0]:
+        image_scale_w = (image.size[1] / size[1]) * size[0]
+        crop_w = image.size[0] - image_scale_w
+
+        # (左、上、右、下)
+        image = image.crop([0, 0, image.size[0] - crop_w, image.size[1]])
+
+    if image.size[1] > size[1]:
+        crop_h = image.size[1] - size[1]
+        image = image.crop([0, 0, image.size[0], image.size[1] - crop_h])
+
+    return image
 
 
 def circular_bead_image(image, radius):
