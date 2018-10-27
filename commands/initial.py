@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+<<<<<<< HEAD
 import json
 from flask_script import Command
 
@@ -47,6 +48,10 @@ class InitialSystem(object):
 
         print('System sensitive is initial!')
 
+=======
+from flask_script import Command
+
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
 class InitialSetting(Command):
     """
@@ -54,9 +59,13 @@ class InitialSetting(Command):
     """
 
     def run(self):
+<<<<<<< HEAD
         print('Begin Initial system data!')
 
         # 初始化敏感词汇
         InitialSystem.init_sensitives()
 
         print('End Initial system data!')
+=======
+        print('Initial system data!')
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b

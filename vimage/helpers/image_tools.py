@@ -76,7 +76,10 @@ def rgb_to_hex(rgb_color):
     for i in range(0, len(rgb)):
         num = int(rgb[i])
         # 每次转换之后只取0x7b的后两位，拼接到 hex
+<<<<<<< HEAD
         print ('======== %d' % num)
+=======
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         hex += hex(num)[-2:]
 
     print("转换后的16进制值为：", hex)
@@ -159,19 +162,97 @@ def circle_image(image):
     :return: 裁圆后的图片
     """
 
+<<<<<<< HEAD
     image = image.convert("RGBA")
     size = image.size
     r2 = min(size[0], size[1])
 
     if size[0] != size[1]:
         image = image.resize((r2, r2), Image.ANTIALIAS)
+=======
+    result_image = image.convert("RGBA")
+
+    if image.size[0] > image.size[1]:
+        result_image = image.crop([0, 0, image.size[1], image.size[1]])
+
+    elif image.size[0] < image.size[1]:
+        result_image = image.crop([0, 0, image.size[0], image.size[0]])
+
+    size = result_image.size
+    r2 = min(size[0], size[1])
+
+    if size[0] != size[1]:
+        result_image = result_image.resize((r2, r2), Image.ANTIALIAS)
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     circle = Image.new('L', (r2, r2), 0)
     draw = ImageDraw.Draw(circle)
     draw.ellipse((0, 0, r2, r2), fill=255)
     alpha = Image.new('L', (r2, r2), 255)
     alpha.paste(circle, (0, 0))
+<<<<<<< HEAD
     image.putalpha(alpha)
+=======
+    result_image.putalpha(alpha)
+
+    return result_image
+
+
+def square_image(image):
+    """
+    裁剪成正方形
+
+    :param image: 图片
+    :return: 裁圆后的图片
+    """
+
+    result_image = image.convert("RGBA")
+
+    if image.size[0] > image.size[1]:
+        # (左、上、右、下)
+        crop_left = (image.size[0] - image.size[1]) / 2
+        crop_w = image.size[0] - crop_left
+        result_image = image.crop([int(crop_left), 0, int(crop_w), image.size[1]])
+
+    elif image.size[0] < image.size[1]:
+        crop_top = (image.size[1] - image.size[0]) / 2
+        crop_h = image.size[1] - crop_top
+        result_image = image.crop([0, crop_top, image.size[0], crop_h])
+
+    else:
+        pass
+
+    return result_image
+
+
+def crop_image(image, size):
+    """
+    裁剪图片，防止变形
+
+    :param image: 图片
+    :param size: 设定尺寸
+    :return: 裁剪图片
+    """
+
+    if size[0] >= size[1]:
+        new_image_h = image.size[1] * (size[0] / image.size[0])
+        image = image.resize((int(size[0]), int(new_image_h)), Image.ANTIALIAS)
+
+    elif size[0] < size[1]:
+        new_image_w = image.size[0] * (size[1] / image.size[1])
+        image = image.resize((int(new_image_w), int(size[1])), Image.ANTIALIAS)
+
+    if image.size[0] > size[0]:
+        image_scale_w = (image.size[1] / size[1]) * size[0]
+        crop_w = image.size[0] - image_scale_w
+
+        # (左、上、右、下)
+        image = image.crop([0, 0, image.size[0] - crop_w, image.size[1]])
+
+    if image.size[1] > size[1]:
+        crop_h = image.size[1] - size[1]
+        image = image.crop([0, 0, image.size[0], image.size[1] - crop_h])
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     return image
 
