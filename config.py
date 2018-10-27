@@ -192,16 +192,26 @@ class ProductionConfig(Config):
     REDIS_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/0'
 
     # 异步任务
+<<<<<<< HEAD
+    CELERY_BROKER_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/3'
+    CELERY_RESULT_BACKEND = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/4'
+=======
     CELERY_BROKER_URL = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/5'
     CELERY_RESULT_BACKEND = 'redis://crs-rd2ftez2:MixRed0801@10.16.0.5:6379/6'
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     # 静态文件
     ASSETS_DEBUG = False
     CDN_DEBUG = False
     CDN_HTTPS = True
     CDN_ENDPOINTS = ['static']
+<<<<<<< HEAD
+    CDN_DOMAIN = 's3.lexivip.com'
+    THUMB_CDN_DOMAIN = 's3.lexivip.com'
+=======
     CDN_DOMAIN = 's3.moebeast.com'
     THUMB_CDN_DOMAIN = 's3.moebeast.com'
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Mix@MySQL#1808!@10.16.0.4/fximage?charset=utf8'

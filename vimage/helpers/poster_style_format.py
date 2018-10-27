@@ -36,7 +36,11 @@ def get_text_content(text_type, data):
 
     content = text_content_data.get(text_type)
 
+<<<<<<< HEAD
+    content = PickSensitive(text=content).replace_filter_words()
+=======
     # content = PickSensitive(text=content).replace_filter_words()
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     return content
 
@@ -90,7 +94,10 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
 
     # 文本内容
     content = get_text_content(text_type, data) if not text else text
+<<<<<<< HEAD
+=======
     content = content.replace('\n', '')
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     # 字体名称
     font_name = font_family or Fonts.DEFAULT_FONT_FAMILY
@@ -112,7 +119,11 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
 
     text_data = {
         'type': text_type,
+<<<<<<< HEAD
+        'content': content.replace('\n', ''),
+=======
         'content': content,
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         'align': text_align,
         'style': style,
         'position': position,

@@ -76,6 +76,10 @@ def rgb_to_hex(rgb_color):
     for i in range(0, len(rgb)):
         num = int(rgb[i])
         # 每次转换之后只取0x7b的后两位，拼接到 hex
+<<<<<<< HEAD
+        print ('======== %d' % num)
+=======
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         hex += hex(num)[-2:]
 
     print("转换后的16进制值为：", hex)
@@ -158,6 +162,14 @@ def circle_image(image):
     :return: 裁圆后的图片
     """
 
+<<<<<<< HEAD
+    image = image.convert("RGBA")
+    size = image.size
+    r2 = min(size[0], size[1])
+
+    if size[0] != size[1]:
+        image = image.resize((r2, r2), Image.ANTIALIAS)
+=======
     result_image = image.convert("RGBA")
 
     if image.size[0] > image.size[1]:
@@ -171,12 +183,16 @@ def circle_image(image):
 
     if size[0] != size[1]:
         result_image = result_image.resize((r2, r2), Image.ANTIALIAS)
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     circle = Image.new('L', (r2, r2), 0)
     draw = ImageDraw.Draw(circle)
     draw.ellipse((0, 0, r2, r2), fill=255)
     alpha = Image.new('L', (r2, r2), 255)
     alpha.paste(circle, (0, 0))
+<<<<<<< HEAD
+    image.putalpha(alpha)
+=======
     result_image.putalpha(alpha)
 
     return result_image
@@ -236,6 +252,7 @@ def crop_image(image, size):
     if image.size[1] > size[1]:
         crop_h = image.size[1] - size[1]
         image = image.crop([0, 0, image.size[0], image.size[1] - crop_h])
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     return image
 

@@ -22,6 +22,19 @@ class TextObject:
         """
 
         data = text_data or {}
+<<<<<<< HEAD
+        style_data = data.get('style', {})                  # 文字样式信息
+
+        self.type = data.get('type')                        # 类型（标题/内容/附加信息等）
+        self.content = data.get('content')                  # 内容
+        self.position = data.get('position')                # 位置
+        self.z_index = data.get('z_index')                  # 层级（文字叠加）
+        self.width = data.get('width')                      # 文本在图片中的宽度
+        self.align = style_data.get('align')                # 对齐方式(多行文本)
+        self.font_size = style_data.get('font_size')        # 字体大小
+        self.font_family = style_data.get('font_family')    # 字体样式
+        self.text_color = style_data.get('text_color')      # 文字颜色
+=======
         style_data = data.get('style', {})  # 文字样式信息
 
         self.type = data.get('type')  # 类型（标题/内容/附加信息等）
@@ -33,6 +46,7 @@ class TextObject:
         self.font_size = style_data.get('font_size')  # 字体大小
         self.font_family = style_data.get('font_family')  # 字体样式
         self.text_color = style_data.get('text_color')  # 文字颜色
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         self.line_spacing = style_data.get('line_spacing')  # 行间距(多行文本)
 
     def draw_text(self, canvas):
@@ -45,7 +59,11 @@ class TextObject:
 
         # 字体的样式
         font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], self.font_family, '.ttf')
+<<<<<<< HEAD
+        current_app.logger.debug('Font path: %s' % font_path)
+=======
         # current_app.logger.debug('Font path: %s' % font_path)
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         draw_font = ImageFont.truetype(font=font_path, size=self.font_size)
 
         # 海报的宽度
@@ -146,6 +164,15 @@ class ImageObject:
 
         data = image_data or {}
 
+<<<<<<< HEAD
+        self.type = data.get('type')           # 类型
+        self.size = data.get('size')           # 尺寸
+        self.position = data.get('position')   # 位置
+        self.radius = data.get('radius')       # 圆角半径
+        self.url = data.get('url')             # 网络Url
+        self.path = data.get('path')           # 本地图片路径
+        self.z_index = data.get('z_index')     # 层级（叠加顺序）
+=======
         self.type = data.get('type')  # 类型
         self.size = data.get('size')  # 尺寸
         self.position = data.get('position')  # 位置
@@ -153,6 +180,7 @@ class ImageObject:
         self.url = data.get('url')  # 网络Url
         self.path = data.get('path')  # 本地图片路径
         self.z_index = data.get('z_index')  # 层级（叠加顺序）
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     def paste_image(self, canvas):
         """
@@ -168,6 +196,42 @@ class ImageObject:
         else:
             load_image = load_url_image(self.url, is_create=True)
 
+<<<<<<< HEAD
+        load_image = self.crop_image(load_image)
+        resize_image = load_image.resize(self.size)
+
+        # 圆形头像
+        if self.type is ImageType.Avatar:
+            resize_image = circle_image(resize_image)
+
+        # 圆角半径
+        if self.radius > 0:
+            resize_image = circular_bead_image(resize_image, self.radius)
+
+        # 对图片合成
+        canvas.paste(resize_image, self.position, resize_image)
+
+    def crop_image(self, image):
+        """
+        裁剪图片，防止变形
+
+        :param image: 原图片
+        :return: 裁剪后的图片
+        """
+
+        image_scale = image.size[0] / image.size[1]
+        size_scale = self.size[0] / self.size[1]
+
+        if image_scale != size_scale and self.type == ImageType.Goods:
+            image_scale_w = image.size[1] / self.size[1] * self.size[0]
+            crop_w = (image.size[0] - image_scale_w) / 2
+            # (左、上、右、下)
+            result_img = image.crop([crop_w, 0, image.size[0] - crop_w, image.size[1]])
+        else:
+            result_img = image
+
+        return result_img
+=======
         result_image = self.square_image(load_image)
         result_image = crop_image(result_image, self.size)
 
@@ -190,6 +254,7 @@ class ImageObject:
             image = square_image(image)
 
         return image
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
 
 class ShapeObject:
@@ -206,12 +271,21 @@ class ShapeObject:
 
         data = shape_data or {}
 
+<<<<<<< HEAD
+        self.type = data.get('type')            # 类型
+        self.position = data.get('position')    # 位置
+        self.width = data.get('width')          # 宽度
+        self.color = data.get('color')          # 填充颜色
+        self.out_color = data.get('out_color')  # 边框颜色
+        self.z_index = data.get('z_index')      # 层级（叠加顺序）
+=======
         self.type = data.get('type')  # 类型
         self.position = data.get('position')  # 位置
         self.width = data.get('width')  # 宽度
         self.color = data.get('color')  # 填充颜色
         self.out_color = data.get('out_color')  # 边框颜色
         self.z_index = data.get('z_index')  # 层级（叠加顺序）
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
     def draw_line(self, image):
         """
@@ -317,16 +391,28 @@ class Poster(object):
         # 容器视图
         container_canvas = create_canvas(size=size, color=self.color)
 
+<<<<<<< HEAD
+        # 1:图片素材合成到画布上
+        image_list = _sort_list_layer(images, 'z_index')
+        for image_data in image_list:
+            ImageObject(image_data).paste_image(container_canvas)
+
+        # 2:绘制图形（分割线，文字背景色等）
+=======
         # 1:绘制图形（分割线，文字背景色等）
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         shape_list = _sort_list_layer(shapes, 'z_index')
         for shape_data in shape_list:
             ShapeObject(shape_data).draw_shapes(container_canvas)
 
+<<<<<<< HEAD
+=======
         # 2:图片素材合成到画布上
         image_list = _sort_list_layer(images, 'z_index')
         for image_data in image_list:
             ImageObject(image_data).paste_image(container_canvas)
 
+>>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         # 3:文字内容绘制到画布上
         text_list = _sort_list_layer(texts, 'z_index')
         for text_data in text_list:
