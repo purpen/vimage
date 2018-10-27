@@ -57,14 +57,10 @@ class LexiPosterStyle:
                 return GuessGamePosterStyle(self.data).get_style_third()
             if case(14):
                 return GuessGamePosterStyle(self.data).get_style_fourth()
-<<<<<<< HEAD
-=======
             if case(15):
                 return ShopWindowPosterStyle(self.data).get_style_data()
             if case(16):
                 return GoodsCardStyle(self.data).get_style_data()
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
-
 
 class BrandPosterStyle:
     """
@@ -367,15 +363,9 @@ class LifePosterStyle:
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
-<<<<<<< HEAD
-        default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
-                                              width=71,
-                                              height=79, radius=0, x=50, y=50, z_index=0)
-=======
         default_logo_data = format_image_data(post_data=None, url=None, path=logo_image,
                                               image_type=ImageType.Logo,
                                               width=71, height=79, radius=0, x=50, y=50, z_index=0)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 默认名称
         default_name_data = format_text_data(post_data=self.data, text='乐喜', text_type=TextType.Info,
@@ -547,11 +537,7 @@ class WxaGoodsPosterStyle:
         # 用户头像
         user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                    image_type=ImageType.Avatar,
-<<<<<<< HEAD
-                                                   width=70, height=70, radius=0, x=60, y=45, z_index=2)
-=======
                                                    width=70, height=70, radius=8, x=60, y=45, z_index=2)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 用户昵称
         default_nickname = {'nickname': ('%s  向你推荐了' % self.data.get('nickname'))}
@@ -777,11 +763,7 @@ class PaaSGoodsPosterStyle:
         # 用户头像
         user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                    image_type=ImageType.Avatar,
-<<<<<<< HEAD
-                                                   width=70, height=70, radius=0, x=50, y=160, z_index=1)
-=======
                                                    width=70, height=70, radius=8, x=50, y=160, z_index=1)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 用户昵称
         default_nickname = {'nickname': ('%s  向你推荐了' % self.data.get('nickname'))}
@@ -828,11 +810,7 @@ class PaaSGoodsPosterStyle:
         # 用户头像
         user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                    image_type=ImageType.Avatar,
-<<<<<<< HEAD
-                                                   width=70, height=70, radius=0, x=70, y=45, z_index=2)
-=======
                                                    width=70, height=70, radius=8, x=70, y=45, z_index=2)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 用户昵称
         default_nickname = {'nickname': ('%s  向你推荐了' % self.data.get('nickname'))}
@@ -993,11 +971,7 @@ class InviteFriendsPosterStyle:
         # 用户头像
         user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                    image_type=ImageType.Avatar,
-<<<<<<< HEAD
-                                                   width=192, height=192, radius=98, x=279, y=183, z_index=6)
-=======
                                                    width=192, height=192, radius=96, x=279, y=183, z_index=5)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 用户昵称
         user_nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
@@ -1071,19 +1045,11 @@ class InviteFriendsPosterStyle:
                                                 image_type=ImageType.Modify,
                                                 width=268, height=36, radius=0, x=240, y=704, z_index=4)
 
-<<<<<<< HEAD
-        # 素材 4
-        modify_image_4 = '../vimage/vimage/resource/material/material_16.png'
-        modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4,
-                                                image_type=ImageType.Modify,
-                                                width=200, height=200, radius=0, x=275, y=179, z_index=5)
-=======
         # 头像描边素材
         modify_image_4 = '../vimage/vimage/resource/material/material_26.png'
         modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4,
                                                 image_type=ImageType.Modify,
                                                 width=200, height=200, radius=0, x=275, y=179, z_index=6)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
@@ -1176,15 +1142,12 @@ class InviteFriendsCardStyle:
                                                    image_type=ImageType.Avatar,
                                                    width=80, height=80, radius=40, x=173, y=17, z_index=6)
 
-<<<<<<< HEAD
-=======
         # 头像描边素材
         modify_image_5 = '../vimage/vimage/resource/material/material_26.png'
         modify_image_data_5 = format_image_data(post_data=None, url=None, path=modify_image_5,
                                                 image_type=ImageType.Modify,
                                                 width=84, height=84, radius=0, x=172, y=15, z_index=7)
 
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         # 默认邀请提示语
         default_invite_data = format_text_data(post_data=None, text='来乐喜开一个', text_type=TextType.Info,
                                                font_size=24, font_family=None, align='center',
@@ -1242,11 +1205,7 @@ class InviteFriendsCardStyle:
                                                 width=27, height=4, radius=0, x=325, y=213, z_index=5)
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_2,
-<<<<<<< HEAD
-                       modify_image_data_3, modify_image_data_4, user_avatar_image_data]
-=======
                        modify_image_data_3, modify_image_data_4, user_avatar_image_data, modify_image_data_5]
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         texts_data = [default_invite_data, invite_title_data, invite_content_data, sure_info_data]
 
@@ -1311,14 +1270,6 @@ class BrandCardStyle:
             信息视图
         """
 
-<<<<<<< HEAD
-        # 用户头像
-        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
-                                                   image_type=ImageType.Avatar,
-                                                   width=86, height=86, radius=2, x=165, y=44, z_index=4)
-
-=======
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         # 昵称
         nickname = ('%s...' % self.data.get('nickname')[:9]) if len(
             set(self.data.get('nickname'))) > 9 else self.data.get('nickname')
@@ -1353,13 +1304,6 @@ class BrandCardStyle:
         modify_image_data = format_image_data(post_data=None, url=None, path=modify_image, image_type=ImageType.Modify,
                                               width=24, height=24, radius=0, x=256, y=280, z_index=2)
 
-<<<<<<< HEAD
-        # 素材1
-        modify_image_1 = '../vimage/vimage/resource/material/material_15.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
-                                                image_type=ImageType.Modify,
-                                                width=94, height=94, radius=0, x=161, y=40, z_index=3)
-=======
         # 用户头像
         user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                    image_type=ImageType.Avatar,
@@ -1370,7 +1314,6 @@ class BrandCardStyle:
         modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
                                                 image_type=ImageType.Modify,
                                                 width=86, height=86, radius=0, x=165, y=44, z_index=4)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         images_data = [background_image_data, background_image_data_1, modify_image_data, modify_image_data_1,
                        user_avatar_image_data]
@@ -1683,14 +1626,6 @@ class CouponsCartStyle:
             信息视图
         """
 
-<<<<<<< HEAD
-        # 用户头像
-        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
-                                                   image_type=ImageType.Avatar,
-                                                   width=66, height=66, radius=33, x=178, y=12, z_index=2)
-
-=======
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         # 用户昵称
         user_nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
                                               font_size=28, font_family='PingFang Bold', align='center',
@@ -1716,15 +1651,6 @@ class CouponsCartStyle:
                                                   image_type=ImageType.Background, width=self.width, height=self.height,
                                                   radius=0, x=0, y=0, z_index=0)
 
-<<<<<<< HEAD
-        # 素材 1
-        modify_image_1 = '../vimage/vimage/resource/material/material_16.png'
-        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
-                                                image_type=ImageType.Modify,
-                                                width=71, height=71, radius=0, x=176, y=10, z_index=1)
-
-        images_data = [background_image_data, modify_image_data_1, user_avatar_image_data]
-=======
         # 用户头像
         user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                    image_type=ImageType.Avatar,
@@ -1737,7 +1663,6 @@ class CouponsCartStyle:
                                               width=70, height=70, radius=0, x=176, y=10, z_index=2)
 
         images_data = [background_image_data, user_avatar_image_data, modify_image_data]
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         texts_data = [user_nickname_data, default_invite_data, coupon_data, coupon_hint_data]
 
@@ -1908,100 +1833,55 @@ class GuessGamePosterStyle:
                                                   image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
-<<<<<<< HEAD
-        # 头像背景
-        modify_image_7 = '../vimage/vimage/resource/material/material_16.png'
-        modify_image_data_7 = format_image_data(post_data=None, url=None, path=modify_image_7,
-                                                image_type=ImageType.Avatar,
-                                                width=138, height=138, radius=0, x=306, y=126, z_index=1)
-
-=======
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         # 背景 1
         background_image_1 = '../vimage/vimage/resource/background/background_12.png'
         background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
                                                     image_type=ImageType.Background,
-<<<<<<< HEAD
-                                                    width=650, height=840, radius=0, x=50, y=195, z_index=2)
-=======
                                                     width=650, height=840, radius=0, x=50, y=195, z_index=1)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 1
         modify_image_1 = '../vimage/vimage/resource/material/material_19.png'
         modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=650, height=248, radius=0, x=50, y=400, z_index=3)
-=======
                                                 width=650, height=248, radius=0, x=50, y=400, z_index=2)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 2
         modify_image_2 = '../vimage/vimage/resource/material/material_18.png'
         modify_image_data_2 = format_image_data(post_data=None, url=None, path=modify_image_2,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=580, height=6, radius=0, x=83, y=703, z_index=4)
-=======
                                                 width=580, height=6, radius=0, x=83, y=703, z_index=3)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 3
         modify_image_3 = '../vimage/vimage/resource/material/material_20.png'
         modify_image_data_3 = format_image_data(post_data=None, url=None, path=modify_image_3,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=294, height=80, radius=0, x=338, y=810, z_index=5)
-=======
                                                 width=294, height=80, radius=0, x=338, y=810, z_index=4)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 4
         modify_image_4 = '../vimage/vimage/resource/material/material_20.png'
         modify_image_data_4 = format_image_data(post_data=None, url=None, path=modify_image_4,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=294, height=80, radius=0, x=338, y=910, z_index=6)
-=======
                                                 width=294, height=80, radius=0, x=338, y=910, z_index=5)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 5
         modify_image_5 = '../vimage/vimage/resource/material/material_22.png'
         modify_image_data_5 = format_image_data(post_data=None, url=None, path=modify_image_5,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=62, height=62, radius=0, x=404, y=99, z_index=7)
-=======
                                                 width=62, height=62, radius=0, x=404, y=99, z_index=6)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 6
         modify_image_6 = '../vimage/vimage/resource/material/material_17.png'
         modify_image_data_6 = format_image_data(post_data=None, url=None, path=modify_image_6,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=140, height=140, radius=0, x=530, y=1082, z_index=8)
-=======
                                                 width=140, height=140, radius=0, x=530, y=1082, z_index=7)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
         default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
-<<<<<<< HEAD
-                                              width=58, height=64, radius=0, x=48, y=45, z_index=9)
-=======
                                               width=58, height=64, radius=0, x=48, y=45, z_index=8)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
-
         # 用户头像
         user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                    image_type=ImageType.Avatar,
-<<<<<<< HEAD
-                                                   width=130, height=130, radius=65, x=310, y=130, z_index=10)
-=======
                                                    width=130, height=130, radius=65, x=310, y=130, z_index=9)
 
         # 头像描边素材
@@ -2009,7 +1889,6 @@ class GuessGamePosterStyle:
         modify_image_data_7 = format_image_data(post_data=None, url=None, path=modify_image_7,
                                                 image_type=ImageType.Modify,
                                                 width=138, height=138, radius=0, x=306, y=126, z_index=10)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 小程序码
         wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
@@ -2142,15 +2021,6 @@ class GuessGamePosterStyle:
 
         # 奖金金额
         bonus_amount_text = str(self.data.get('bonus_amount'))
-<<<<<<< HEAD
-        bonus_money_data = format_text_data(post_data=None, text=bonus_amount_text, text_type=TextType.Info,
-                                            font_size=65, font_family='PingFang Bold', align='left',
-                                            text_color='#FF4069', x=140, y=477, spacing=None, z_index=5)
-
-        bonus_yuan_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
-                                           font_size=30, font_family='PingFang Bold', align='left',
-                                           text_color='#FF4069', x=283, y=512, spacing=None, z_index=6)
-=======
         bonus_amount_text_w = int(len(bonus_amount_text) * 33)
         bonus_amount_text_x = 210 - (bonus_amount_text_w / 2)
         bonus_money_data = format_text_data(post_data=None, text=bonus_amount_text, text_type=TextType.Info,
@@ -2160,7 +2030,6 @@ class GuessGamePosterStyle:
         bonus_yuan_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
                                            font_size=30, font_family='PingFang Bold', align='left',
                                            text_color='#FF4069', x=330, y=512, spacing=None, z_index=6)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 优惠券内容
         coupon_hint_data = format_text_data(post_data=None, text='总计获得乐喜优惠券金额', text_type=TextType.Info,
@@ -2168,15 +2037,6 @@ class GuessGamePosterStyle:
                                             text_color='#333333', x=388, y=435, spacing=None, z_index=7)
 
         coupon_money_text = str(self.data.get('coupon_amount'))
-<<<<<<< HEAD
-        coupon_money_data = format_text_data(post_data=None, text=coupon_money_text, text_type=TextType.Info,
-                                             font_size=65, font_family=None, align='left',
-                                             text_color='#FF4069', x=454, y=477, spacing=None, z_index=8)
-
-        coupon_yuan_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
-                                            font_size=30, font_family='PingFang Bold', align='left',
-                                            text_color='#FF4069', x=575, y=512, spacing=None, z_index=9)
-=======
         coupon_money_text_w = int(len(coupon_money_text) * 33)
         coupon_money_text_x = 500 - (coupon_money_text_w / 2)
         coupon_money_data = format_text_data(post_data=None, text=coupon_money_text, text_type=TextType.Info,
@@ -2186,7 +2046,6 @@ class GuessGamePosterStyle:
         coupon_yuan_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
                                             font_size=30, font_family='PingFang Bold', align='left',
                                             text_color='#FF4069', x=620, y=512, spacing=None, z_index=9)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 正确数量
         right_count_text = '答对 %s 题' % str(self.data.get('right_count'))
@@ -2246,69 +2105,33 @@ class GuessGamePosterStyle:
                                                   image_type=ImageType.Background,
                                                   width=self.width, height=self.height, radius=0, x=0, y=0, z_index=0)
 
-<<<<<<< HEAD
-        # 头像背景
-        modify_image_7 = '../vimage/vimage/resource/material/material_16.png'
-        modify_image_data_7 = format_image_data(post_data=None, url=None, path=modify_image_7,
-                                                image_type=ImageType.Avatar,
-                                                width=138, height=138, radius=0, x=306, y=126, z_index=1)
-
-=======
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
         # 背景 1
         background_image_1 = '../vimage/vimage/resource/background/background_13.png'
         background_image_data_1 = format_image_data(post_data=None, url=None, path=background_image_1,
                                                     image_type=ImageType.Background,
-<<<<<<< HEAD
-                                                    width=650, height=763, radius=0, x=50, y=195, z_index=2)
-=======
                                                     width=650, height=763, radius=0, x=50, y=195, z_index=1)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 1
         modify_image_1 = '../vimage/vimage/resource/material/material_21.png'
         modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=670, height=232, radius=0, x=40, y=400, z_index=3)
-=======
                                                 width=670, height=232, radius=0, x=40, y=400, z_index=2)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 5
         modify_image_5 = '../vimage/vimage/resource/material/material_22.png'
         modify_image_data_5 = format_image_data(post_data=None, url=None, path=modify_image_5,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=62, height=62, radius=0, x=404, y=99, z_index=7)
-=======
                                                 width=62, height=62, radius=0, x=404, y=99, z_index=3)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 素材 6
         modify_image_6 = '../vimage/vimage/resource/material/material_17.png'
         modify_image_data_6 = format_image_data(post_data=None, url=None, path=modify_image_6,
                                                 image_type=ImageType.Modify,
-<<<<<<< HEAD
-                                                width=140, height=140, radius=0, x=530, y=1022, z_index=8)
-=======
                                                 width=140, height=140, radius=0, x=530, y=1022, z_index=4)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 默认logo
         logo_image = '../vimage/vimage/resource/material/lexi_logo.png'
         default_logo_data = format_image_data(post_data=None, url=None, path=logo_image, image_type=ImageType.Logo,
-<<<<<<< HEAD
-                                              width=58, height=64, radius=0, x=48, y=45, z_index=9)
-
-        # 用户头像
-        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.Avatar,
-                                                   width=130, height=130, radius=65, x=310, y=130, z_index=10)
-
-        # 小程序码
-        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
-                                                width=200, height=200, radius=100, x=60, y=1022, z_index=11)
-=======
                                               width=58, height=64, radius=0, x=48, y=45, z_index=5)
 
         # 用户头像
@@ -2324,7 +2147,6 @@ class GuessGamePosterStyle:
         # 小程序码
         wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None, image_type=ImageType.WxaCode,
                                                 width=200, height=200, radius=100, x=60, y=1022, z_index=8)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         images_data = [background_image_data, background_image_data_1, modify_image_data_1, modify_image_data_5,
                        modify_image_data_6, modify_image_data_7,
@@ -2388,11 +2210,7 @@ class GuessGamePosterStyle:
         join_count = str(self.data.get('join_user_count'))
         join_user_data = format_text_data(post_data=None, text=join_count, text_type=TextType.Info,
                                           font_size=40, font_family='PingFang Bold', align='left',
-<<<<<<< HEAD
-                                          text_color='#FFE700', x=205, y=565, spacing=None, z_index=1)
-=======
                                           text_color='#FFE700', x=202, y=565, spacing=None, z_index=1)
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
         # 猜图答案 1
         answer_text_data_1 = {'0': '手账本',
@@ -2587,8 +2405,6 @@ class GuessGamePosterStyle:
         style_data = self.get_style_one()
 
         return style_data
-<<<<<<< HEAD
-=======
 
 
 class ShopWindowPosterStyle:
@@ -2909,4 +2725,3 @@ class GoodsCardStyle:
         style_data = self.get_style_one()
 
         return style_data
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b

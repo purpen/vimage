@@ -6,27 +6,16 @@ import multiprocessing
 
 gevent.monkey.patch_all()
 
-<<<<<<< HEAD
 # 监听本机的8080端口
-=======
-# 监听本机的9000端口
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 bind = '127.0.0.1:8080'
 
 preload_app = True
 
 # 启动的进程数
-<<<<<<< HEAD
 workers = multiprocessing.cpu_count() * 2 + 1
 
 # 每个进程的开启线程
 threads = multiprocessing.cpu_count() * 2
-=======
-workers = multiprocessing.cpu_count() + 1
-
-# 每个进程的开启线程
-threads = multiprocessing.cpu_count()
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
 
 backlog = 2048
 
@@ -58,26 +47,13 @@ daemon = False
 # 进程名称
 proc_name = 'gunicorn.pid'
 # 进程pid记录文件
-<<<<<<< HEAD
 pidfile = '/var/run/vimage/gunicorn.pid'
-=======
-pidfile = '/var/run/fxaim/gunicorn.pid'
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
-
 
 loglevel = 'debug'
 
-<<<<<<< HEAD
 logfile = '/var/log/vimage/aim.log'
 accesslog = '/var/log/vimage/aim-access.log'
 access_log_format = '%(h)s %(t)s %(U)s %(q)s'
 errorlog = '/var/log/vimage/aim-error.log'
-=======
-logfile = '/var/log/fxaim/aim.log'
-accesslog = '/var/log/fxaim/aim-access.log'
-access_log_format = '%(h)s %(t)s %(U)s %(q)s'
-errorlog = '/var/log/fxaim/fxaim-error.log'
->>>>>>> a42c3763e1a6b24bef1e39b34212f2a744444c6b
-
 
 x_forwarded_for_header = 'X-FORWARDED-FOR'
