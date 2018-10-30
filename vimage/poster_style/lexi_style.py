@@ -847,19 +847,28 @@ class PaaSGoodsPosterStyle:
         not_describe_origin_y = 96 if len(self.data.get('describe')) == 0 else price_origin_y  # 没有商品推荐语时的顶部边距
 
         # 商品价格
-        default_price = {'sale_price': ('￥%s' % self.data.get('sale_price'))}
-        goods_price_data = format_text_data(post_data=default_price, text=None, text_type=TextType.SalePrice,
+        default_price = '￥%s' % str(self.data.get('sale_price'))
+        goods_price_data = format_text_data(post_data=None, text=default_price, text_type=TextType.SalePrice,
                                             font_size=28, font_family='PingFang Bold', align='left',
                                             text_color='#333333', x=50,
                                             y=183 + default_origin_y - not_describe_origin_y,
                                             spacing=None, z_index=6)
+
+        # 商品原价
+        default_price_width = len(default_price) * 28
+        original_price = '￥%s' % str(self.data.get('original_price'))
+        original_price_data = format_text_data(post_data=None, text=original_price, text_type=TextType.SalePrice,
+                                               font_size=24, font_family=None, align='left',
+                                               text_color='#999999', x=10 + default_price_width,
+                                               y=187 + default_origin_y - not_describe_origin_y,
+                                               spacing=None, z_index=7)
 
         # 优惠红包提示
         coupon_hint_data = format_text_data(post_data=default_price, text='最高优惠红包可领', text_type=TextType.Info,
                                             font_size=24, font_family='PingFang Bold', align='left',
                                             text_color='#999999', x=50,
                                             y=231 + default_origin_y - not_describe_origin_y,
-                                            spacing=None, z_index=7)
+                                            spacing=None, z_index=8)
 
         # 优惠红包金额
         coupon_amount = ('￥%s' % self.data.get('coupon_amount'))
@@ -867,7 +876,7 @@ class PaaSGoodsPosterStyle:
                                               font_size=32, font_family='PingFang Bold', align='left',
                                               text_color='#FFFFFF', x=90,
                                               y=282 + default_origin_y - not_describe_origin_y,
-                                              spacing=None, z_index=8)
+                                              spacing=None, z_index=9)
 
         # 优惠红包天数
         coupon_days = ('%s天有效期' % self.data.get('coupon_days'))
@@ -875,7 +884,7 @@ class PaaSGoodsPosterStyle:
                                             font_size=20, font_family='PingFang Bold', align='left',
                                             text_color='#FFFFFF', x=78,
                                             y=322 + default_origin_y - not_describe_origin_y,
-                                            spacing=None, z_index=9)
+                                            spacing=None, z_index=10)
 
         # 优惠红包背景
         coupon_image = '../vimage/vimage/resource/material/ticket_background.png'
@@ -895,22 +904,37 @@ class PaaSGoodsPosterStyle:
         texts_data = [default_name_data, default_slogan_data, hint_text_data, goods_title_data,
                       goods_describe_data, goods_price_data]
 
+        shapes_data = []
+
+        # 原价的删除线
+        original_origin_w = len(original_price) * 15
+        original_origin_x = 10 + default_price_width
+        original_origin_y = 203 + default_origin_y - not_describe_origin_y
+        draw_line_data = format_shape_data(shape_type=DrawShapeType.Line,
+                                           position=[(original_origin_x, original_origin_y),
+                                                     (original_origin_x + original_origin_w, original_origin_y)],
+                                           width=1, color='#999999', out_color=None, z_index=0)
+
         if self.footer_h == 714:
             images_data.append(user_avatar_image_data)
             images_data.append(background_image_data)
             texts_data.append(user_nickname_data)
 
-        if int(self.data.get('coupon_amount')) > 0:
+        if self.data.get('coupon_amount') is not None and int(self.data.get('coupon_amount')) > 0:
             images_data.append(coupon_image_data)
             texts_data.append(coupon_hint_data)
             texts_data.append(coupon_amount_data)
             texts_data.append(coupon_days_data)
 
+        if self.data.get('original_price') is not None and int(self.data.get('original_price')) > 0:
+            texts_data.append(original_price_data)
+            shapes_data.append(draw_line_data)
+
         return {
             'size': size,
             'texts': texts_data,
             'images': images_data,
-            'shapes': []
+            'shapes': shapes_data
         }
 
     def get_style_one(self):
