@@ -2626,15 +2626,15 @@ class ShopWindowPosterStyle:
                                                text_color='#333333', x=190, y=95, spacing=None, z_index=2)
 
         # 背景
-        # draw_background_data = format_shape_data(shape_type=DrawShapeType.Rectangle,
-        #                                          position=[(0, 0), (self.width, self.footer_h)],
-        #                                          width=1, color='#F7F9FB', out_color=None, z_index=0)
+        draw_background_data = format_shape_data(shape_type=DrawShapeType.Rectangle,
+                                                 position=[(0, 0), (self.width, self.footer_h)],
+                                                 width=1, color='#F7F9FB', out_color=None, z_index=0)
 
         return {
             'size': size,
             'texts': [wxa_hint_data, default_slogan_data],
             'images': [wxa_code_image_data],
-            'shapes': []
+            'shapes': [draw_background_data]
         }
 
     def get_style_one(self):
