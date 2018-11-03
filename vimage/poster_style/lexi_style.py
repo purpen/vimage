@@ -3,6 +3,7 @@ from vimage.helpers.poster_style_format import *
 from vimage.constant import *
 from vimage.helpers.switch import *
 import random
+from vimage.helpers.image_tools import *
 
 
 class LexiPosterStyle:
@@ -2547,19 +2548,29 @@ class ShopWindowPosterStyle:
             self.images_view_style_3()
 
         # 标题
-        title_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Title,
+        title_text = self.data.get('title')[:34]
+        title_data = format_text_data(post_data=None, text=title_text, text_type=TextType.Title,
                                       font_size=40, font_family='PingFang Bold', align='left',
-                                      text_color='#25211E', x=40, y=self.goods_h + 30,
+                                      text_color='#25211E', x=30, y=self.goods_h + 30,
                                       spacing=50, z_index=0, width=self.width - 60)
+
+        title_height = (int(get_text_width(title_text, 40) / (self.width - 60)) + 1) * 40 + 10
+
+        # 内容
+        describe_content = self.data.get('describe')[:48]
+        goods_describe_data = format_text_data(post_data=None, text=describe_content, text_type=TextType.Describe,
+                                               font_size=28, font_family=None, align='left', text_color='#666666',
+                                               x=30, y=self.goods_h + title_height + 60, spacing=40, z_index=1,
+                                               width=self.width - 60)
 
         # 标签
         tag_text = "#%s" % self.data.get('tag')
         tag_data = format_text_data(post_data=None, text=tag_text, text_type=TextType.Info,
                                     font_size=24, font_family=None, align='left',
-                                    text_color='#5FE4B1', x=40, y=self.goods_h + 180, spacing=None, z_index=1)
+                                    text_color='#5FE4B1', x=40, y=self.goods_h + 275, spacing=None, z_index=2)
 
         # 视图尺寸
-        goods_view_h = self.goods_h + 245
+        goods_view_h = self.goods_h + 340
         size = (self.width, goods_view_h)
 
         # 海报的高度
@@ -2567,7 +2578,7 @@ class ShopWindowPosterStyle:
 
         return {
             'size': size,
-            'texts': [title_data, tag_data],
+            'texts': [title_data, goods_describe_data, tag_data],
             'images': self.goods_images_style,
             'shapes': []
         }

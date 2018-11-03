@@ -1,12 +1,31 @@
 # -*- coding:utf-8 -*-
 import requests as req
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import imagehash
 import random
 from pathlib import Path
 from vimage.constant import *
 from vimage.helpers.utils import *
+from flask import current_app
+
+
+def get_text_width(text, font_size):
+    """
+    获取文字的宽度
+
+    :param text: 文字
+    :param font_size: 字符大小
+    :return: 内容宽度
+    """
+
+    font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], 'PingFang Bold', '.ttf')
+    draw_font = ImageFont.truetype(font=font_path, size=font_size)
+
+    # 文本的尺寸
+    text_size = draw_font.getsize(text)
+
+    return int(text_size[0])
 
 
 def load_url_image(image_url, is_create=False):
