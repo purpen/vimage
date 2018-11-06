@@ -618,7 +618,18 @@ class WxaGoodsPosterStyle:
         texts_data = [default_name_data, default_slogan_data, user_nickname_data, hint_text_data, goods_title_data,
                       goods_describe_data, goods_price_data]
 
-        if int(self.data.get('coupon_amount')) > 0:
+        # 活动标签
+        price_origin_x = (len(str(default_price.get('sale_price'))) - 1) * 28 + 63
+        activity_tag_url = self.data.get('activity_tag')
+        activity_tag_data = format_image_data(post_data=None, url=activity_tag_url, path=None,
+                                              image_type=ImageType.Modify,
+                                              width=176, height=28, radius=0, x=price_origin_x, y=320 - not_describe_origin_y,
+                                              z_index=99)
+
+        if self.data.get('activity_tag') is not None and len(activity_tag_url):
+            images_data.append(activity_tag_data)
+
+        if self.data.get('coupon_amount') is not None and int(self.data.get('coupon_amount')) > 0:
             images_data.append(coupon_image_data)
             texts_data.append(coupon_hint_data)
             texts_data.append(coupon_amount_data)
@@ -854,14 +865,17 @@ class PaaSGoodsPosterStyle:
                                             y=183 + default_origin_y - not_describe_origin_y,
                                             spacing=None, z_index=6)
 
+        default_price_width = (len(default_price) - 1) * 28
+
         # 商品原价
-        default_price_width = len(default_price) * 28
         original_price = '￥%s' % str(self.data.get('original_price'))
         original_price_data = format_text_data(post_data=None, text=original_price, text_type=TextType.SalePrice,
                                                font_size=24, font_family=None, align='left',
-                                               text_color='#999999', x=10 + default_price_width,
+                                               text_color='#999999', x=45 + default_price_width,
                                                y=187 + default_origin_y - not_describe_origin_y,
                                                spacing=None, z_index=7)
+
+        original_price_width = (len(default_price) - 1) * 24
 
         # 优惠红包提示
         coupon_hint_data = format_text_data(post_data=default_price, text='最高优惠红包可领', text_type=TextType.Info,
@@ -907,12 +921,11 @@ class PaaSGoodsPosterStyle:
         shapes_data = []
 
         # 原价的删除线
-        original_origin_w = len(original_price) * 15
-        original_origin_x = 10 + default_price_width
+        original_origin_x = 50 + default_price_width
         original_origin_y = 203 + default_origin_y - not_describe_origin_y
         draw_line_data = format_shape_data(shape_type=DrawShapeType.Line,
                                            position=[(original_origin_x, original_origin_y),
-                                                     (original_origin_x + original_origin_w, original_origin_y)],
+                                                     (original_origin_x + (original_price_width - 20), original_origin_y)],
                                            width=1, color='#999999', out_color=None, z_index=0)
 
         if self.footer_h == 714:
@@ -926,9 +939,23 @@ class PaaSGoodsPosterStyle:
             texts_data.append(coupon_amount_data)
             texts_data.append(coupon_days_data)
 
+        price_origin_x = 60 + default_price_width
+
         if self.data.get('original_price') is not None and int(self.data.get('original_price')) > 0:
             texts_data.append(original_price_data)
             shapes_data.append(draw_line_data)
+            price_origin_x += original_price_width
+
+        # 活动标签
+        activity_tag_url = self.data.get('activity_tag')
+        activity_tag_data = format_image_data(post_data=None, url=activity_tag_url, path=None,
+                                              image_type=ImageType.Modify,
+                                              width=176, height=28, radius=0, x=price_origin_x,
+                                              y=189 + default_origin_y - not_describe_origin_y,
+                                              z_index=99)
+
+        if self.data.get('activity_tag') is not None and len(activity_tag_url):
+            images_data.append(activity_tag_data)
 
         return {
             'size': size,

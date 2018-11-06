@@ -150,7 +150,8 @@ def make_lexi_poster():
         'save_money_amount': post_data.get('save_money_amount'),
         'join_user_count': post_data.get('join_user_count', 215161),
         'tag': post_data.get('tag'),
-        'original_price': post_data.get('original_price')
+        'original_price': post_data.get('original_price'),
+        'activity_tag': post_data.get('activity_tag'),
     }
 
     folder = 'lexi'
