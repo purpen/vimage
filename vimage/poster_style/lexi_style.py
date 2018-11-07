@@ -2591,7 +2591,7 @@ class ShopWindowPosterStyle:
                                                width=self.width - 60)
 
         # 标签
-        tag_text = "#%s" % self.data.get('tag')
+        tag_text = "#%s" % self.data.get('tag') if len(self.data.get('tag')) else ''
         tag_data = format_text_data(post_data=None, text=tag_text, text_type=TextType.Info,
                                     font_size=24, font_family=None, align='left',
                                     text_color='#5FE4B1', x=40, y=self.goods_h + 275, spacing=None, z_index=2)
