@@ -31,6 +31,51 @@ def make_test():
     return full_response(R200_OK, result_gif)
 
 
+@api.route('/maker/watermark', methods=['POST'])
+def make_watermark_picture():
+    """
+        图片添加水印
+    """
+
+    post_data = request.get_json()
+
+    # 验证参数是否符合规则
+    if not post_data:
+        return status_response(R400_BADREQUEST, False)
+
+    data = {
+        'image_url': post_data.get('image_url'),
+    }
+
+    folder = 'watermark'
+    path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
+    # 生成图片地址
+    image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
+
+    # 1、获取样式数据
+    poster_style = WatermarkPictureStyle(data)
+
+    # 2、生成海报
+    poster = Poster(poster_style.get_default_style())
+    poster_image = poster.make_poster_card()
+
+    # 3、获取图像二进制流
+    poster_content = io.BytesIO()
+    poster_image.save(poster_content, 'png')
+
+    # 4、上传图片至云服务
+    qiniu_cloud = QiniuCloud(current_app.config['QINIU_ACCESS_KEY'], current_app.config['QINIU_ACCESS_SECRET'],
+                             current_app.config['QINIU_BUCKET_NAME'])
+    try:
+        qiniu_cloud.upload_content(poster_content.getvalue(), path_key)
+    except QiniuError as err:
+        current_app.logger.warn('Qiniu upload watermark image error: %s' % str(err))
+
+    return full_response(R200_OK, {
+        'image_url': image_url
+    })
+
+
 @api.route('/maker/blurry_picture', methods=['POST'])
 def make_blurry_picture():
     """
@@ -52,8 +97,6 @@ def make_blurry_picture():
         'top': post_data.get('top'),
         'left': post_data.get('left')
     }
-
-    print ('模糊图片的数据 ---------- %s' % data)
 
     folder = 'blurry'
     path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
