@@ -63,6 +63,7 @@ class LexiPosterStyle:
             if case(16):
                 return GoodsCardStyle(self.data).get_style_data()
 
+
 class BrandPosterStyle:
     """
         品牌馆海报分享样式
@@ -921,7 +922,7 @@ class PaaSGoodsPosterStyle:
         shapes_data = []
 
         # 原价的删除线
-        original_origin_x = 50 + default_price_width
+        original_origin_x = 45 + default_price_width
         original_origin_y = 203 + default_origin_y - not_describe_origin_y
         draw_line_data = format_shape_data(shape_type=DrawShapeType.Line,
                                            position=[(original_origin_x, original_origin_y),
@@ -2739,10 +2740,13 @@ class GoodsCardStyle:
 
         # 商品名称
         goods_title = self.data.get('title')
-        title_text = '%s...' % goods_title[:13] if len(goods_title) > 13 else goods_title
+        title_text_w = get_text_width(goods_title, 24)
+        single_text_w = int(title_text_w / len(goods_title))
+        text_count = int(340 / single_text_w) - 1
+        title_text = '%s...' % goods_title[:text_count] if len(goods_title) > text_count else goods_title
         goods_title_data = format_text_data(post_data=None, text=title_text, text_type=TextType.Title,
                                             font_size=24, font_family=None, align='left',
-                                            text_color='#FFFFFF', x=10, y=278, spacing=None, z_index=0)
+                                            text_color='#FFFFFF', x=10, y=278, spacing=None, z_index=0, width=350)
 
         # 素材 1
         modify_image = '../vimage/vimage/resource/material/material_25.png'
