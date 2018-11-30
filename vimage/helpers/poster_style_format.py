@@ -93,7 +93,7 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
     content = content.replace('\n', '')
 
     # 字体名称
-    font_name = font_family or Fonts.DEFAULT_FONT_FAMILY
+    font_name = font_family if font_family is not None else Fonts.DEFAULT_FONT_FAMILY
 
     # 字体方向（默认居左）
     text_align = align or Fonts.DEFAULT_FONT_ALIGN

@@ -10,22 +10,56 @@ from vimage.helpers.utils import *
 from flask import current_app
 
 
-def get_text_width(text, font_size):
+def get_text_width(text, font_size, font_family=None):
     """
     获取文字的宽度
 
     :param text: 文字
     :param font_size: 字符大小
+    :param font_family: 字体样式
     :return: 内容宽度
     """
 
-    font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], 'PingFang Bold', '.ttf')
+    # 字体名称
+    font_name = font_family if font_family is not None else Fonts.DEFAULT_FONT_FAMILY
+    font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], font_name, '.ttf')
     draw_font = ImageFont.truetype(font=font_path, size=font_size)
 
     # 文本的尺寸
     text_size = draw_font.getsize(text)
 
     return int(text_size[0])
+
+
+def get_text_count(text, font_size, fixed_width, font_family=None):
+    """
+    固定宽度可显示的文字数量
+
+    :param text: 文字内容
+    :param font_size: 字符大小
+    :param fixed_width: 固定宽度
+    :param font_family: 字体样式
+    :return: 文字数量
+    """
+
+    if text is None:
+        return 0
+
+    # 字体名称
+    font_name = font_family if font_family is not None else Fonts.DEFAULT_FONT_FAMILY
+    font_path = '%s%s%s' % (current_app.config['MAKE_IMAGE_FONTS_PATH'], font_name, '.ttf')
+    draw_font = ImageFont.truetype(font=font_path, size=font_size)
+
+    # 内容的宽度
+    text_width = int(draw_font.getsize(text)[0])
+
+    # 单个文字占的宽度
+    single_text_w = int(text_width / len(text))
+
+    # 固定宽度可显示的数量
+    text_count = int(fixed_width / single_text_w)
+
+    return text_count
 
 
 def load_url_image(image_url, is_create=False):

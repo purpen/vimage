@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import math
 from PIL import Image, ImageDraw, ImageFont
 from flask import current_app
 from vimage.helpers.qiniu_cloud import QiniuCloud
@@ -97,12 +98,12 @@ class TextObject:
         if text_size[0] > self.width:
             text_w = text_size[0] / len(self.content)  # 单个字符的宽度
             line_text_count = int(self.width / text_w)  # 每排显示字符数量
-            line_count = int(len(self.content) / line_text_count) + 1  # 行数
+            line_count = math.ceil(len(self.content) / line_text_count)  # 行数
 
             content_text = ''
             for i in range(line_count):
                 start_index = line_text_count * i  # 截取的文字起始位置
-                line_text = self.content[start_index: line_text_count + start_index] + '\n'  # 每行的文字，末尾添加换行
+                line_text = self.content[start_index: line_text_count + start_index] + '\n'  # 每行末尾添加换行
                 content_text += line_text  # 结果拼接的文字
 
             # 最终的内容文字

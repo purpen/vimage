@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import math
 from vimage.helpers.poster_style_format import *
 from vimage.constant import *
 from vimage.helpers.switch import *
@@ -31,7 +32,7 @@ class LexiPosterStyle:
 
         for case in Switch(self.type):
             if case(1):
-                return BrandPosterStyle(self.data).get_style_data()
+                return BrandPosterStyle(self.data).get_style_one()
             if case(2):
                 return LifePosterStyle(self.data).get_style_data()
             if case(3):
@@ -62,6 +63,8 @@ class LexiPosterStyle:
                 return ShopWindowPosterStyle(self.data).get_style_data()
             if case(16):
                 return GoodsCardStyle(self.data).get_style_data()
+            if case(17):
+                return BrandPosterStyle(self.data).get_style_two()
 
 
 class BrandPosterStyle:
@@ -229,6 +232,132 @@ class BrandPosterStyle:
             'size': self.size,
             'color': self.color,
             'views': views
+        }
+
+    def second_container_view(self):
+        """
+            样式二的容器
+        """
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/background_14.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0,
+                                                  z_index=0)
+
+        # 品牌封面
+        brand_cover_data = format_image_data(post_data=self.data, url=None, path=None,
+                                             image_type=ImageType.Background,
+                                             width=670, height=250, radius=0, x=40, y=45,
+                                             z_index=1)
+
+        # 内容背景
+        content_background_image = '../vimage/vimage/resource/background/background_15.png'
+        content_background_data = format_image_data(post_data=None, url=None, path=content_background_image,
+                                                    image_type=ImageType.Background,
+                                                    width=670, height=1020, radius=0, x=40, y=230,
+                                                    z_index=2)
+
+        # 品牌logo
+        brand_logo_data = format_image_data(post_data=self.data, url=None, path=None,
+                                            image_type=ImageType.BrandLogo,
+                                            width=98, height=98, radius=8, x=81, y=261,
+                                            z_index=3)
+
+        # 城市icon素材
+        modify_image = '../vimage/vimage/resource/material/material_30.png'
+        modify_image_data = format_image_data(post_data=None, url=None, path=modify_image, image_type=ImageType.Modify,
+                                              width=18, height=25, radius=0, x=200, y=330, z_index=4)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                image_type=ImageType.WxaCode,
+                                                width=180, height=180, radius=0, x=500, y=1044,
+                                                z_index=4)
+
+        # 品牌名称
+        brand_name = self.data.get('brand_name')
+        text_count = get_text_count(brand_name, 36, 350, 'PingFang Bold')
+        brand_name_text = brand_name[:text_count] if len(brand_name) > text_count else brand_name
+        brand_name_data = format_text_data(post_data=None, text=brand_name_text, text_type=TextType.BrandName,
+                                           font_size=36, font_family='PingFang Bold', align='left',
+                                           text_color='#333333', x=200, y=270, spacing=None, z_index=1)
+
+        # 店铺icon
+        brand_name_len = get_text_width(brand_name_text, 36, 'PingFang Bold')
+        modify_image_1 = '../vimage/vimage/resource/material/material_29.png'
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
+                                                image_type=ImageType.Modify,
+                                                width=36, height=36, radius=0, x=215 + brand_name_len, y=278, z_index=5)
+
+        # 城市
+        city_data = format_text_data(post_data=self.data, text=None, text_type=TextType.City,
+                                     font_size=26, font_family='PingFang Bold', align='left',
+                                     text_color='#4DE8AD', x=230, y=325, spacing=None, z_index=2)
+
+        # 描述文字
+        describe_data = {'describe': self.data.get('describe')[:46]}
+        describe_text_data = format_text_data(post_data=describe_data, text=None, text_type=TextType.Describe,
+                                              font_size=26, font_family=None, align='left',
+                                              text_color='#333333', x=70, y=427, spacing=38, z_index=3, width=600)
+
+        # slogan
+        default_slogan = '/ 全 球 原 创 设 计 品 位 购 物 平 台 /'
+        default_slogan_data = format_text_data(post_data=None, text=default_slogan, text_type=TextType.Info,
+                                               font_size=26, font_family='PingFang Bold', align='center',
+                                               text_color='#FFFFFF', x=0, y=1276, spacing=0, z_index=4, width=750)
+
+        img_count = len(self.goods_images)  # 图片数量
+        a_img_w = 610  # 单图宽度
+        a_img_h = 406  # 单图高度
+
+        # 图片样式集合
+        images_style_data = [background_image_data, brand_cover_data, content_background_data, brand_logo_data,
+                             wxa_code_image_data, modify_image_data, modify_image_data_1]
+
+        if 1 <= img_count < 3:
+            # 只展示一张图片
+            a_image_data = format_image_data(post_data=self.data, url=self.goods_images[0], path=None,
+                                             image_type=ImageType.Goods,
+                                             width=a_img_w, height=a_img_h, radius=0, x=70, y=610, z_index=6)
+
+            images_style_data.append(a_image_data)
+
+        elif img_count >= 3:
+            # 多张图片 只展示3张
+            for index in range(len(self.goods_images[:3])):
+                img_url = self.goods_images[index]  # 图片地址
+
+                image_w = 406 if index == 0 else 202
+                image_x = 70 if index == 0 else 406 + 70 + 2  # 图片的x间隔
+                image_y = 610 if index < 2 else 610 + image_w + 2  # 图片的y间隔
+                goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                     image_type=ImageType.Goods,
+                                                     width=image_w, height=image_w, radius=0, x=image_x, y=image_y,
+                                                     z_index=index + 5)
+
+                images_style_data.append(goods_image_data)
+
+        return {
+            'size': self.size,
+            'texts': [brand_name_data, city_data, describe_text_data, default_slogan_data],
+            'images': images_style_data,
+            'shapes': []
+        }
+
+    def get_style_two(self):
+        """
+           样式二
+        """
+
+        # 视图数据
+        container_view = self.second_container_view()
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': [container_view]
         }
 
     def get_style_data(self):
@@ -2576,17 +2705,20 @@ class ShopWindowPosterStyle:
             self.images_view_style_3()
 
         # 标题
-        title_text = self.data.get('title')[:34]
-        title_data = format_text_data(post_data=None, text=title_text, text_type=TextType.Title,
+        title_text = self.data.get('title')
+        title_text_count = get_text_count(title_text, 40, int(self.width - 60) * 2, 'PingFang Bold')
+        title_data = format_text_data(post_data=None, text=title_text[:title_text_count], text_type=TextType.Title,
                                       font_size=40, font_family='PingFang Bold', align='left',
                                       text_color='#25211E', x=30, y=self.goods_h + 30,
                                       spacing=50, z_index=0, width=self.width - 60)
 
-        title_height = (int(get_text_width(title_text, 40) / (self.width - 60)) + 1) * 40 + 10
+        title_line_count = math.ceil(get_text_width(title_text, 40, 'PingFang Bold') / (self.width - 60))
+        title_height = title_line_count * 40 + 10
 
         # 内容
         describe_content = self.data.get('describe')[:48]
-        goods_describe_data = format_text_data(post_data=None, text=describe_content, text_type=TextType.Describe,
+        describe_content_count = get_text_count(describe_content, 28, int(self.width - 60) * 2, None)
+        goods_describe_data = format_text_data(post_data=None, text=describe_content[:describe_content_count], text_type=TextType.Describe,
                                                font_size=28, font_family=None, align='left', text_color='#666666',
                                                x=30, y=self.goods_h + title_height + 60, spacing=40, z_index=1,
                                                width=self.width - 60)
@@ -2740,9 +2872,7 @@ class GoodsCardStyle:
 
         # 商品名称
         goods_title = self.data.get('title')
-        title_text_w = get_text_width(goods_title, 24)
-        single_text_w = int(title_text_w / len(goods_title))
-        text_count = int(340 / single_text_w) - 1
+        text_count = get_text_count(goods_title, 24, 350, None)
         title_text = '%s...' % goods_title[:text_count] if len(goods_title) > text_count else goods_title
         goods_title_data = format_text_data(post_data=None, text=title_text, text_type=TextType.Title,
                                             font_size=24, font_family=None, align='left',
