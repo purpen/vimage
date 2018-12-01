@@ -1819,13 +1819,13 @@ class CouponsCartStyle:
                                                text_color='#FFFFFF', x=50, y=126, spacing=None, z_index=1)
 
         # 新人领券金额
-        coupon_data = format_text_data(post_data=None, text='50-800', text_type=TextType.Info,
+        coupon_data = format_text_data(post_data=None, text='50-1000', text_type=TextType.Info,
                                        font_size=56, font_family='PingFang Bold', align=None,
-                                       text_color='#FFFFFF', x=88, y=260, spacing=None, z_index=2)
+                                       text_color='#FFFFFF', x=80, y=260, spacing=None, z_index=2)
 
         coupon_hint_data = format_text_data(post_data=None, text='元', text_type=TextType.Info,
                                             font_size=30, font_family='PingFang Bold', align=None,
-                                            text_color='#FFFFFF', x=300, y=284, spacing=None, z_index=3)
+                                            text_color='#FFFFFF', x=325, y=284, spacing=None, z_index=3)
 
         # 背景
         background_image = '../vimage/vimage/resource/background/background_10.jpg'
