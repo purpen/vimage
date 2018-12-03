@@ -36,7 +36,7 @@ def get_text_content(text_type, data):
 
     content = text_content_data.get(text_type)
 
-    content = PickSensitive(text=content).replace_filter_words()
+    # content = PickSensitive(text=content).replace_filter_words()
 
     return content
 

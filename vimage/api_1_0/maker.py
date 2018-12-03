@@ -6,10 +6,66 @@ from . import api
 from vimage.helpers import QiniuCloud, Poster, QiniuError
 from vimage.helpers.utils import *
 from vimage.tasks import make_wxacode_image, make_promotion_image
-from vimage.poster_style.poster_style import *
-from vimage.poster_style.gif_style import *
-from vimage.poster_style.lexi_style import *
+from vimage.poster_style import *
 from vimage.helpers.gif_make import GifTool
+
+
+@api.route('/maker/gifts_poster', methods=['POST'])
+def make_gifts_poster():
+    """
+        一元送礼海报
+    """
+
+    post_data = request.get_json()
+
+    current_app.logger.warn('Poster data: %s' % post_data)
+
+    # 验证参数是否符合规则
+    if not post_data:
+        return status_response(R400_BADREQUEST, False)
+
+    data = {
+        'type': post_data.get('type'),
+        'goods_img': post_data.get('goods_img'),
+        'wxa_code_img': post_data.get('wxa_code_img'),
+        'avatar_img': post_data.get('avatar_img'),
+        'nickname': post_data.get('nickname'),
+        'lottery_time': post_data.get('lottery_time'),
+        'title': post_data.get('title'),
+        'sale_price': post_data.get('sale_price'),
+        'original_price': post_data.get('original_price'),
+    }
+
+    folder = 'gifts'
+    path_key = '%s/%s' % (folder, QiniuCloud.gen_path_key())
+    # 生成图片地址
+    image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
+
+    # 1、获取样式数据
+    gifts_poster_style = GiftsPosterStyle(data)
+
+    # 2、生成海报
+    poster = Poster(gifts_poster_style.get_style_data())
+    poster_image = poster.make_poster_card()
+
+    # 3、获取图像二进制流
+    poster_content = io.BytesIO()
+    poster_image.save(poster_content, 'png')
+
+    # 4、上传图片至云服务
+    qiniu_cloud = QiniuCloud(current_app.config['QINIU_ACCESS_KEY'], current_app.config['QINIU_ACCESS_SECRET'],
+                             current_app.config['QINIU_BUCKET_NAME'])
+    try:
+        qiniu_cloud.upload_content(poster_content.getvalue(), path_key)
+    except QiniuError as err:
+        current_app.logger.warn('Qiniu upload wxacode error: %s' % str(err))
+
+    # 启动任务
+    # make_wxacode_image.apply_async(args=[path_key, data, style_id])
+
+    return full_response(R200_OK, {
+        'image_url': image_url
+    })
 
 
 @api.route('/maker/test', methods=['POST'])
@@ -53,10 +109,10 @@ def make_watermark_picture():
     image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
-    poster_style = WatermarkPictureStyle(data)
+    water_poster_style = WatermarkPictureStyle(data)
 
     # 2、生成海报
-    poster = Poster(poster_style.get_default_style())
+    poster = Poster(water_poster_style.get_default_style())
     poster_image = poster.make_poster_card()
 
     # 3、获取图像二进制流
@@ -104,10 +160,10 @@ def make_blurry_picture():
     image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
-    poster_style = BlurryPictureStyle(data)
+    blurry_poster_style = BlurryPictureStyle(data)
 
     # 2、生成海报
-    poster = Poster(poster_style.get_default_style())
+    poster = Poster(blurry_poster_style.get_default_style())
     poster_image = poster.make_poster_card()
 
     # 3、获取图像二进制流
@@ -203,10 +259,10 @@ def make_lexi_poster():
     image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
-    poster_style = LexiPosterStyle(data)
+    lexi_poster_style = LexiPosterStyle(data)
 
     # 2、生成海报
-    poster = Poster(poster_style.get_style_data())
+    poster = Poster(lexi_poster_style.get_style_data())
     poster_image = poster.make_goods_card()
 
     # 3、获取图像二进制流
@@ -276,10 +332,10 @@ def make_wxa_poster():
     image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
-    poster_style = GoodsWxaStyle(data)
+    code_poster_style = GoodsWxaStyle(data)
 
     # 2、生成海报
-    poster = Poster(poster_style.get_style_data())
+    poster = Poster(code_poster_style.get_style_data())
     poster_image = poster.make_goods_card()
 
     # 3、获取图像二进制流
@@ -344,10 +400,10 @@ def make_sales_poster():
     image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
-    poster_style = GoodsSalesStyle(data, style_id)
+    promotion_poster_style = GoodsSalesStyle(data, style_id)
 
     # 2、生成海报
-    poster = Poster(poster_style.get_style_data())
+    poster = Poster(promotion_poster_style.get_style_data())
     poster_image = poster.make_poster_card()
 
     # 3、获取图像二进制流
@@ -400,10 +456,10 @@ def make_saying_poster():
     image_url = 'https://%s/%s' % (current_app.config['THUMB_CDN_DOMAIN'], path_key)
 
     # 1、获取样式数据
-    poster_style = SayingStyle(post_data)
+    saying_poster_style = SayingStyle(post_data)
 
     # 2、生成海报
-    poster = Poster(poster_style.get_style_data())
+    poster = Poster(saying_poster_style.get_style_data())
     poster_image = poster.make_poster_card()
 
     # 3、获取图像二进制流
@@ -467,10 +523,10 @@ def make_gif_poster():
     style_id = 1
 
     # 获取样式数据
-    poster_style = GoodsGifStyle(data, style_id)
+    gif_poster_style = GoodsGifStyle(data, style_id)
 
     # 生成海报
-    poster = Poster(poster_style.get_style_data())
+    poster = Poster(gif_poster_style.get_style_data())
     poster_image = poster.make_poster_card()
 
     # 创建 GIF 工具类，生成 GIF 图

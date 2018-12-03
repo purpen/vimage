@@ -317,15 +317,15 @@ class Poster(object):
         # 容器视图
         container_canvas = create_canvas(size=size, color=self.color)
 
-        # 1:绘制图形（分割线，文字背景色等）
-        shape_list = _sort_list_layer(shapes, 'z_index')
-        for shape_data in shape_list:
-            ShapeObject(shape_data).draw_shapes(container_canvas)
-
-        # 2:图片素材合成到画布上
+        # 1:图片素材合成到画布上
         image_list = _sort_list_layer(images, 'z_index')
         for image_data in image_list:
             ImageObject(image_data).paste_image(container_canvas)
+
+        # 2:绘制图形（分割线，文字背景色等）
+        shape_list = _sort_list_layer(shapes, 'z_index')
+        for shape_data in shape_list:
+            ShapeObject(shape_data).draw_shapes(container_canvas)
 
         # 3:文字内容绘制到画布上
         text_list = _sort_list_layer(texts, 'z_index')

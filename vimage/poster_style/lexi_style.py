@@ -17,7 +17,6 @@ class LexiPosterStyle:
         初始化海报数据
 
         :param post_data: 接收数据
-        :param type: 海报类型
         """
 
         self.data = post_data or {}
@@ -2797,15 +2796,16 @@ class ShopWindowPosterStyle:
                                                text_color='#333333', x=190, y=95, spacing=None, z_index=2)
 
         # 背景
-        draw_background_data = format_shape_data(shape_type=DrawShapeType.Rectangle,
-                                                 position=[(0, 0), (self.width, self.footer_h)],
-                                                 width=1, color='#F7F9FB', out_color=None, z_index=0)
+        background_image = '../vimage/vimage/resource/material/material_31.png'
+        background_data = format_image_data(post_data=None, url=None, path=background_image,
+                                            image_type=ImageType.Background,
+                                            width=self.width, height=self.footer_h, radius=0, x=0, y=0, z_index=0)
 
         return {
             'size': size,
             'texts': [wxa_hint_data, default_slogan_data],
-            'images': [wxa_code_image_data],
-            'shapes': [draw_background_data]
+            'images': [background_data, wxa_code_image_data],
+            'shapes': []
         }
 
     def get_style_one(self):
