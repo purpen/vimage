@@ -182,6 +182,48 @@ class GiftsPosterStyle:
             'shapes': [draw_line_data]
         }
 
+    def get_style_three(self):
+        """
+           邀请拆礼物样式
+        """
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=126, height=126, radius=0, x=84, y=169, z_index=1)
+
+        # 商品图片
+        goods_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                             image_type=ImageType.Goods,
+                                             width=400, height=400, radius=0, x=175, y=500, z_index=2)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                image_type=ImageType.WxaCode,
+                                                width=166, height=166, radius=0, x=74, y=1082, z_index=3)
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/background_20.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0, z_index=4)
+
+        # 用户昵称
+        user_nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                              font_size=32, font_family='PingFang Bold', align='left',
+                                              text_color='#369A7B', x=240, y=184, spacing=None, z_index=1)
+
+        images_data = [user_avatar_image_data, goods_image_data, wxa_code_image_data, background_image_data]
+
+        texts_data = [user_nickname_data]
+
+        return {
+            'size': self.size,
+            'texts': texts_data,
+            'images': images_data,
+            'shapes': []
+        }
+
     def get_card_style_one(self):
         """
             拆礼物卡片（带商品）
@@ -249,5 +291,7 @@ class GiftsPosterStyle:
                 return self.get_card_style_one()
             if case(4):
                 return self.get_card_style_two()
+            if case(5):
+                return self.get_style_three()
 
         return self.get_style_one()
