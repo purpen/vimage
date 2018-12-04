@@ -79,7 +79,7 @@ class GiftsPosterStyle:
                                      text_color='#BF6736', x=170, y=625, spacing=None, z_index=4)
 
         # 商品原价
-        price_text = '原价：¥%s' % str(self.data.get('original_price'))
+        price_text = '原价：¥%s' % str(float(self.data.get('original_price')))
         price_data = format_text_data(post_data=None, text=price_text, text_type=TextType.Info,
                                       font_size=28, font_family='PingFang Bold', align='left',
                                       text_color='#FFFFFF', x=335, y=1150, spacing=None, z_index=5)
@@ -157,7 +157,7 @@ class GiftsPosterStyle:
                                             text_color='#FA668B', x=180, y=377, spacing=None, z_index=4)
 
         # 商品原价
-        price_text = '原价：¥%s' % str(int(self.data.get('original_price')))
+        price_text = '原价：¥%s' % str(float(self.data.get('original_price')))
         price_data = format_text_data(post_data=None, text=price_text, text_type=TextType.Info,
                                       font_size=28, font_family='PingFang Bold', align='left',
                                       text_color='#FFFFFF', x=180, y=491, spacing=None, z_index=5)
