@@ -97,37 +97,39 @@ class TextObject:
 
         if text_size[0] > self.width:
             text_w = text_size[0] / len(self.content)  # 单个字符的宽度
-            line_text_count = int(self.width / text_w)  # 每排显示字符数量
+            line_text_count = math.ceil(self.width / text_w)  # 每排显示字符数量
             line_count = math.ceil(len(self.content) / line_text_count)  # 行数
 
             content_text = ''
+            line_text_arr = []
             for i in range(line_count):
                 start_index = line_text_count * i  # 截取的文字起始位置
                 line_text = self.content[start_index: line_text_count + start_index] + '\n'  # 每行末尾添加换行
+                line_text_arr.append(line_text)
                 content_text += line_text  # 结果拼接的文字
 
             # 最终的内容文字
-            self.content = content_text.strip()
+            self.content = content_text.strip('\n')
 
             # 格式化过长的内容
-            self.format_more_text(line_text_count, line_count)
+            self.format_more_text(line_text_count, line_text_arr)
 
         return self.content
 
-    def format_more_text(self, text_count, line_count):
+    def format_more_text(self, text_count, line_text_arr):
         """
         格式化过长的文字，末尾添加'...'
 
-        :param text_count: 显示文字数量
-        :param line_count: 总行数
+        :param text_count: 每行显示的文字数量
+        :param line_text_arr: 每行的文字
         :return: 格式化后的文字
         """
 
-        # 最后一行文字的长度
-        end_text_len = len(self.content) - text_count * int(line_count - 2)
+        # 最后一行文字
+        end_line_text = line_text_arr.pop().strip('\n')
 
-        if end_text_len > text_count:
-            self.content = self.content[:len(self.content) - 1] + '...'
+        if len(end_line_text) > text_count:
+            self.content = self.content + '...'
 
         return self.content
 

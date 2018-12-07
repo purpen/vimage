@@ -245,35 +245,41 @@ class BrandPosterStyle:
                                                   width=self.width, height=self.height, radius=0, x=0, y=0,
                                                   z_index=0)
 
+        background_white = '../vimage/vimage/resource/background/background_0.png'
+        background_white_data = format_image_data(post_data=None, url=None, path=background_white,
+                                                  image_type=ImageType.Background,
+                                                  width=670, height=250, radius=0, x=40, y=45,
+                                                  z_index=1)
+
         # 品牌封面
         brand_cover_data = format_image_data(post_data=self.data, url=None, path=None,
                                              image_type=ImageType.Background,
                                              width=670, height=250, radius=0, x=40, y=45,
-                                             z_index=1)
+                                             z_index=2)
 
         # 内容背景
         content_background_image = '../vimage/vimage/resource/background/background_15.png'
         content_background_data = format_image_data(post_data=None, url=None, path=content_background_image,
                                                     image_type=ImageType.Background,
-                                                    width=670, height=1020, radius=0, x=40, y=230,
-                                                    z_index=2)
+                                                    width=670, height=1030, radius=0, x=40, y=220,
+                                                    z_index=3)
 
         # 品牌logo
         brand_logo_data = format_image_data(post_data=self.data, url=None, path=None,
                                             image_type=ImageType.BrandLogo,
-                                            width=98, height=98, radius=8, x=81, y=261,
-                                            z_index=3)
+                                            width=114, height=114, radius=8, x=71, y=251,
+                                            z_index=4)
 
         # 城市icon素材
         modify_image = '../vimage/vimage/resource/material/material_30.png'
         modify_image_data = format_image_data(post_data=None, url=None, path=modify_image, image_type=ImageType.Modify,
-                                              width=18, height=25, radius=0, x=200, y=330, z_index=4)
+                                              width=18, height=25, radius=0, x=200, y=345, z_index=5)
 
         # 小程序码
         wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                 image_type=ImageType.WxaCode,
                                                 width=180, height=180, radius=0, x=500, y=1044,
-                                                z_index=4)
+                                                z_index=6)
 
         # 品牌名称
         brand_name = self.data.get('brand_name')
@@ -281,39 +287,51 @@ class BrandPosterStyle:
         brand_name_text = brand_name[:text_count] if len(brand_name) > text_count else brand_name
         brand_name_data = format_text_data(post_data=None, text=brand_name_text, text_type=TextType.BrandName,
                                            font_size=36, font_family='PingFang Bold', align='left',
-                                           text_color='#333333', x=200, y=270, spacing=None, z_index=1)
+                                           text_color='#333333', x=200, y=245, spacing=None, z_index=1)
+
+        # 默认设计馆名称
+        default_brand_data = format_text_data(post_data=None, text='乐喜原创品牌设计馆', text_type=TextType.Info,
+                                              font_size=24, font_family=None, align='left',
+                                              text_color='#666666', x=200, y=300, spacing=None, z_index=2)
 
         # 店铺icon
         brand_name_len = get_text_width(brand_name_text, 36, 'PingFang Bold')
         modify_image_1 = '../vimage/vimage/resource/material/material_29.png'
         modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_image_1,
                                                 image_type=ImageType.Modify,
-                                                width=36, height=36, radius=0, x=215 + brand_name_len, y=278, z_index=5)
+                                                width=36, height=36, radius=0, x=215 + brand_name_len, y=253, z_index=7)
 
         # 城市
         city_data = format_text_data(post_data=self.data, text=None, text_type=TextType.City,
                                      font_size=26, font_family='PingFang Bold', align='left',
-                                     text_color='#4DE8AD', x=230, y=325, spacing=None, z_index=2)
+                                     text_color='#4DE8AD', x=230, y=338, spacing=None, z_index=3)
 
         # 描述文字
+        describe_text = self.data.get('describe')
+        describe_w = get_text_width(describe_text, 26, None)
+        describe_y = 427
+
+        if describe_w < 600:
+            describe_y += 23
+
         describe_data = {'describe': self.data.get('describe')[:46]}
         describe_text_data = format_text_data(post_data=describe_data, text=None, text_type=TextType.Describe,
                                               font_size=26, font_family=None, align='left',
-                                              text_color='#333333', x=70, y=427, spacing=38, z_index=3, width=600)
+                                              text_color='#333333', x=70, y=describe_y, spacing=38, z_index=4, width=600)
 
         # slogan
         default_slogan = '/ 全 球 原 创 设 计 品 位 购 物 平 台 /'
         default_slogan_data = format_text_data(post_data=None, text=default_slogan, text_type=TextType.Info,
                                                font_size=26, font_family='PingFang Bold', align='center',
-                                               text_color='#FFFFFF', x=0, y=1276, spacing=0, z_index=4, width=750)
+                                               text_color='#FFFFFF', x=0, y=1276, spacing=0, z_index=5, width=750)
 
         img_count = len(self.goods_images)  # 图片数量
         a_img_w = 610  # 单图宽度
         a_img_h = 406  # 单图高度
 
         # 图片样式集合
-        images_style_data = [background_image_data, brand_cover_data, content_background_data, brand_logo_data,
-                             wxa_code_image_data, modify_image_data, modify_image_data_1]
+        images_style_data = [background_image_data, background_white_data, brand_cover_data, content_background_data,
+                             brand_logo_data, wxa_code_image_data, modify_image_data, modify_image_data_1]
 
         if 1 <= img_count < 3:
             # 只展示一张图片
@@ -340,7 +358,7 @@ class BrandPosterStyle:
 
         return {
             'size': self.size,
-            'texts': [brand_name_data, city_data, describe_text_data, default_slogan_data],
+            'texts': [brand_name_data, default_brand_data,  city_data, describe_text_data, default_slogan_data],
             'images': images_style_data,
             'shapes': []
         }
@@ -2872,7 +2890,7 @@ class GoodsCardStyle:
 
         # 商品名称
         goods_title = self.data.get('title')
-        text_count = get_text_count(goods_title, 24, 350, None)
+        text_count = get_text_count(goods_title, 24, 350, None) - 1
         title_text = '%s...' % goods_title[:text_count] if len(goods_title) > text_count else goods_title
         goods_title_data = format_text_data(post_data=None, text=title_text, text_type=TextType.Title,
                                             font_size=24, font_family=None, align='left',
