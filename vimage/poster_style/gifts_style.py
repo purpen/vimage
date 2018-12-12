@@ -41,12 +41,12 @@ class GiftsPosterStyle:
         # 商品图片
         goods_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                              image_type=ImageType.Goods,
-                                             width=220, height=220, radius=0, x=270, y=689, z_index=2)
+                                             width=400, height=400, radius=0, x=175, y=512, z_index=2)
 
         # 小程序码
         wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                                 image_type=ImageType.WxaCode,
-                                                width=206, height=206, radius=0, x=77, y=1034, z_index=3)
+                                                width=212, height=212, radius=0, x=85, y=1030, z_index=3)
 
         # 背景
         background_image = '../vimage/vimage/resource/background/background_16.png'
@@ -73,10 +73,10 @@ class GiftsPosterStyle:
                                              text_color='#856AAF', x=253, y=443, spacing=None, z_index=3)
 
         # 开奖时间
-        time_text = '— %s开奖 —' % self.data.get('lottery_time')
+        time_text = '%s开奖' % self.data.get('lottery_time')
         time_data = format_text_data(post_data=None, text=time_text, text_type=TextType.Info,
                                      font_size=24, font_family=None, align='center',
-                                     text_color='#BF6736', x=170, y=625, spacing=None, z_index=4)
+                                     text_color='#FFFFFF', x=170, y=925, spacing=None, z_index=4)
 
         # 商品原价
         price_text = '原价：¥%s' % str(float(self.data.get('original_price')))
@@ -232,7 +232,7 @@ class GiftsPosterStyle:
         # 商品图片
         goods_image_data = format_image_data(post_data=self.data, url=None, path=None,
                                              image_type=ImageType.Goods,
-                                             width=135, height=135, radius=0, x=141, y=102, z_index=0)
+                                             width=240, height=240, radius=0, x=90, y=19, z_index=0)
 
         # 背景
         background_image = '../vimage/vimage/resource/background/background_19.png'
