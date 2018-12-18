@@ -94,6 +94,7 @@ def make_watermark_picture():
     """
 
     post_data = request.get_json()
+    current_app.logger.error(f'图片添加水印:{post_data}')
 
     # 验证参数是否符合规则
     if not post_data:
