@@ -2957,6 +2957,23 @@ class GoodsCardStyle:
         return style_data
 
 
+def generate_random_str(random_len=16):
+    """
+    生成一个指定长度的随机字符串
+
+    :param random_len: 指定长度
+    :return: 字符串
+    """
+    random_str = ''
+    base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789'
+    length = len(base_str) - 1
+
+    for i in range(random_len):
+        random_str += base_str[random.randint(0, length)]
+
+    return random_str
+
+
 def create_qr_code_img(content_url):
     """
     创建二维码图片
@@ -2965,23 +2982,23 @@ def create_qr_code_img(content_url):
     :return: 图片
     """
 
+    # 二维码添加logo： "logo_img": "https://static.moebeast.com/static/img/Icon-60@3x.png",
     qr_code_data = {
         "type": 2,
         "content": content_url,
-        "logo_img": "https://static.moebeast.com/static/img/Icon-60@3x.png",
         "border": 2,
         "back_color": "#FFFFFF",
         "fill_color": "#000000",
     }
 
-    default_url = 'https://h5.lexivip.com/invitation?uid='
+    # default_url = 'https://h5.lexivip.com/redenvelope?uid='
     result_img = QRCodeObject(qr_code_data).create_qr_code()
     folder_path = './vimage/resource/test_image/'
 
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
-    img_path = folder_path + content_url[len(default_url):] + '.png'
+    img_path = folder_path + generate_random_str() + '.png'
     result_img.save(img_path)
 
     return img_path
