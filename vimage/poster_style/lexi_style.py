@@ -3141,6 +3141,21 @@ class InviteStorePosterStyle:
             'shapes': []
         }
 
+    def get_random_style(self):
+        """
+            随机海报样式
+        """
+
+        for case in Switch(self.style):
+            if case(1):
+                return self.info_view_one
+            if case(2):
+                return self.info_view_two
+            if case(3):
+                return self.info_view_three
+
+        return self.info_view_one
+
     def get_style_data(self):
         """
         获取海报样式数据
@@ -3149,15 +3164,7 @@ class InviteStorePosterStyle:
         """
 
         # 视图数据
-        info_view = {}
-
-        for case in Switch(self.style):
-            if case(1):
-                info_view = self.info_view_one
-            if case(2):
-                info_view = self.info_view_two
-            if case(3):
-                info_view = self.info_view_three
+        info_view = self.get_random_style()
 
         return {
             'size': self.size,
