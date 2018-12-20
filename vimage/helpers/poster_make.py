@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import math
+import os
 from PIL import Image, ImageDraw, ImageFont
 from flask import current_app
 from vimage.helpers.qiniu_cloud import QiniuCloud
@@ -165,7 +166,7 @@ class ImageObject:
         """
 
         # 加载图片
-        if self.url is None:
+        if self.url is None and self.path is not None:
             load_image = load_static_image(self.path)
         else:
             load_image = load_url_image(self.url, is_create=True)
@@ -179,6 +180,11 @@ class ImageObject:
 
         # 对图片合成
         canvas.paste(result_image, self.position, result_image)
+
+        # 删除本地生成的二维码
+        if self.type == ImageType.QRCode and self.path is not None:
+            if os.path.exists(self.path):
+                os.remove(self.path)
 
     def square_image(self, image):
         """

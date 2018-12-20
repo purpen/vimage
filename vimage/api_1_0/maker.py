@@ -94,7 +94,7 @@ def make_watermark_picture():
     """
 
     post_data = request.get_json()
-    current_app.logger.error(f'图片添加水印:{post_data}')
+    current_app.logger.error('图片添加水印:{post_data}')
 
     # 验证参数是否符合规则
     if not post_data:
@@ -224,6 +224,7 @@ def make_lexi_poster():
 
     data = {
         'type': post_data.get('type'),
+        'style': post_data.get('style'),
         'brand_name': post_data.get('brand_name'),
         'describe': post_data.get('describe'),
         'goods_images': post_data.get('goods_images'),
@@ -252,6 +253,7 @@ def make_lexi_poster():
         'tag': post_data.get('tag'),
         'original_price': post_data.get('original_price'),
         'activity_tag': post_data.get('activity_tag'),
+        'invitation_url': post_data.get('invitation_url')
     }
 
     folder = 'lexi'
