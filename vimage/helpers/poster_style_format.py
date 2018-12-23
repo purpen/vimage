@@ -90,7 +90,9 @@ def format_text_data(post_data, text, text_type, font_size, font_family, align, 
 
     # 文本内容
     content = get_text_content(text_type, data) if not text else text
-    content = content.replace('\n', '')
+
+    if len(content):
+        content = content.replace('\n', '')
 
     # 字体名称
     font_name = font_family if font_family is not None else Fonts.DEFAULT_FONT_FAMILY
