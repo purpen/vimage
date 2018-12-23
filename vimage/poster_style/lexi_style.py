@@ -2756,10 +2756,15 @@ class ShopWindowPosterStyle:
                                                width=self.width - 60)
 
         # 标签
-        tag_text = "#%s" % self.data.get('tag') if len(self.data.get('tag')) else ''
+        tag_text = "#%s" % self.data.get('tag') if self.data.get('tag') is not None else ''
         tag_data = format_text_data(post_data=None, text=tag_text, text_type=TextType.Info,
                                     font_size=24, font_family=None, align='left',
                                     text_color='#5FE4B1', x=40, y=self.goods_h + 275, spacing=None, z_index=2)
+
+        text_data = [title_data, goods_describe_data]
+
+        if self.data.get('tag'):
+            text_data.append(tag_data)
 
         # 视图尺寸
         goods_view_h = self.goods_h + 340
@@ -2770,7 +2775,7 @@ class ShopWindowPosterStyle:
 
         return {
             'size': size,
-            'texts': [title_data, goods_describe_data, tag_data],
+            'texts': text_data,
             'images': self.goods_images_style,
             'shapes': []
         }
