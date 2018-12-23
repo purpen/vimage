@@ -38,7 +38,7 @@ class QRCodeObject:
         self.error_correct = data.get('error_correct', 'M')
         self.fill_color = data.get('fill_color', '#000000')
         self.back_color = data.get('back_color', '#FFFFFF')
-        self.gradient = data.get('gradient', ['#000000', '#FFFFFF'])
+        self.gradient = data.get('gradient')
         self.g_direction = data.get('g_direction', 0)
         self.hint_text = data.get('hint_text')
         self.background = data.get('background')

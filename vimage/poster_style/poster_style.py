@@ -773,3 +773,45 @@ def get_random_modify_images():
 
     # return random.choice(images)
     return images[-1]
+
+
+class WatermarkPictureStyle:
+    """
+        图片添加水印的样式
+    """
+
+    def __init__(self, post_data):
+        """
+        初始化海报样式
+
+        :param post_data: 内容数据
+        """
+
+        self.data = post_data or {}
+
+        self.img_url = self.data.get('image_url')  # 图片 URL
+        self.color = (255, 255, 255)
+
+    def get_default_style(self):
+        """
+            默认样式
+        """
+
+        load_image = load_url_image(self.img_url, True)
+        img_w, img_h = load_image.size
+
+        # 主图片
+        main_image_data = format_image_data(post_data=self.data, url=self.img_url, path=None,
+                                            image_type=ImageType.Background,
+                                            width=img_w, height=img_h, radius=0, x=0, y=0, z_index=0)
+
+        # 水印素材
+        modify_image = '../vimage/vimage/resource/material/material_watermark.png'
+        modify_image_data = format_image_data(post_data=None, url=None, path=modify_image,
+                                              image_type=ImageType.Modify,
+                                              width=img_w, height=img_h, radius=0, x=0, y=0, z_index=1)
+
+        images = [main_image_data, modify_image_data]
+
+        # 格式化数据
+        return format_style_data('1', [int(img_w), int(img_h)], self.color, [], images, [])
