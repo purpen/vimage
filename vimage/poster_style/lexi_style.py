@@ -1289,13 +1289,71 @@ class InviteFriendsPosterStyle:
             'shapes': []
         }
 
+    @property
+    def info_view_new(self):
+        """
+            信息视图
+        """
+
+        # 用户昵称
+        user_nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                              font_size=36, font_family='PingFang Bold', align='left',
+                                              text_color='#333333', x=240, y=185, spacing=None, z_index=1)
+
+        # 赚的钱数
+        money_text = '嘿嘿，今天收入 680 元'
+        get_money_data = format_text_data(post_data=None, text=money_text, text_type=TextType.Info,
+                                          font_size=16, font_family='PingFang Bold', align='left',
+                                          text_color='#FFFFFF', x=430, y=535, spacing=None, z_index=2)
+
+        # 开馆人数
+        people_count = ('当前已有%s人开馆' % str(self.data.get('people_count')))
+        open_number_data = format_text_data(post_data=None, text=people_count, text_type=TextType.Info,
+                                            font_size=26, font_family='PingFang Bold', align='left',
+                                            text_color='#FFFFFF', x=103, y=1080, spacing=None, z_index=3)
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=135, height=135, radius=0, x=78, y=158, z_index=0)
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/invite_poster_background_1.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0, z_index=1)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                image_type=ImageType.WxaCode,
+                                                width=200, height=200, radius=0, x=470, y=918, z_index=2)
+
+        # 素材 1
+        modify_image_1 = '../vimage/vimage/resource/material/user_life_status_1.png'
+        modify_image_2 = '../vimage/vimage/resource/material/user_life_status_2.png'
+        modify_path = modify_image_1 if self.data.get('owner_status') == 1 else modify_image_2
+        modify_image_data_1 = format_image_data(post_data=None, url=None, path=modify_path,
+                                                image_type=ImageType.Modify,
+                                                width=107, height=30, radius=0, x=240, y=240, z_index=3)
+
+        images_data = [user_avatar_image_data, background_image_data, wxa_code_image_data, modify_image_data_1]
+
+        texts_data = [user_nickname_data, open_number_data, get_money_data]
+
+        return {
+            'size': self.size,
+            'texts': texts_data,
+            'images': images_data,
+            'shapes': []
+        }
+
     def get_style_one(self):
         """
            样式一
         """
 
         # 视图数据
-        info_view = self.info_view
+        info_view = self.info_view_new
 
         # 视图集合
         views = [info_view]
@@ -1422,13 +1480,37 @@ class InviteFriendsCardStyle:
             'shapes': []
         }
 
+    @property
+    def info_view_new(self):
+        """
+            信息视图
+        """
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=80, height=80, radius=0, x=170, y=17, z_index=1)
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/invite_card_background_1.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0, z_index=2)
+
+        return {
+            'size': self.size,
+            'texts': [],
+            'images': [user_avatar_image_data, background_image_data],
+            'shapes': []
+        }
+
     def get_style_one(self):
         """
            样式一
         """
 
         # 视图数据
-        info_view = self.info_view
+        info_view = self.info_view_new
 
         # 视图集合
         views = [info_view]
@@ -2756,10 +2838,15 @@ class ShopWindowPosterStyle:
                                                width=self.width - 60)
 
         # 标签
-        tag_text = "#%s" % self.data.get('tag') if len(self.data.get('tag')) else ''
+        tag_text = "#%s" % self.data.get('tag') if self.data.get('tag') is not None else ''
         tag_data = format_text_data(post_data=None, text=tag_text, text_type=TextType.Info,
                                     font_size=24, font_family=None, align='left',
                                     text_color='#5FE4B1', x=40, y=self.goods_h + 275, spacing=None, z_index=2)
+
+        text_data = [title_data, goods_describe_data]
+
+        if self.data.get('tag'):
+            text_data.append(tag_data)
 
         # 视图尺寸
         goods_view_h = self.goods_h + 340
@@ -2770,7 +2857,7 @@ class ShopWindowPosterStyle:
 
         return {
             'size': size,
-            'texts': [title_data, goods_describe_data, tag_data],
+            'texts': text_data,
             'images': self.goods_images_style,
             'shapes': []
         }
