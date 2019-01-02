@@ -192,7 +192,7 @@ class ImageObject:
         """
 
         square_image_type_list = [ImageType.Goods, ImageType.Avatar, ImageType.BrandLogo,
-                                  ImageType.WxaCode, ImageType.QRCode]
+                                  ImageType.WxaCode, ImageType.QRCode, ImageType.Cover]
 
         if self.type in square_image_type_list:
             image = square_image(image)

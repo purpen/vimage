@@ -60,6 +60,7 @@ def get_image_url(image_type, data):
         ImageType.Avatar: data.get('avatar_img'),
         ImageType.BrandLogo: data.get('brand_logo_img'),
         ImageType.Guess: data.get('guess_img'),
+        ImageType.Cover: data.get('cover_img')
     }
 
     url = image_url_data.get(image_type)

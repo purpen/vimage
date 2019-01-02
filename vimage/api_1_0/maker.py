@@ -254,7 +254,11 @@ def make_lexi_poster():
         'original_price': post_data.get('original_price'),
         'activity_tag': post_data.get('activity_tag'),
         'invitation_url': post_data.get('invitation_url'),
-        'owner_status': int(post_data.get('owner_status', 1))
+        'owner_status': int(post_data.get('owner_status', 1)),
+        'cover_img': post_data.get('cover_img'),
+        'article_title': post_data.get('article_title'),
+        'article_content': post_data.get('article_content'),
+        'article_writer': post_data.get('article_writer')
     }
 
     folder = 'lexi'

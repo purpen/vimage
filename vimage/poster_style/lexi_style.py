@@ -2,6 +2,7 @@
 import math
 import random
 import os
+import datetime
 from vimage.constant import *
 from vimage.helpers.poster_style_format import *
 from vimage.helpers.switch import *
@@ -68,6 +69,8 @@ class LexiPosterStyle:
                 return BrandPosterStyle(self.data).get_style_two()
             if case(18):
                 return InviteStorePosterStyle(self.data).get_style_data()
+            if case(19):
+                return ArticlePosterStyle(self.data).get_style_data()
 
 
 class BrandPosterStyle:
@@ -3252,6 +3255,115 @@ class InviteStorePosterStyle:
 
         # 视图数据
         info_view = self.get_random_style()
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': [info_view]
+        }
+
+
+class ArticlePosterStyle:
+    """
+        文章详情分享海报样式
+    """
+
+    def __init__(self, post_data):
+        """
+        初始化样式
+
+        :param post_data: 海报数据
+        """
+
+        self.data = post_data or {}
+
+        self.color = (255, 255, 255)
+        self.width = Size.POSTER_IMAGE_SIZE['width']
+        self.height = Size.POSTER_IMAGE_SIZE['height']
+        self.size = (self.width, self.height)
+
+    @property
+    def info_view_one(self):
+        """
+            信息视图
+        """
+
+        # 文章封面
+        cover_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                             image_type=ImageType.Cover,
+                                             width=670, height=620, radius=0, x=40, y=40, z_index=0)
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=60, height=60, radius=0, x=40, y=690, z_index=1)
+
+        avatar_circular_image = '../vimage/vimage/resource/material/material_circular.png'
+        avatar_circular_data = format_image_data(post_data=None, url=None, path=avatar_circular_image,
+                                                 image_type=ImageType.Other,
+                                                 width=60, height=60, radius=0, x=40, y=690, z_index=2)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                image_type=ImageType.WxaCode,
+                                                width=180, height=180, radius=0, x=40, y=1112, z_index=3)
+
+        # 用户昵称
+        user_nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                              font_size=24, font_family=None, align=None,
+                                              text_color='#333333', x=120, y=700, spacing=None, z_index=0)
+
+        # 时间提示
+        date = datetime.today().date()
+        time_text = ("{}.{}.{} ".format(date.year, date.month, date.day)) + '正在乐喜阅读这篇文章'
+        time_hint_data = format_text_data(post_data=None, text=time_text, text_type=TextType.Info,
+                                          font_size=24, font_family=None, align=None,
+                                          text_color='#999999', x=40, y=780, spacing=None, z_index=1)
+
+        # 文章标题
+        article_title_text = self.data.get('article_title')
+        article_title_data = format_text_data(post_data=None, text=article_title_text, text_type=TextType.Info,
+                                              font_size=40, font_family='PingFang Bold', align=None,
+                                              text_color='#333333', x=40, y=840, spacing=None, z_index=2, width=670)
+
+        # 文章作者
+        article_writer_text = '—— %s' % self.data.get('article_writer')
+        article_width = get_text_width(article_writer_text, 28, None)
+        article_x = self.width - article_width - 40
+        article_writer_data = format_text_data(post_data=None, text=article_writer_text, text_type=TextType.Info,
+                                               font_size=28, font_family=None, align=None, text_color='#666666',
+                                               x=article_x, y=975, spacing=None, z_index=3, width=670)
+
+        # 提示文字
+        hint_text_data = format_text_data(post_data=None, text='长按小程序码', text_type=TextType.Info,
+                                          font_size=28, font_family=None, align=None,
+                                          text_color='#999999', x=250, y=1168, spacing=None, z_index=4)
+
+        hint_text_data_1 = format_text_data(post_data=None, text='进入乐喜阅读全文', text_type=TextType.Info,
+                                            font_size=28, font_family=None, align=None,
+                                            text_color='#999999', x=250, y=1214, spacing=None, z_index=5)
+
+        # 分割线，图形元素
+        draw_line_data = format_shape_data(shape_type=DrawShapeType.Line, position=[(40, 1076), (710, 1076)],
+                                           width=1, color='#DDDDDD', out_color=None, z_index=0)
+
+        return {
+            'size': self.size,
+            'texts': [user_nickname_data, time_hint_data, article_title_data, article_writer_data, hint_text_data,
+                      hint_text_data_1],
+            'images': [cover_image_data, user_avatar_image_data, avatar_circular_data, wxa_code_image_data],
+            'shapes': [draw_line_data]
+        }
+
+    def get_style_data(self):
+        """
+        获取海报样式数据
+
+        :return: 样式数据
+        """
+
+        # 视图数据
+        info_view = self.info_view_one
 
         return {
             'size': self.size,

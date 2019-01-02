@@ -28,6 +28,8 @@ class ImageType(Enum):
     Avatar = 9          # 头像
     BrandLogo = 10      # 品牌logo
     Guess = 11          # 猜图
+    Cover = 12          # 封面图
+    Other = 13          # 其他
 
 
 @unique
