@@ -559,6 +559,91 @@ class LifePosterStyle:
             'views': views
         }
 
+    def get_style_two(self):
+        """
+            样式二（新）
+        """
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/background_24.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0,
+                                                  z_index=0)
+
+        # 品牌logo
+        brand_logo_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                  image_type=ImageType.BrandLogo,
+                                                  width=148, height=148, radius=8, x=76, y=416, z_index=1)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                image_type=ImageType.WxaCode,
+                                                width=180, height=180, radius=0, x=465, y=1073, z_index=5)
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=70, height=70, radius=35, x=517, y=1126, z_index=6)
+
+        # 头像描边素材
+        modify_image = '../vimage/vimage/resource/material/material_32.png'
+        modify_image_data = format_image_data(post_data=None, url=None, path=modify_image,
+                                              image_type=ImageType.Modify,
+                                              width=80, height=80, radius=0, x=515, y=1123, z_index=7)
+
+        images_arr = [background_image_data, brand_logo_image_data, wxa_code_image_data, user_avatar_image_data,
+                      modify_image_data]
+
+        # 商品图片
+        for index in range(len(self.goods_images[:3])):
+            img_url = self.goods_images[index]  # 图片地址
+
+            image_x = 64 + 210 * index  # 图片的x间隔
+
+            goods_image_data = format_image_data(post_data=self.data, url=img_url, path=None,
+                                                 image_type=ImageType.Goods,
+                                                 width=200, height=200, radius=8, x=image_x, y=770,
+                                                 z_index=index + 2)
+            images_arr.append(goods_image_data)
+
+        # 品牌名称
+        brand_name_text = self.data.get('brand_name')[:10] + '的生活馆'
+        brand_name_data = format_text_data(post_data=None, text=brand_name_text, text_type=TextType.BrandName,
+                                           font_size=32, font_family='PingFang Bold', align='left',
+                                           text_color='#333333', x=292, y=455, spacing=None, z_index=0)
+
+        # 用户昵称
+        user_name_text = '馆  长：' + self.data.get('nickname')
+        user_nickname_data = format_text_data(post_data=None, text=user_name_text, text_type=TextType.Nickname,
+                                              font_size=24, font_family=None, align='left',
+                                              text_color='#333333', x=250, y=520, spacing=None, z_index=1)
+
+        # 提示
+        hint_nickname_data = format_text_data(post_data=None, text='喜  欢：原创设计、手作、礼物',
+                                              text_type=TextType.Info, font_size=24, font_family=None,
+                                              align='left', text_color='#666666', x=250, y=570, spacing=None,
+                                              z_index=2)
+
+        # 描述文字
+        describe_data = {'describe': self.data.get('describe')[:50]}
+        describe_text_data = format_text_data(post_data=describe_data, text=None, text_type=TextType.Describe,
+                                              font_size=24, font_family=None, align='left', text_color='#333333',
+                                              x=70, y=650, spacing=36, z_index=4, width=600)
+
+        info_view = {
+            'size': self.size,
+            'texts': [brand_name_data, user_nickname_data, hint_nickname_data, describe_text_data],
+            'images': images_arr,
+            'shapes': []
+        }
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': [info_view]
+        }
+
     def get_style_data(self):
         """
         获取海报样式数据
@@ -566,7 +651,7 @@ class LifePosterStyle:
         :return: 样式数据
         """
 
-        style_data = self.get_style_one()
+        style_data = self.get_style_two()
 
         return style_data
 
