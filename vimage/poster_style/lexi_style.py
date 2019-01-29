@@ -71,6 +71,8 @@ class LexiPosterStyle:
                 return InviteStorePosterStyle(self.data).get_style_data()
             if case(19):
                 return ArticlePosterStyle(self.data).get_style_data()
+            if case(20):
+                return ReadPosterStyle(self.data).get_style_data()
 
 
 class BrandPosterStyle:
@@ -3438,6 +3440,106 @@ class ArticlePosterStyle:
                       hint_text_data_1],
             'images': [cover_image_data, user_avatar_image_data, avatar_circular_data, wxa_code_image_data],
             'shapes': [draw_line_data]
+        }
+
+    def get_style_data(self):
+        """
+        获取海报样式数据
+
+        :return: 样式数据
+        """
+
+        # 视图数据
+        info_view = self.info_view_one
+
+        return {
+            'size': self.size,
+            'color': self.color,
+            'views': [info_view]
+        }
+
+
+class ReadPosterStyle:
+    """
+        阅读分享海报样式
+    """
+
+    def __init__(self, post_data):
+        """
+        初始化样式
+
+        :param post_data: 海报数据
+        """
+
+        self.data = post_data or {}
+
+        self.color = (255, 255, 255)
+        self.width = Size.POSTER_IMAGE_SIZE['width']
+        self.height = Size.POSTER_IMAGE_SIZE['height']
+        self.size = (self.width, self.height)
+
+    @property
+    def info_view_one(self):
+        """
+            信息视图
+        """
+
+        # 背景
+        background_image = '../vimage/vimage/resource/background/background_25.png'
+        background_image_data = format_image_data(post_data=None, url=None, path=background_image,
+                                                  image_type=ImageType.Background,
+                                                  width=self.width, height=self.height, radius=0, x=0, y=0,
+                                                  z_index=0)
+
+        # 用户头像
+        user_avatar_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                   image_type=ImageType.Avatar,
+                                                   width=110, height=110, radius=0, x=90, y=635, z_index=1)
+
+        avatar_circular_image = '../vimage/vimage/resource/material/material_circular.png'
+        avatar_circular_data = format_image_data(post_data=None, url=None, path=avatar_circular_image,
+                                                 image_type=ImageType.Other,
+                                                 width=110, height=110, radius=0, x=90, y=635, z_index=2)
+
+        # 小程序码
+        wxa_code_image_data = format_image_data(post_data=self.data, url=None, path=None,
+                                                image_type=ImageType.WxaCode,
+                                                width=180, height=180, radius=0, x=487, y=1045, z_index=3)
+
+        # 用户昵称
+        user_nickname_data = format_text_data(post_data=self.data, text=None, text_type=TextType.Nickname,
+                                              font_size=48, font_family=None, align=None,
+                                              text_color='#333333', x=230, y=635, spacing=None, z_index=0)
+
+        # 时间提示
+        time_text = '来乐喜已经%d天了' % int(self.data.get('register_days'))
+        time_hint_data = format_text_data(post_data=None, text=time_text, text_type=TextType.Info,
+                                          font_size=28, font_family=None, align=None,
+                                          text_color='#999999', x=230, y=705, spacing=None, z_index=1)
+
+        # 今日阅读
+        reading_time_text = '%d分钟' % int(self.data.get('reading_time'))
+        reading_time_data = format_text_data(post_data=None, text=reading_time_text, text_type=TextType.Info,
+                                             font_size=36, font_family=None, align=None,
+                                             text_color='#333333', x=90, y=815, spacing=None, z_index=2)
+
+        # 打卡时间
+        daka_days_text = '%d天' % int(self.data.get('daka_days'))
+        daka_days_data = format_text_data(post_data=None, text=daka_days_text, text_type=TextType.Info,
+                                          font_size=36, font_family=None, align=None,
+                                          text_color='#333333', x=290, y=815, spacing=None, z_index=3)
+
+        # 日常阅读
+        daily_reading_text = str(self.data.get('daily_reading'))
+        daily_reading_data = format_text_data(post_data=None, text=daily_reading_text, text_type=TextType.Info,
+                                              font_size=36, font_family=None, align=None,
+                                              text_color='#333333', x=505, y=815, spacing=None, z_index=4)
+
+        return {
+            'size': self.size,
+            'texts': [user_nickname_data, time_hint_data, reading_time_data, daka_days_data, daily_reading_data],
+            'images': [background_image_data, user_avatar_image_data, avatar_circular_data, wxa_code_image_data],
+            'shapes': []
         }
 
     def get_style_data(self):
