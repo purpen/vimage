@@ -258,7 +258,11 @@ def make_lexi_poster():
         'cover_img': post_data.get('cover_img'),
         'article_title': post_data.get('article_title'),
         'article_content': post_data.get('article_content'),
-        'article_writer': post_data.get('article_writer')
+        'article_writer': post_data.get('article_writer'),
+        'register_days': int(post_data.get('register_days', 1)),
+        'reading_time': int(post_data.get('reading_time', 1)),
+        'daka_days': int(post_data.get('daka_days', 1)),
+        'daily_reading': int(post_data.get('daily_reading', 1)),
     }
 
     folder = 'lexi'
