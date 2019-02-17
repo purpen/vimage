@@ -3402,7 +3402,8 @@ class ArticlePosterStyle:
 
         # 时间提示
         date = datetime.today().date()
-        time_text = ("{}.{}.{} ".format(date.year, date.month, date.day)) + '正在乐喜阅读这篇文章'
+        sub_title = '正在%s阅读这篇文章' % self.data.get('brand_name')
+        time_text = ("{}.{}.{} ".format(date.year, date.month, date.day)) + sub_title
         time_hint_data = format_text_data(post_data=None, text=time_text, text_type=TextType.Info,
                                           font_size=24, font_family=None, align=None,
                                           text_color='#999999', x=40, y=780, spacing=None, z_index=1)
@@ -3426,7 +3427,8 @@ class ArticlePosterStyle:
                                           font_size=28, font_family=None, align=None,
                                           text_color='#999999', x=250, y=1168, spacing=None, z_index=4)
 
-        hint_text_data_1 = format_text_data(post_data=None, text='进入乐喜阅读全文', text_type=TextType.Info,
+        code_txt = '进入%s阅读全文' % self.data.get('brand_name')
+        hint_text_data_1 = format_text_data(post_data=None, text=code_txt, text_type=TextType.Info,
                                             font_size=28, font_family=None, align=None,
                                             text_color='#999999', x=250, y=1214, spacing=None, z_index=5)
 
